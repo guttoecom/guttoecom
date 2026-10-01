@@ -599,8 +599,9 @@
 </footer>
 
 <script>
-  // Endpoint de envio (webhook, CRM, planilha). Vazio = só mostra a confirmação.
-  const FORM_ENDPOINT = '';
+  // Supabase: URL do projeto + chave pública (anon/publishable). A tabela só aceita INSERT (ver supabase/leads.sql).
+  const SUPABASE_URL = 'https://hklkhaitkzzkdlftiubn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrbGtoYWl0a3p6a2RsZnRpdWJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NzAwMjQsImV4cCI6MjEwNjQ0NjAyNH0.vW4l7hKUjLgyp2Ffp0qqXfsXwB_B_LKIrTWRl6vQayo';
 
   const form = document.getElementById('lead-form');
   const card = document.getElementById('diagnostico');
@@ -713,26 +714,39 @@
       canais: canais.filter(c => c.checked).map(c => c.value),
       faturamento: form.querySelector('input[name="faturamento"]:checked').value,
       dificuldade: form.dificuldade.value.trim(),
-      enviado_em: new Date().toISOString(),
+      pagina: location.href.slice(0, 500),
     };
+    const utm = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => {
+      if (utm.get(k)) data[k] = utm.get(k).slice(0, 200);
+    });
 
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.style.opacity = '.7';
 
     try {
-      if (FORM_ENDPOINT) {
-        await fetch(FORM_ENDPOINT, {
+      if (SUPABASE_URL && SUPABASE_KEY) {
+        const headers = {
+          'Content-Type': 'application/json',
+          apikey: SUPABASE_KEY,
+          Prefer: 'return=minimal',
+        };
+        // chave anon antiga (JWT) também vai no Authorization; a publishable nova, não
+        if (SUPABASE_KEY.startsWith('eyJ')) headers.Authorization = `Bearer ${SUPABASE_KEY}`;
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify(data),
         });
+        if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
       } else {
-        console.info('Lead (sem endpoint configurado):', data);
+        console.info('Lead (Supabase não configurado):', data);
       }
       card.classList.add('sent');
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch (err) {
+      console.error(err);
       btn.disabled = false;
       btn.style.opacity = '';
       alert('Não foi possível enviar agora. Tente novamente em instantes.');
