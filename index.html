@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gutto. | diagnóstico gratuito para confecções</title>
+<meta name="description" content="Você fabrica. A gente faz vender. Diagnóstico gratuito da operação da sua confecção nos marketplaces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --gray: #6B6862;
+    --white: #FFFFFF;
+    --warm-gray: #E4E0D9;
+    --border: #E2DED7;
+    --on-dark-2: #C9C5BE;
+    --on-dark-3: #A39F98;
+    --body-on-light: #3A3835;
+
+    --radius-card: 16px;
+    --radius-photo: 12px;
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --gutter: clamp(16px, 4vw, 56px);
+    --max: 1240px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--off-white);
+    background: var(--black);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ---------- brand atoms ---------- */
+  .logo {
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-size: 30px;
+    line-height: 1;
+    text-decoration: none;
+    color: inherit;
+  }
+  .dot { color: var(--orange); }
+  .on-orange .dot, .logo.on-orange .dot { color: var(--white); }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--on-dark-2);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--orange);
+    flex: none;
+  }
+
+  h1, h2, h3 { margin: 0; text-transform: lowercase; }
+  .display {
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.0;
+  }
+  .heading {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  /* seam: the stitched line that runs through the page */
+  .seam {
+    height: 0;
+    border: 0;
+    border-top: 2px dashed currentColor;
+    opacity: .35;
+    margin: 0;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 0;
+    border-radius: 999px;
+    padding: 20px 30px;
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+  }
+  .btn .arrow { transition: transform .2s ease; display: inline-block; }
+  .btn:hover .arrow { transform: translateX(4px); }
+  .btn:active { transform: scale(.98); }
+  .btn-orange {
+    background: linear-gradient(100deg, #FF8A4C 0%, var(--orange) 45%, var(--orange-strong) 100%);
+    background-size: 160% 100%;
+    background-position: 0% 50%;
+    color: var(--black);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 8px 22px -12px rgba(232, 73, 15, .7);
+    transition: transform .2s ease, background-position .45s ease, box-shadow .2s ease;
+  }
+  .btn-orange:hover {
+    background-position: 100% 50%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 12px 30px -8px rgba(255, 90, 31, .65);
+  }
+  .btn:focus-visible, input:focus-visible, textarea:focus-visible, .choice input:focus-visible + span {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding: 28px 0 0;
+    background:
+      radial-gradient(1200px 600px at 15% 0%, rgba(255, 90, 31, .07), transparent 60%),
+      var(--black);
+    overflow: hidden;
+  }
+  /* black cotton twill texture */
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    z-index: -2;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(45deg, rgba(0,0,0,.35) 0 1px, transparent 1px 7px);
+    mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.4) 100%);
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    z-index: -1;
+    opacity: .5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .thread {
+    position: absolute;
+    z-index: -1;
+    left: -4%;
+    bottom: 96px;
+    width: 70%;
+    height: 240px;
+    pointer-events: none;
+    opacity: .9;
+  }
+  .thread path {
+    fill: none;
+    stroke: var(--orange);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    animation: sew 3.2s cubic-bezier(.6,.05,.25,1) .5s forwards;
+  }
+  .thread path.thin { stroke-width: .9; opacity: .55; animation-delay: .9s; }
+  @keyframes sew { to { stroke-dashoffset: 0; } }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+    padding: clamp(48px, 7vw, 96px) 0 clamp(48px, 6vw, 80px);
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 5.2vw, 76px);
+    margin: 0 0 28px;
+  }
+  .hero h1 .line { display: block; }
+  .hero h1 .line:first-child { color: var(--on-dark-2); }
+  .rotator { white-space: nowrap; }
+  .rot-word {
+    display: inline-block;
+    color: var(--orange);
+    transition: transform .32s cubic-bezier(.2,.7,.2,1), opacity .32s ease;
+  }
+  .rot-word .dot { color: var(--off-white); }
+  .rot-word.out { opacity: 0; transform: translateY(-0.35em); transition-duration: .22s; transition-timing-function: ease-in; }
+  .rot-word.enter { opacity: 0; transform: translateY(0.35em); transition: none; }
+
+  .sub { max-width: 520px; font-size: clamp(16px, 1.35vw, 18px); color: var(--on-dark-2); }
+  .sub p { margin: 0 0 14px; }
+  .sub strong { color: var(--off-white); font-weight: 700; }
+  .sub .accent { color: var(--orange); font-weight: 700; }
+
+
+
+  /* ---------- FORM CARD ---------- */
+  .form-card {
+    position: relative;
+    background: var(--off-white);
+    color: var(--black);
+    border-radius: var(--radius-card);
+    padding: clamp(24px, 3vw, 36px);
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,.8);
+  }
+  /* inner stitch, like a sewn label */
+  .form-card::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1.5px dashed rgba(18,18,18,.16);
+    border-radius: 11px;
+    pointer-events: none;
+  }
+  .form-card h2 {
+    font-size: clamp(26px, 2.4vw, 32px);
+  }
+  .form-card .lead {
+    margin: 10px 0 24px;
+    color: var(--gray);
+    font-size: 15px;
+  }
+
+  .field { margin-bottom: 18px; border: 0; padding: 0; min-width: 0; }
+  .field > label, .field > legend {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 8px;
+    padding: 0;
+  }
+  .req { color: var(--orange-strong); }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  input[type="text"], input[type="tel"], textarea {
+    width: 100%;
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--black);
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input::placeholder, textarea::placeholder { color: #9b978f; }
+  input:hover, textarea:hover { border-color: #cfcac1; }
+  input:focus, textarea:focus { outline: none; border-color: var(--black); box-shadow: 0 0 0 3px rgba(255,90,31,.25); }
+  textarea { resize: vertical; min-height: 92px; line-height: 1.45; }
+
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+  .choice { position: relative; }
+  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--body-on-light);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color .15s, border-color .15s, color .15s;
+  }
+  .choice span::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid #bdb8af;
+    transition: background-color .15s, border-color .15s;
+  }
+  .choice:hover span { border-color: #bdb8af; }
+  .choice input:checked + span {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--off-white);
+  }
+  .choice input:checked + span::before { background: var(--orange); border-color: var(--orange); }
+
+  /* dropdowns */
+  .select { position: relative; }
+  .select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--black);
+    text-align: left;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .select-trigger:hover { border-color: #cfcac1; }
+  .select-trigger:focus-visible { outline: none; border-color: var(--black); box-shadow: 0 0 0 3px rgba(255,90,31,.25); }
+  .select.open .select-trigger { border-color: var(--black); }
+  .select-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .select-value.is-empty { color: #9b978f; }
+  .chev { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--black); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
+  .select.open .chev { transform: rotate(180deg); }
+  .select-panel {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    left: 0; right: 0;
+    top: calc(100% + 6px);
+    max-height: 360px;
+    overflow-y: auto;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 20px 40px -16px rgba(18,18,18,.35);
+  }
+  .select.open .select-panel { display: block; animation: drop .16s ease-out; }
+  @keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
+  .opt { position: relative; display: block; cursor: pointer; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--body-on-light);
+    transition: background-color .12s;
+  }
+  .opt:hover span, .opt input:focus-visible + span { background: var(--off-white); }
+  .opt span::before {
+    content: "";
+    width: 18px; height: 18px;
+    flex: none;
+    border: 1.5px solid #bdb8af;
+    border-radius: 5px;
+    background: var(--white) center / 12px no-repeat;
+    transition: background-color .12s, border-color .12s;
+  }
+  .opt input[type="radio"] + span::before { border-radius: 50%; }
+  .opt input:checked + span { color: var(--black); }
+  .opt input[type="checkbox"]:checked + span::before {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%23121212' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .opt input[type="radio"]:checked + span::before {
+    border-color: var(--orange);
+    background-color: var(--orange);
+    box-shadow: inset 0 0 0 4px var(--white);
+  }
+  .opt-sep { margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--border); }
+  .field.invalid .select-trigger { border-color: #B83A0C; }
+
+  .error-msg {
+    display: none;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #B83A0C;
+  }
+  .field.invalid .error-msg { display: block; }
+  .field.invalid input, .field.invalid textarea { border-color: #B83A0C; }
+  .field.invalid .choice span { border-color: rgba(184,58,12,.45); }
+
+  .form-card .btn { width: 100%; margin-top: 6px; padding: 20px 18px; font-size: 14px; }
+  .micro {
+    margin: 14px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--gray);
+    text-align: center;
+  }
+  .micro strong { color: var(--black); }
+
+  .success { display: none; text-align: center; padding: 40px 8px; }
+  .success .big-dot {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--orange);
+    margin: 0 auto 24px;
+    animation: pop .5s cubic-bezier(.2,1.6,.4,1) both;
+  }
+  .success h3 { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+  .success p { color: var(--gray); margin: 12px auto 0; max-width: 340px; }
+  @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+  .form-card.sent form { display: none; }
+  .form-card.sent .success { display: block; }
+
+  footer {
+    background: var(--black);
+    color: var(--on-dark-3);
+    font-size: 13px;
+    padding: 22px 0;
+  }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .footer-links { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .footer-links a { text-decoration: none; transition: color .2s; }
+  .footer-links a:hover { color: var(--off-white); }
+  .ig { display: inline-flex; align-items: center; gap: 8px; }
+  .ig svg { width: 18px; height: 18px; fill: currentColor; transition: fill .2s; }
+  .ig:hover svg { fill: var(--orange); }
+
+  /* ---------- motion ---------- */
+  .rise { opacity: 0; transform: translateY(18px); animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .15s; } .d3 { animation-delay: .28s; }
+  .d4 { animation-delay: .4s; }  .d5 { animation-delay: .52s; } .d6 { animation-delay: .64s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
+    .thread path { stroke-dashoffset: 0; }
+    .rise { opacity: 1; transform: none; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 920px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .thread { width: 140%; top: 2%; bottom: auto; height: 220px; left: -20%; opacity: .6; }
+  }
+  @media (max-width: 560px) {
+    .row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ DOBRA 01: HERO + FORMULÁRIO ============ -->
+<header class="hero" id="topo">
+  <svg class="thread" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-10 300 C 140 180, 260 400, 420 270 S 640 60, 760 210 S 930 390, 1010 160" />
+    <path class="thin" d="M-10 330 C 160 230, 300 420, 450 300 S 660 110, 800 240" />
+  </svg>
+
+  <div class="wrap">
+    <nav class="nav rise d1">
+      <a class="logo" href="#topo" aria-label="gutto.">gutto<span class="dot">.</span></a>
+    </nav>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 class="display rise d3" aria-label="você cuida da produção. a gente faz vender nos marketplaces.">
+          <span class="line" aria-hidden="true">você cuida da produção<span class="dot">.</span></span>
+          <span class="line" aria-hidden="true">a gente faz vender</span>
+          <span class="line rotator" aria-hidden="true"><span class="rot-word"><span class="rot-text">no mercado livre</span><span class="dot">.</span></span></span>
+        </h1>
+
+        <div class="sub rise d4">
+          <p>A experiência de quem já vendeu <span class="accent">mais de R$&nbsp;10&nbsp;milhões</span> em marketplaces aplicada à sua confecção.</p>
+        </div>
+      </div>
+
+      <!-- FORMULÁRIO -->
+      <div class="form-card rise d4" id="diagnostico">
+        <form id="lead-form" novalidate>
+          <h2 class="heading">receba seu diagnóstico gratuito<span class="dot">.</span></h2>
+          <p class="lead">Conte um pouco sobre sua confecção para a gente entender o momento da sua operação.</p>
+
+          <div class="row-2">
+            <div class="field" data-field="nome">
+              <label for="nome">Seu nome <span class="req">*</span></label>
+              <input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name" required>
+              <span class="error-msg">Informe seu nome.</span>
+            </div>
+            <div class="field" data-field="whatsapp">
+              <label for="whatsapp">WhatsApp <span class="req">*</span></label>
+              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="numeric" maxlength="15" required>
+              <span class="error-msg">Informe um WhatsApp válido.</span>
+            </div>
+          </div>
+
+          <div class="field" data-field="confeccao">
+            <label for="confeccao">Nome da confecção <span class="req">*</span></label>
+            <input type="text" id="confeccao" name="confeccao" placeholder="Digite o nome da sua empresa" autocomplete="organization" required>
+            <span class="error-msg">Informe o nome da confecção.</span>
+          </div>
+
+          <div class="row-2">
+            <fieldset class="field" data-field="fabrica">
+              <legend>Você fabrica suas próprias peças? <span class="req">*</span></legend>
+              <div class="choices">
+                <label class="choice"><input type="radio" name="fabrica" value="Sim"><span>Sim</span></label>
+                <label class="choice"><input type="radio" name="fabrica" value="Não"><span>Não</span></label>
+              </div>
+              <span class="error-msg">Escolha uma opção.</span>
+            </fieldset>
+
+            <fieldset class="field" data-field="vende">
+              <legend>Você já vende em marketplaces? <span class="req">*</span></legend>
+              <div class="choices">
+                <label class="choice"><input type="radio" name="vende" value="Sim"><span>Sim</span></label>
+                <label class="choice"><input type="radio" name="vende" value="Ainda não"><span>Ainda não</span></label>
+              </div>
+              <span class="error-msg">Escolha uma opção.</span>
+            </fieldset>
+          </div>
+
+          <fieldset class="field" data-field="canais">
+            <legend>Em quais marketplaces você vende hoje? <span class="req">*</span></legend>
+            <div class="select" data-multi>
+              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="select-value is-empty" data-placeholder="Selecione um ou mais">Selecione um ou mais</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></button>
+              <div class="select-panel" role="listbox" aria-multiselectable="true">
+                <label class="opt"><input type="checkbox" name="canais" value="Mercado Livre"><span>Mercado Livre</span></label>
+                <label class="opt"><input type="checkbox" name="canais" value="Shopee"><span>Shopee</span></label>
+                <label class="opt"><input type="checkbox" name="canais" value="Amazon"><span>Amazon</span></label>
+                <label class="opt"><input type="checkbox" name="canais" value="Shein"><span>Shein</span></label>
+                <label class="opt"><input type="checkbox" name="canais" value="Magalu"><span>Magalu</span></label>
+                <label class="opt"><input type="checkbox" name="canais" value="TikTok Shop"><span>TikTok Shop</span></label>
+                <label class="opt opt-sep"><input type="checkbox" name="canais" value="Ainda não vendo" data-exclusive><span>Ainda não vendo</span></label>
+              </div>
+            </div>
+            <span class="error-msg">Selecione pelo menos uma opção.</span>
+          </fieldset>
+
+          <fieldset class="field" data-field="faturamento">
+            <legend>Quanto sua operação vende por mês nos marketplaces? <span class="req">*</span></legend>
+            <div class="select">
+              <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="select-value is-empty" data-placeholder="Selecione uma faixa">Selecione uma faixa</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 7.5l5 5 5-5"/></svg></button>
+              <div class="select-panel" role="listbox">
+                <label class="opt"><input type="radio" name="faturamento" value="Ainda não vendo"><span>Ainda não vendo</span></label>
+                <label class="opt"><input type="radio" name="faturamento" value="Até R$ 20 mil"><span>Até R$ 20 mil</span></label>
+                <label class="opt"><input type="radio" name="faturamento" value="De R$ 20 mil a R$ 50 mil"><span>De R$ 20 mil a R$ 50 mil</span></label>
+                <label class="opt"><input type="radio" name="faturamento" value="De R$ 50 mil a R$ 100 mil"><span>De R$ 50 mil a R$ 100 mil</span></label>
+                <label class="opt"><input type="radio" name="faturamento" value="Acima de R$ 100 mil"><span>Acima de R$ 100 mil</span></label>
+              </div>
+            </div>
+            <span class="error-msg">Escolha uma faixa.</span>
+          </fieldset>
+
+          <div class="field" data-field="dificuldade">
+            <label for="dificuldade">Qual é sua maior dificuldade hoje? <span class="req">*</span></label>
+            <textarea id="dificuldade" name="dificuldade" placeholder="Conte brevemente o que mais trava sua operação." required></textarea>
+            <span class="error-msg">Conte rapidamente sua maior dificuldade.</span>
+          </div>
+
+          <button type="submit" class="btn btn-orange">Quero meu diagnóstico gratuito <span class="arrow">→</span></button>
+          <p class="micro"><strong>Sem compromisso de contratação.</strong> Após o envio, nossa equipe entra em contato para entender sua operação.</p>
+        </form>
+
+        <div class="success" role="status" aria-live="polite">
+          <div class="big-dot" aria-hidden="true"></div>
+          <h3>recebemos<span class="dot">.</span></h3>
+          <p>Obrigado por contar sobre sua confecção. Nossa equipe vai chamar você no WhatsApp para entender sua operação.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 gutto. Assessoria em marketplaces para confecções. · CNPJ 69.391.079/0001-25</span>
+    <span class="footer-links">
+      <a href="mailto:bruno@guttoecom.com.br">bruno@guttoecom.com.br</a>
+      <a class="ig" href="https://www.instagram.com/guttoecom/" target="_blank" rel="noopener" aria-label="Instagram da gutto. (@guttoecom)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>@guttoecom</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  // Endpoint de envio (webhook, CRM, planilha). Vazio = só mostra a confirmação.
+  const FORM_ENDPOINT = '';
+
+  const form = document.getElementById('lead-form');
+  const card = document.getElementById('diagnostico');
+  const phone = document.getElementById('whatsapp');
+
+  // máscara (00) 00000-0000
+  phone.addEventListener('input', () => {
+    const d = phone.value.replace(/\D/g, '').slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, d.length === 11 ? 7 : 6)}-${d.slice(d.length === 11 ? 7 : 6)}`;
+    phone.value = out;
+  });
+
+  // "Ainda não vendo" é exclusivo nos canais
+  const canais = [...form.querySelectorAll('input[name="canais"]')];
+  canais.forEach(cb => cb.addEventListener('change', () => {
+    if (!cb.checked) return;
+    if (cb.hasAttribute('data-exclusive')) canais.forEach(o => { if (o !== cb) o.checked = false; });
+    else canais.find(o => o.hasAttribute('data-exclusive')).checked = false;
+  }));
+
+  // quem ainda não vende: pré-seleciona as respostas coerentes
+  form.querySelectorAll('input[name="vende"]').forEach(r => r.addEventListener('change', () => {
+    if (r.value !== 'Ainda não' || !r.checked) return;
+    canais.forEach(o => o.checked = o.hasAttribute('data-exclusive'));
+    form.querySelector('input[name="faturamento"][value="Ainda não vendo"]').checked = true;
+    clearError('canais'); clearError('faturamento');
+    refreshSelects();
+  }));
+
+  // dropdowns (marketplaces e faturamento)
+  const selects = [...form.querySelectorAll('.select')];
+  function refreshSelects() {
+    selects.forEach(sel => {
+      const out = sel.querySelector('.select-value');
+      const picked = [...sel.querySelectorAll('input:checked')].map(i => i.value);
+      out.classList.toggle('is-empty', !picked.length);
+      out.textContent = !picked.length ? out.dataset.placeholder
+        : picked.length > 2 ? `${picked.slice(0, 2).join(', ')} +${picked.length - 2}`
+        : picked.join(', ');
+    });
+  }
+  function closeSelects(except) {
+    selects.forEach(sel => {
+      if (sel === except) return;
+      sel.classList.remove('open');
+      sel.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
+  selects.forEach(sel => {
+    const trigger = sel.querySelector('.select-trigger');
+    trigger.addEventListener('click', () => {
+      const open = !sel.classList.contains('open');
+      closeSelects(sel);
+      sel.classList.toggle('open', open);
+      trigger.setAttribute('aria-expanded', String(open));
+    });
+    sel.addEventListener('change', () => {
+      refreshSelects();
+      if (!sel.hasAttribute('data-multi')) { closeSelects(); trigger.focus(); }
+    });
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.select')) closeSelects(); });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    const open = selects.find(sel => sel.classList.contains('open'));
+    if (open) { closeSelects(); open.querySelector('.select-trigger').focus(); }
+  });
+
+  const rules = {
+    nome: () => form.nome.value.trim().length > 1,
+    whatsapp: () => phone.value.replace(/\D/g, '').length >= 10,
+    confeccao: () => form.confeccao.value.trim().length > 1,
+    fabrica: () => !!form.querySelector('input[name="fabrica"]:checked'),
+    vende: () => !!form.querySelector('input[name="vende"]:checked'),
+    canais: () => canais.some(c => c.checked),
+    faturamento: () => !!form.querySelector('input[name="faturamento"]:checked'),
+    dificuldade: () => form.dificuldade.value.trim().length > 2,
+  };
+
+  function clearError(name) {
+    form.querySelector(`[data-field="${name}"]`).classList.remove('invalid');
+  }
+  form.addEventListener('input', e => { if (e.target.name) clearError(e.target.name); });
+  form.addEventListener('change', e => { if (e.target.name) clearError(e.target.name); });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    let first = null;
+    for (const [name, ok] of Object.entries(rules)) {
+      const field = form.querySelector(`[data-field="${name}"]`);
+      const valid = ok();
+      field.classList.toggle('invalid', !valid);
+      if (!valid && !first) first = field;
+    }
+    if (first) {
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const focusable = first.querySelector('.select-trigger, input, textarea');
+      if (focusable) focusable.focus({ preventScroll: true });
+      return;
+    }
+
+    const data = {
+      nome: form.nome.value.trim(),
+      whatsapp: phone.value,
+      confeccao: form.confeccao.value.trim(),
+      fabrica: form.querySelector('input[name="fabrica"]:checked').value,
+      vende: form.querySelector('input[name="vende"]:checked').value,
+      canais: canais.filter(c => c.checked).map(c => c.value),
+      faturamento: form.querySelector('input[name="faturamento"]:checked').value,
+      dificuldade: form.dificuldade.value.trim(),
+      enviado_em: new Date().toISOString(),
+    };
+
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.style.opacity = '.7';
+
+    try {
+      if (FORM_ENDPOINT) {
+        await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+      } else {
+        console.info('Lead (sem endpoint configurado):', data);
+      }
+      card.classList.add('sent');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      btn.disabled = false;
+      btn.style.opacity = '';
+      alert('Não foi possível enviar agora. Tente novamente em instantes.');
+    }
+  });
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // headline: troca a plataforma a cada 2 s
+  const platforms = ['no mercado livre', 'na shopee', 'na amazon', 'na shein', 'na magalu', 'no tiktok shop'];
+  const rotWord = document.querySelector('.rot-word');
+  const rotText = rotWord.querySelector('.rot-text');
+  let pi = 0;
+  setInterval(() => {
+    pi = (pi + 1) % platforms.length;
+    if (reduceMotion) { rotText.textContent = platforms[pi]; return; }
+    rotWord.classList.add('out');
+    setTimeout(() => {
+      rotText.textContent = platforms[pi];
+      rotWord.classList.replace('out', 'enter');
+      void rotWord.offsetWidth; // aplica a posição de entrada antes de animar
+      rotWord.classList.remove('enter');
+    }, 220);
+  }, 2000);
+</script>
+</body>
+</html>
