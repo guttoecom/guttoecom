@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kit do Fabricante no Marketplace | gutto.</title>
+<meta name="description" content="Responde 6 perguntas rapidinhas e libera na hora as planilhas do Kit do Fabricante no Marketplace.">
+<meta property="og:title" content="Kit do Fabricante no Marketplace | gutto.">
+<meta property="og:description" content="Planilha de precificação, checklist de anúncio e guia de ads para confecções. Libera em menos de 1 minuto.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F4F2EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --gray: #6B6862;
+    --white: #FFFFFF;
+    --warm-gray: #E4E0D9;
+    --border: #E2DED7;
+    --body: #3A3835;
+    --orange-tint: rgba(255, 90, 31, .09);
+    --error: #B83A0C;
+
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--black);
+    background: var(--off-white);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+  }
+  button { font-family: inherit; }
+
+  /* ---------- chrome: progresso, logo, voltar ---------- */
+  .progress {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--warm-gray);
+    z-index: 30;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--orange);
+    border-radius: 0 4px 4px 0;
+    transition: width .5s var(--ease);
+  }
+
+  .top {
+    position: fixed;
+    top: 4px; left: 0; right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px clamp(20px, 5vw, 48px);
+    padding-top: max(18px, env(safe-area-inset-top));
+    pointer-events: none;
+  }
+  .top > * { pointer-events: auto; }
+  .logo {
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--black);
+    text-decoration: none;
+  }
+  .dot { color: var(--orange); }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0;
+    background: transparent;
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 10px;
+    margin-right: -10px;
+    border-radius: 999px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s, background-color .2s, color .2s;
+  }
+  .back.show { opacity: 1; visibility: visible; }
+  .back:hover { color: var(--black); background: var(--warm-gray); }
+  .back svg { width: 16px; height: 16px; }
+
+  /* ---------- telas ---------- */
+  .stage { position: fixed; inset: 0; }
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 96px clamp(20px, 6vw, 64px) 48px;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform .55s var(--ease), opacity .45s ease, visibility 0s linear .55s;
+  }
+  .screen.active {
+    opacity: 1;
+    visibility: visible;
+    transition: transform .55s var(--ease), opacity .45s ease, visibility 0s;
+  }
+  .inner {
+    width: 100%;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  /* ---------- tela inicial ---------- */
+  .welcome { overflow: hidden; }
+  .welcome::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: min(70vmax, 720px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--orange);
+    right: max(-36vmax, -380px);
+    bottom: max(-40vmax, -420px);
+    opacity: .95;
+  }
+  .welcome .inner { position: relative; }
+  .welcome h1 {
+    margin: 0;
+    font-size: clamp(40px, 8vw, 68px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+  .welcome .sub {
+    margin: 22px 0 36px;
+    max-width: 520px;
+    font-size: clamp(17px, 2.2vw, 20px);
+    line-height: 1.5;
+    color: var(--body);
+  }
+  .welcome .small {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 0;
+    font-size: 14px;
+    color: var(--gray);
+  }
+  .welcome .small svg { width: 16px; height: 16px; flex: none; }
+
+  /* ---------- perguntas ---------- */
+  .qnum {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--orange-strong);
+  }
+  .qnum svg { width: 14px; height: 14px; }
+  .q {
+    margin: 0;
+    font-size: clamp(27px, 5vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+  }
+  .q-help { margin: 10px 0 0; color: var(--gray); font-size: 16px; }
+
+  .field {
+    display: block;
+    width: 100%;
+    margin-top: 32px;
+    padding: 10px 0 12px;
+    border: 0;
+    border-bottom: 2px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    font-family: var(--font);
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    outline: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field::placeholder { color: #B9B4AB; font-weight: 500; }
+  .field:focus { border-bottom-color: var(--orange); }
+  .invalid .field { border-bottom-color: var(--error); }
+
+  .err {
+    min-height: 22px;
+    margin: 10px 0 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--error);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .2s, transform .2s;
+  }
+  .invalid .err { opacity: 1; transform: none; }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .hint { font-size: 13px; color: var(--gray); }
+  .hint b { font-weight: 700; color: var(--body); }
+  @media (hover: none) { .hint { display: none; } }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 0;
+    border-radius: 999px;
+    padding: 15px 28px;
+    min-height: 52px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 10px 24px -14px rgba(232, 73, 15, .9);
+    transition: transform .15s ease, background-color .2s, box-shadow .2s;
+  }
+  .btn:hover { background: #FF6A33; box-shadow: 0 14px 28px -14px rgba(232, 73, 15, .9); }
+  .btn:active { transform: scale(.97); }
+  .btn:focus-visible, .choice:focus-visible, .back:focus-visible {
+    outline: 3px solid var(--black);
+    outline-offset: 3px;
+  }
+  .btn-lg { padding: 18px 38px; font-size: 18px; }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* múltipla escolha */
+  .choices {
+    display: grid;
+    gap: 10px;
+    margin-top: 30px;
+    max-width: 520px;
+  }
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 58px;
+    padding: 12px 16px 12px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--black);
+    font-size: 17px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s, transform .1s;
+  }
+  .choice:hover { border-color: #C9C4BB; }
+  .choice:active { transform: scale(.99); }
+  .key {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--off-white);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--body);
+    transition: background-color .15s, border-color .15s, color .15s;
+  }
+  .choice .check {
+    margin-left: auto;
+    width: 20px; height: 20px;
+    flex: none;
+    opacity: 0;
+    color: var(--orange-strong);
+    transition: opacity .15s;
+  }
+  .choice[aria-checked="true"] {
+    border-color: var(--orange);
+    background: var(--orange-tint);
+  }
+  .choice[aria-checked="true"] .key {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: var(--black);
+  }
+  .choice[aria-checked="true"] .check { opacity: 1; }
+  .choice.blink { animation: blink .32s steps(1) 1; }
+  @keyframes blink { 50% { background: var(--white); } }
+  .choices + .err { margin-top: 12px; }
+  .choice-ok { display: none; }
+  .has-value .choice-ok { display: flex; }
+
+  /* ---------- carregando / erro ---------- */
+  .center { text-align: center; }
+  .loader { display: inline-flex; gap: 10px; margin-bottom: 26px; }
+  .loader span {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    animation: bounce 1s var(--ease) infinite;
+  }
+  .loader span:nth-child(2) { animation-delay: .15s; }
+  .loader span:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); opacity: .5; } 40% { transform: translateY(-12px); opacity: 1; } }
+  .status-title {
+    margin: 0;
+    font-size: clamp(26px, 5vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .status-sub { margin: 14px auto 28px; max-width: 420px; color: var(--body); font-size: 17px; line-height: 1.5; }
+  .error-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #FBE3D9;
+    color: var(--error);
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  /* ---------- tela final ---------- */
+  .done h1 {
+    margin: 0;
+    font-size: clamp(36px, 7vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+  }
+  .done .sub { margin: 16px 0 28px; font-size: 17px; line-height: 1.55; color: var(--body); max-width: 560px; }
+  .done .sub b { color: var(--black); }
+  .cards { display: grid; gap: 12px; }
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    background: var(--white);
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  .done.active .card { animation: rise .5s var(--ease) forwards; }
+  .done.active .card:nth-child(2) { animation-delay: .08s; }
+  .done.active .card:nth-child(3) { animation-delay: .16s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .card-icon {
+    flex: none;
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--off-white);
+    display: grid;
+    place-items: center;
+    color: var(--black);
+  }
+  .card-icon svg { width: 24px; height: 24px; }
+  .card-body { flex: 1; min-width: 0; }
+  .card-body h3 { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25; }
+  .card-body p { margin: 4px 0 0; font-size: 14.5px; color: var(--gray); line-height: 1.4; }
+  .card .btn { flex: none; padding: 12px 20px; min-height: 46px; font-size: 15px; box-shadow: none; }
+  .card .btn[aria-disabled="true"] { background: var(--warm-gray); color: var(--gray); cursor: default; }
+  .email-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 0;
+    font-size: 15px;
+    color: var(--body);
+  }
+  .email-note svg { width: 18px; height: 18px; color: var(--orange-strong); flex: none; }
+  .email-note[hidden] { display: none; }
+
+  /* ---------- mobile ---------- */
+  @media (max-width: 640px) {
+    .screen { align-items: flex-start; padding-top: max(16vh, 100px); }
+    .welcome, .done, .status { align-items: center; padding-top: 88px; }
+    .done { align-items: flex-start; }
+    .btn-lg { width: 100%; }
+    .card { flex-wrap: wrap; gap: 14px; padding: 18px; }
+    .card .btn { width: 100%; }
+    .choices { max-width: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" role="progressbar" aria-label="Progresso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+  <div class="progress-fill"></div>
+</div>
+
+<header class="top">
+  <a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a>
+  <button class="back" type="button" aria-label="Voltar para a pergunta anterior">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l5-5 5 5"/></svg>
+    voltar
+  </button>
+</header>
+
+<main class="stage">
+
+  <!-- tela inicial -->
+  <section class="screen welcome" data-step="welcome">
+    <div class="inner">
+      <h1>Seu kit tá quase pronto 🎁</h1>
+      <p class="sub">Responde 6 perguntas rapidinhas e libera na hora as planilhas do Kit do Fabricante no Marketplace.</p>
+      <button class="btn btn-lg" type="button" data-action="start">Começar <span class="arrow">→</span></button>
+      <p class="small">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2" stroke-linecap="round"/></svg>
+        Leva menos de 1 minuto
+      </p>
+    </div>
+  </section>
+
+  <!-- 1. e-mail -->
+  <section class="screen" data-step="email" data-type="text">
+    <div class="inner">
+      <p class="qnum">1 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <label class="q" for="f-email">Qual seu melhor e-mail?</label>
+      <input class="field" id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" placeholder="seunome@email.com">
+      <p class="err" role="alert"></p>
+      <div class="actions"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
+  <!-- 2. WhatsApp -->
+  <section class="screen" data-step="whatsapp" data-type="text">
+    <div class="inner">
+      <p class="qnum">2 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <label class="q" for="f-whatsapp">E seu WhatsApp?</label>
+      <input class="field" id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" enterkeyhint="next" maxlength="15" placeholder="(11) 99999-9999">
+      <p class="err" role="alert"></p>
+      <div class="actions"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
+  <!-- 3. empresa -->
+  <section class="screen" data-step="empresa" data-type="text">
+    <div class="inner">
+      <p class="qnum">3 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <label class="q" for="f-empresa">Qual o nome da sua empresa ou marca?</label>
+      <input class="field" id="f-empresa" type="text" autocomplete="organization" autocapitalize="words" enterkeyhint="next" maxlength="160" placeholder="Digite aqui">
+      <p class="err" role="alert"></p>
+      <div class="actions"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
+  <!-- 4. fabrica ou revende -->
+  <section class="screen" data-step="fabrica" data-type="choice">
+    <div class="inner">
+      <p class="qnum">4 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <h2 class="q" id="q-fabrica">Você fabrica suas peças ou revende?</h2>
+      <div class="choices" role="radiogroup" aria-labelledby="q-fabrica">
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="fabrica"><span class="key">A</span>Fabrico minhas peças<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="revende"><span class="key">B</span>Revendo de outras marcas<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="nao_comecou"><span class="key">C</span>Ainda não comecei<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <p class="err" role="alert"></p>
+      <div class="actions choice-ok"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
+  <!-- 5. vende em marketplace -->
+  <section class="screen" data-step="vende" data-type="choice">
+    <div class="inner">
+      <p class="qnum">5 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <h2 class="q" id="q-vende">Você já vende em marketplace?</h2>
+      <div class="choices" role="radiogroup" aria-labelledby="q-vende">
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="sim"><span class="key">A</span>Sim, já vendo<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="nao"><span class="key">B</span>Ainda não<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <p class="err" role="alert"></p>
+      <div class="actions choice-ok"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
+  <!-- 6. faturamento -->
+  <section class="screen" data-step="faturamento" data-type="choice">
+    <div class="inner">
+      <p class="qnum">6 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <h2 class="q" id="q-faturamento">Quanto você fatura por mês no marketplace hoje?</h2>
+      <div class="choices" role="radiogroup" aria-labelledby="q-faturamento">
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="ate_5k"><span class="key">A</span>Até R$ 5 mil<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="5k_20k"><span class="key">B</span>De R$ 5 mil a R$ 20 mil<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="20k_50k"><span class="key">C</span>De R$ 20 mil a R$ 50 mil<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="acima_50k"><span class="key">D</span>Acima de R$ 50 mil<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <p class="err" role="alert"></p>
+      <div class="actions choice-ok"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
+  <!-- salvando -->
+  <section class="screen status" data-step="loading">
+    <div class="inner center" role="status" aria-live="polite">
+      <div class="loader" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="status-title">Liberando seu kit...</p>
+    </div>
+  </section>
+
+  <!-- erro ao salvar -->
+  <section class="screen status" data-step="error">
+    <div class="inner center" role="alert">
+      <div class="error-icon" aria-hidden="true">!</div>
+      <p class="status-title">Ops, não deu pra liberar agora.</p>
+      <p class="status-sub">Deve ter sido a conexão. Suas respostas estão guardadas, é só tentar de novo.</p>
+      <button class="btn btn-lg" type="button" data-action="retry">Tentar de novo</button>
+    </div>
+  </section>
+
+  <!-- tela final -->
+  <section class="screen done" data-step="done">
+    <div class="inner">
+      <h1>Kit liberado! 🎉</h1>
+      <p class="sub">Salva os links abaixo pra não perder. Cada planilha abre no Google Sheets: é só ir em <b>Arquivo &gt; Fazer uma cópia</b>.</p>
+      <div class="cards"></div>
+      <p class="email-note" hidden>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M3 5.5l7 5.5 7-5.5" stroke-linejoin="round"/></svg>
+        <span></span>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+<script src="/kit/config.js"></script>
+<script>
+(() => {
+  const CFG = window.KIT_CONFIG;
+  const QUESTIONS = ['email', 'whatsapp', 'empresa', 'fabrica', 'vende', 'faturamento'];
+  const ADVANCE_DELAY = 400;
+  const SLIDE = 'translateY(9vh)';
+  const SLIDE_UP = 'translateY(-9vh)';
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const screens = Object.fromEntries($$('.screen').map(el => [el.dataset.step, el]));
+  const backBtn = $('.back');
+  const fill = $('.progress-fill');
+  const progress = $('.progress');
+
+  const answers = {};
+  const history = [];
+  let current = 'welcome';
+  let busy = false;
+
+  // ---------- origem (DM do Instagram, anúncios) ----------
+  const params = new URLSearchParams(location.search);
+  const origin = {};
+  [['ig', 'instagram'], ['utm_source', 'utm_source'], ['utm_medium', 'utm_medium'], ['utm_campaign', 'utm_campaign']]
+    .forEach(([param, col]) => { const v = (params.get(param) || '').trim(); if (v) origin[col] = v.slice(0, 200); });
+
+  // ---------- validação ----------
+  const onlyDigits = s => s.replace(/\D/g, '');
+  const validators = {
+    email: v => !v ? 'Escreve seu e-mail pra gente liberar o kit.'
+      : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Hmm, esse e-mail parece incompleto. Confere?',
+    whatsapp: v => {
+      const d = onlyDigits(v);
+      if (!d) return 'Coloca seu WhatsApp com DDD.';
+      if (d.length !== 11 || !/^[1-9]{2}9/.test(d)) return 'Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.';
+      return '';
+    },
+    empresa: v => v ? '' : 'Qual o nome da sua marca? Pode ser o do Instagram.',
+    choice: v => v ? '' : 'Escolhe uma opção pra continuar.',
+  };
+
+  function readValue(step) {
+    const el = screens[step];
+    if (el.dataset.type === 'choice') return answers[step] || '';
+    return $('.field', el).value.trim();
+  }
+
+  function validate(step) {
+    const el = screens[step];
+    const v = readValue(step);
+    const msg = (validators[step] || validators.choice)(v);
+    $('.err', el).textContent = msg;
+    el.classList.toggle('invalid', !!msg);
+    return !msg;
+  }
+
+  // máscara (11) 99999-9999
+  const phone = $('#f-whatsapp');
+  phone.addEventListener('input', () => {
+    const d = onlyDigits(phone.value).slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    phone.value = out;
+  });
+  $$('.field').forEach(f => f.addEventListener('input', () => f.closest('.screen').classList.remove('invalid')));
+
+  // ---------- navegação ----------
+  function setProgress(step) {
+    const total = answers.vende === 'nao' ? QUESTIONS.length - 1 : QUESTIONS.length;
+    let pct = 0;
+    if (QUESTIONS.includes(step)) pct = (QUESTIONS.indexOf(step) / total) * 100;
+    if (['loading', 'error', 'done'].includes(step)) pct = 100;
+    fill.style.width = pct + '%';
+    progress.setAttribute('aria-valuenow', Math.round(pct));
+  }
+
+  function show(step, dir = 1) {
+    if (step === current) return;
+    const from = screens[current];
+    const to = screens[step];
+
+    // posiciona a próxima tela abaixo (ou acima, ao voltar) sem animar
+    to.style.transition = 'none';
+    to.style.transform = dir > 0 ? SLIDE : SLIDE_UP;
+    void to.offsetHeight;
+    to.style.transition = '';
+    to.classList.add('active');
+    to.style.transform = 'none';
+    to.scrollTop = 0;
+
+    from.classList.remove('active');
+    from.style.transform = dir > 0 ? SLIDE_UP : SLIDE;
+
+    current = step;
+    setProgress(step);
+    backBtn.classList.toggle('show', QUESTIONS.includes(step) || step === 'error');
+
+    // foca ainda dentro do toque: no iPhone o teclado só abre (e continua aberto) assim
+    const field = $('.field', to);
+    if (field) field.focus({ preventScroll: true });
+    else if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
+
+    busy = true;
+    setTimeout(() => { busy = false; }, 560);
+  }
+
+  function nextStep(step) {
+    if (step === 'vende' && answers.vende === 'nao') return null;
+    const i = QUESTIONS.indexOf(step);
+    return QUESTIONS[i + 1] || null;
+  }
+
+  function advance() {
+    if (busy) return;
+    if (current === 'welcome') { history.push(current); return show('email'); }
+    if (!QUESTIONS.includes(current)) return;
+    if (!validate(current)) {
+      const f = $('.field', screens[current]);
+      if (f) f.focus({ preventScroll: true });
+      return;
+    }
+    if (screens[current].dataset.type === 'text') answers[current] = readValue(current);
+
+    const next = nextStep(current);
+    history.push(current);
+    if (next) show(next);
+    else submit();
+  }
+
+  function goBack() {
+    if (busy || !history.length) return;
+    let prev = history.pop();
+    if (prev === 'loading') prev = history.pop();
+    show(prev, -1);
+  }
+
+  // ---------- múltipla escolha ----------
+  function choose(btn) {
+    if (busy) return;
+    const el = btn.closest('.screen');
+    const step = el.dataset.step;
+    $$('.choice', el).forEach(c => c.setAttribute('aria-checked', String(c === btn)));
+    answers[step] = btn.dataset.value;
+    el.classList.remove('invalid');
+    el.classList.add('has-value');
+    btn.classList.remove('blink');
+    void btn.offsetWidth;
+    btn.classList.add('blink');
+    busy = true;
+    setTimeout(() => { busy = false; advance(); }, ADVANCE_DELAY);
+  }
+  $$('.choice').forEach(btn => btn.addEventListener('click', () => choose(btn)));
+
+  // ---------- envio ----------
+  const sb = window.supabase
+    ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: false, autoRefreshToken: false } })
+    : null;
+
+  async function insertLead(row) {
+    if (sb) {
+      const { error } = await sb.from('leads_kit').insert(row);
+      if (error) throw error;
+      return;
+    }
+    // reserva caso o CDN do cliente Supabase não carregue
+    const res = await fetch(`${CFG.supabaseUrl}/rest/v1/leads_kit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: CFG.supabaseAnonKey,
+        Authorization: `Bearer ${CFG.supabaseAnonKey}`,
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify(row),
+    });
+    if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+  }
+
+  async function submit() {
+    const row = {
+      email: answers.email.toLowerCase(),
+      whatsapp: onlyDigits(answers.whatsapp),
+      empresa: answers.empresa,
+      fabrica_ou_revende: answers.fabrica,
+      vende_marketplace: answers.vende,
+      faturamento_mensal: answers.vende === 'nao' ? 'nao_vende' : answers.faturamento,
+      ...origin,
+    };
+    if (current !== 'loading') history.push('loading');
+    show('loading', current === 'error' ? -1 : 1);
+    const minWait = new Promise(r => setTimeout(r, 900));
+    try {
+      await Promise.all([insertLead(row), minWait]);
+      history.length = 0;
+      show('done');
+    } catch (err) {
+      console.error(err);
+      await minWait;
+      show('error');
+    }
+  }
+
+  // ---------- tela final ----------
+  const icons = [
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M3.5 9h17M9 9v11.5M14.5 13.5h3M14.5 16.5h3"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L6.8 5M3.5 12l1.2 1.2 2.1-2.2M3.5 18l1.2 1.2 2.1-2.2"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5h16"/><path d="M6.5 16V11M11 16V7M15.5 16v-5M20 16V4.5"/></svg>',
+  ];
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  $('.cards').innerHTML = CFG.materiais.map((m, i) => {
+    const ready = /^https?:\/\//.test(m.link || '');
+    const btn = ready
+      ? `<a class="btn" href="${esc(m.link)}" target="_blank" rel="noopener">Abrir planilha <span class="arrow">↗</span></a>`
+      : `<span class="btn" aria-disabled="true">Em breve</span>`;
+    return `<article class="card"><div class="card-icon" aria-hidden="true">${icons[i % icons.length]}</div>
+      <div class="card-body"><h3>${esc(m.nome)}</h3><p>${esc(m.descricao)}</p></div>${btn}</article>`;
+  }).join('');
+  const note = $('.email-note');
+  if (CFG.mostrarAvisoEmail) { $('span', note).textContent = CFG.avisoEmail; note.hidden = false; }
+
+  // ---------- eventos ----------
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-action]');
+    if (!a) return;
+    if (a.dataset.action === 'start' || a.dataset.action === 'next') advance();
+    if (a.dataset.action === 'retry') submit();
+  });
+  backBtn.addEventListener('click', goBack);
+
+  document.addEventListener('keydown', e => {
+    if (e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
+    const el = screens[current];
+    if (e.key === 'Enter') {
+      if (e.target.closest && e.target.closest('a, .back')) return;
+      if (e.target.classList && e.target.classList.contains('choice')) { e.preventDefault(); return choose(e.target); }
+      if (current === 'welcome' || QUESTIONS.includes(current)) { e.preventDefault(); advance(); }
+      if (current === 'error') { e.preventDefault(); submit(); }
+      return;
+    }
+    if (el.dataset.type === 'choice' && /^[a-z]$/i.test(e.key)) {
+      const btn = $$('.choice', el).find(c => $('.key', c).textContent === e.key.toUpperCase());
+      if (btn) { e.preventDefault(); choose(btn); }
+    }
+  });
+
+  // estado inicial
+  screens.welcome.classList.add('active');
+  screens.welcome.style.transform = 'none';
+  setProgress('welcome');
+})();
+</script>
+</body>
+</html>
