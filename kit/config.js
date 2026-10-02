@@ -8,9 +8,9 @@ window.KIT_CONFIG = {
   // Materiais da tela final. Links vazios aparecem como "em breve".
   materiais: [
     {
-      nome: 'Planilha de Precificação por Marketplace',
-      descricao: 'Calcula o preço certo com taxas, comissão e frete de cada canal.',
-      link: '', // [LINK_1]
+      nome: 'Planilha de Precificação Shopee',
+      descricao: 'Calcula o preço certo com comissão, taxas e frete da Shopee.',
+      link: 'https://docs.google.com/spreadsheets/d/1BrRmXNAA5Q1FDQQELgpsID1pF9f7lvlZdtNjPUmMUfE/edit?gid=879261013#gid=879261013',
     },
     {
       nome: 'Checklist de Anúncio Otimizado',
