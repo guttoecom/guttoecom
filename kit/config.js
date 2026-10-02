@@ -26,18 +26,6 @@ window.KIT_CONFIG = {
       link: 'https://docs.google.com/spreadsheets/d/1wKypgrM07Crlv2_MPq2YoE6SxR6OLBWP7wFbN-lzHRo/edit?usp=sharing',
       icone: 'tabela',
     },
-    {
-      nome: 'Checklist de Anúncio Otimizado',
-      descricao: 'Tudo que um anúncio de moda precisa pra aparecer e vender.',
-      link: '', // [LINK_2]
-      icone: 'checklist',
-    },
-    {
-      nome: 'Guia Rápido de Ads no Marketplace',
-      descricao: 'Como investir em mídia no marketplace sem queimar margem.',
-      link: '', // [LINK_3]
-      icone: 'grafico',
-    },
   ],
 
   // Ligar quando o envio do kit por e-mail estiver pronto.
