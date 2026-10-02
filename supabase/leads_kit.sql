@@ -8,7 +8,11 @@ create table if not exists public.leads_kit (
   empresa             text not null check (char_length(empresa) between 1 and 160),
   fabrica_ou_revende  text not null check (fabrica_ou_revende in ('fabrica', 'revende', 'nao_comecou')),
   vende_marketplace   text not null check (vende_marketplace in ('sim', 'nao')),
-  faturamento_mensal  text not null check (faturamento_mensal in ('ate_5k', '5k_20k', '20k_50k', 'acima_50k', 'nao_vende')),
+  -- acima_50k: faixa antiga, mantida para os leads que já existem
+  faturamento_mensal  text not null check (faturamento_mensal in (
+                        'ate_5k', '5k_20k', '20k_50k', '50k_100k', '100k_250k', '250k_500k', 'acima_500k',
+                        'acima_50k', 'nao_vende'
+                      )),
   instagram           text check (char_length(instagram)    <= 200),
   utm_source          text check (char_length(utm_source)   <= 200),
   utm_medium          text check (char_length(utm_medium)   <= 200),
@@ -32,3 +36,10 @@ create policy "insercao publica"
   for insert
   to anon
   with check (true);
+
+-- Migração (out/2026): novas faixas acima de R$ 50 mil
+alter table public.leads_kit drop constraint if exists leads_kit_faturamento_mensal_check;
+alter table public.leads_kit add constraint leads_kit_faturamento_mensal_check check (faturamento_mensal in (
+  'ate_5k', '5k_20k', '20k_50k', '50k_100k', '100k_250k', '250k_500k', 'acima_500k',
+  'acima_50k', 'nao_vende'
+));
