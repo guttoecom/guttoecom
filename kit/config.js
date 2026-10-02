@@ -21,6 +21,12 @@ window.KIT_CONFIG = {
       icone: 'calculadora',
     },
     {
+      nome: 'Planilha de Precificação TikTok Shop',
+      descricao: 'Calcula o preço ideal com comissão, taxa de envio e taxa fixa do TikTok Shop.',
+      link: 'https://docs.google.com/spreadsheets/d/1wKypgrM07Crlv2_MPq2YoE6SxR6OLBWP7wFbN-lzHRo/edit?usp=sharing',
+      icone: 'tabela',
+    },
+    {
       nome: 'Checklist de Anúncio Otimizado',
       descricao: 'Tudo que um anúncio de moda precisa pra aparecer e vender.',
       link: '', // [LINK_2]
