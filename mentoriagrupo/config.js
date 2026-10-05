@@ -1,4 +1,4 @@
-// Configuração da aplicação da Mentoria em Grupo de Marketplace (/mentoria).
+// Configuração da aplicação da Mentoria em Grupo de Marketplace (/mentoriagrupo).
 window.MENTORIA_CONFIG = {
   // Supabase do sistema gutto (gutto-app): URL + chave pública. A tabela aplicacoes_mentoria só aceita INSERT
   // de quem não está logado; temperatura e lead de agência são calculadas no banco.
