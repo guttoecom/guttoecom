@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aplicação · Mentoria em Grupo de Marketplace | gutto.</title>
+<meta name="description" content="Vagas limitadas e entrada por seleção. Encontros aos sábados. Responda a aplicação em cerca de 3 minutos.">
+<meta property="og:title" content="Aplicação · Mentoria em Grupo de Marketplace | gutto.">
+<meta property="og:description" content="Vagas limitadas e entrada por seleção. Encontros aos sábados. Leva cerca de 3 minutos.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F4F2EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --gray: #6B6862;
+    --white: #FFFFFF;
+    --warm-gray: #E4E0D9;
+    --border: #E2DED7;
+    --border-strong: #C9C4BB;
+    --body: #3A3835;
+    --orange-tint: rgba(255, 90, 31, .09);
+    --error: #B83A0C;
+
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --gutter: clamp(16px, 5vw, 48px);
+    --bar-h: 84px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--black);
+    background: var(--off-white);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button, input, textarea { font-family: inherit; }
+  [hidden] { display: none !important; }
+
+  /* ---------- topo: progresso + logo ---------- */
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(244, 242, 238, .92);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    backdrop-filter: saturate(1.4) blur(10px);
+  }
+  .progress { height: 4px; background: var(--warm-gray); }
+  .progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--orange);
+    border-radius: 0 4px 4px 0;
+    transition: width .5s var(--ease);
+  }
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 14px var(--gutter);
+  }
+  .logo {
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--black);
+    text-decoration: none;
+  }
+  .dot { color: var(--orange); }
+  .step-label { font-size: 13px; font-weight: 700; color: var(--gray); }
+
+  /* ---------- telas ---------- */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px var(--gutter) calc(var(--bar-h) + 40px + env(safe-area-inset-bottom));
+  }
+  .screen { display: none; }
+  .screen.active { display: block; animation: enter .45s var(--ease); }
+  .screen.active.from-back { animation-name: enter-back; }
+  @keyframes enter { from { opacity: 0; transform: translateY(18px); } }
+  @keyframes enter-back { from { opacity: 0; transform: translateY(-18px); } }
+
+  .eyebrow {
+    margin: 12px 0 10px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--orange-strong);
+    letter-spacing: .01em;
+  }
+  h1, h2 { margin: 0; font-weight: 800; letter-spacing: -0.04em; }
+  .intro h1 { font-size: clamp(36px, 8vw, 60px); line-height: 1.03; }
+  .intro .sub {
+    margin: 20px 0 0;
+    max-width: 560px;
+    font-size: clamp(17px, 2.2vw, 19px);
+    line-height: 1.55;
+    color: var(--body);
+  }
+  .facts { display: grid; gap: 10px; margin: 28px 0 0; padding: 0; list-style: none; max-width: 520px; }
+  .facts li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    background: var(--white);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .facts svg { width: 20px; height: 20px; flex: none; color: var(--orange-strong); }
+
+  .section-title { font-size: clamp(30px, 6vw, 44px); line-height: 1.06; }
+  .section-help { margin: 10px 0 0; font-size: 16px; line-height: 1.5; color: var(--gray); }
+
+  /* ---------- perguntas ---------- */
+  .q { margin-top: 34px; scroll-margin-top: 90px; }
+  .q-label {
+    display: block;
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    color: var(--black);
+  }
+  .q-label .opt { font-size: 14px; font-weight: 600; color: var(--gray); letter-spacing: 0; }
+  .q-help { margin: 6px 0 0; font-size: 14.5px; color: var(--gray); }
+
+  .field {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field::placeholder { color: #B9B4AB; font-weight: 500; }
+  .field:hover { border-color: var(--border-strong); }
+  .field:focus { border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
+  textarea.field { min-height: 140px; resize: vertical; line-height: 1.5; }
+  .counter { margin: 6px 0 0; font-size: 13px; color: var(--gray); text-align: right; }
+
+  .choices { display: grid; gap: 8px; margin-top: 12px; }
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 54px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s, transform .1s;
+  }
+  .choice:hover { border-color: var(--border-strong); }
+  .choice:active { transform: scale(.99); }
+  .mark {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 22px; height: 22px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 50%;
+    background: var(--off-white);
+    transition: background-color .15s, border-color .15s;
+  }
+  .multi .mark { border-radius: 6px; }
+  .mark svg { width: 14px; height: 14px; opacity: 0; transition: opacity .15s; }
+  .choice[aria-checked="true"] { border-color: var(--orange); background: var(--orange-tint); }
+  .choice[aria-checked="true"] .mark { background: var(--orange); border-color: var(--orange); }
+  .choice[aria-checked="true"] .mark svg { opacity: 1; }
+  .choices.grid-2 { grid-template-columns: 1fr 1fr; }
+
+  .err {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0 0;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--error);
+  }
+  .invalid .err { display: flex; }
+  .invalid .field, .invalid .choice { border-color: var(--error); }
+  .invalid .choice[aria-checked="true"] { border-color: var(--orange); }
+
+  /* ---------- barra de ações ---------- */
+  .bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 20;
+    background: rgba(244, 242, 238, .94);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-top: 1px solid var(--border);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bar-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 14px var(--gutter);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 0;
+    border-radius: 999px;
+    padding: 15px 28px;
+    min-height: 54px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 10px 24px -14px rgba(232, 73, 15, .9);
+    transition: transform .15s ease, background-color .2s, box-shadow .2s;
+  }
+  .btn:hover { background: #FF6A33; }
+  .btn:active { transform: scale(.97); }
+  .btn[disabled] { opacity: .6; cursor: default; }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+  .btn-next { flex: 1; margin-left: auto; max-width: 320px; }
+  .btn-back {
+    background: transparent;
+    border: 1.5px solid var(--border-strong);
+    box-shadow: none;
+    color: var(--body);
+    padding: 15px 20px;
+  }
+  .btn-back:hover { background: var(--white); }
+  .btn:focus-visible, .choice:focus-visible, .logo:focus-visible {
+    outline: 3px solid var(--black);
+    outline-offset: 3px;
+  }
+
+  /* ---------- enviando / erro / final ---------- */
+  .center { text-align: center; padding-top: 12vh; }
+  .loader { display: inline-flex; gap: 10px; margin-bottom: 26px; }
+  .loader span {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    animation: bounce 1s var(--ease) infinite;
+  }
+  .loader span:nth-child(2) { animation-delay: .15s; }
+  .loader span:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); opacity: .5; } 40% { transform: translateY(-12px); opacity: 1; } }
+  .status-title { margin: 0; font-size: clamp(26px, 5vw, 36px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+  .status-sub { margin: 14px auto 28px; max-width: 440px; color: var(--body); font-size: 17px; line-height: 1.5; }
+  .error-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #FBE3D9;
+    color: var(--error);
+    font-size: 28px;
+    font-weight: 800;
+  }
+  .done { padding-top: 8vh; }
+  .done-icon {
+    width: 64px; height: 64px;
+    margin-bottom: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--orange);
+  }
+  .done-icon svg { width: 30px; height: 30px; }
+  .done h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.04; }
+  .done .sub { margin: 18px 0 0; max-width: 540px; font-size: 18px; line-height: 1.55; color: var(--body); }
+
+  @media (max-width: 480px) {
+    .choices.grid-2 { grid-template-columns: 1fr; }
+    .btn-next { max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0s !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="progress" role="progressbar" aria-label="Progresso da aplicação" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="progress-fill"></div>
+  </div>
+  <div class="top-row">
+    <a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a>
+    <span class="step-label" aria-live="polite"></span>
+  </div>
+</header>
+
+<main>
+  <!-- cabeçalho / boas-vindas -->
+  <section class="screen intro" data-step="intro">
+    <p class="eyebrow">Turma com vagas limitadas</p>
+    <h1>Aplicação – Mentoria em Grupo de Marketplace<span class="dot">.</span></h1>
+    <p class="sub">As vagas são limitadas e a entrada é por seleção. Os encontros acontecem aos sábados. Responda com sinceridade, leva cerca de 3 minutos. Nossa equipe vai analisar e entrar em contato pelo WhatsApp.</p>
+    <ul class="facts">
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="7" r="2.8"/><path d="M2.5 16.5c.6-2.8 2.6-4.3 5-4.3s4.4 1.5 5 4.3M13 4.6a2.8 2.8 0 0 1 0 5M15 12.4c1.3.6 2.2 2 2.5 4.1"/></svg>Vagas limitadas, entrada por seleção</li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5V5M13 2.5V5"/></svg>Encontros aos sábados</li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2"/></svg>Leva cerca de 3 minutos</li>
+    </ul>
+  </section>
+
+  <!-- etapas: montadas pelo script a partir de STEPS -->
+  <div id="steps"></div>
+
+  <!-- enviando -->
+  <section class="screen" data-step="loading">
+    <div class="center" role="status" aria-live="polite">
+      <div class="loader" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="status-title">Enviando sua aplicação...</p>
+    </div>
+  </section>
+
+  <!-- erro ao enviar -->
+  <section class="screen" data-step="error">
+    <div class="center" role="alert">
+      <div class="error-icon" aria-hidden="true">!</div>
+      <p class="status-title">Ops, não deu pra enviar agora.</p>
+      <p class="status-sub">Deve ter sido a conexão. Suas respostas estão guardadas, é só tentar de novo.</p>
+    </div>
+  </section>
+
+  <!-- tela final -->
+  <section class="screen done" data-step="done">
+    <div class="done-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Aplicação recebida<span class="dot">!</span></h1>
+    <p class="sub">Nossa equipe vai analisar suas respostas e, se você tiver o perfil para a turma, vamos te chamar no WhatsApp.</p>
+  </section>
+</main>
+
+<nav class="bar" aria-label="Navegação do formulário">
+  <div class="bar-inner">
+    <button class="btn btn-back" type="button" data-action="back" hidden>← Voltar</button>
+    <button class="btn btn-next" type="button" data-action="next">Começar aplicação <span class="arrow">→</span></button>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+<script src="/mentoria/config.js"></script>
+<script>
+(() => {
+  const CFG = window.MENTORIA_CONFIG;
+
+  // ---------- perguntas ----------
+  // tipos: text | tel | textarea | radio | checkbox. Valores codificados = os aceitos pelo banco.
+  const STEPS = [
+    {
+      id: 's1', n: 1, title: 'Sobre você', help: 'Pra gente saber com quem está falando.',
+      fields: [
+        { name: 'nome', type: 'text', label: 'Nome completo', required: true, placeholder: 'Seu nome e sobrenome', autocomplete: 'name', max: 160 },
+        { name: 'whatsapp', type: 'tel', label: 'WhatsApp com DDD', required: true, placeholder: '(00) 00000-0000' },
+        { name: 'instagram', type: 'text', label: '@ do Instagram da sua marca', placeholder: '@suamarca', max: 100, autocapitalize: 'off' },
+        { name: 'cidade_estado', type: 'text', label: 'Cidade/Estado', placeholder: 'Ex.: Ribeirão Preto/SP', autocomplete: 'address-level2', max: 120 },
+        { name: 'producao', type: 'radio', label: 'Você fabrica as peças que vende?', required: true, options: [
+          ['propria', 'Sim, tenho produção própria'],
+          ['terceirizada', 'Terceirizo a produção com a minha marca'],
+          ['revenda', 'Revendo produtos de outras marcas'],
+        ] },
+      ],
+    },
+    {
+      id: 's2', n: 2, title: 'Seu momento',
+      fields: [
+        { name: 'vende_marketplace', type: 'radio', label: 'Você já vende em marketplace hoje?', required: true, options: [
+          ['sim', 'Sim'],
+          ['nao', 'Ainda não'],
+        ] },
+      ],
+    },
+    {
+      id: 's3a', n: 3, title: 'Suas vendas no marketplace',
+      fields: [
+        { name: 'marketplaces', type: 'checkbox', label: 'Em quais marketplaces você vende?', help: 'Pode marcar mais de um.', cols: 2, options: [
+          ['mercadolivre', 'Mercado Livre'], ['shopee', 'Shopee'], ['shein', 'Shein'], ['tiktokshop', 'TikTok Shop'],
+          ['amazon', 'Amazon'], ['magalu', 'Magalu'], ['outro', 'Outro'],
+        ] },
+        { name: 'faturamento_marketplace', type: 'radio', label: 'Quanto você fatura por mês nos marketplaces?', options: [
+          ['ate_5k', 'Até R$ 5 mil'], ['5k_20k', 'R$ 5 a 20 mil'], ['20k_50k', 'R$ 20 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
+        ] },
+        { name: 'dificuldades', type: 'checkbox', label: 'Qual é a sua maior dificuldade hoje?', help: 'Pode marcar mais de uma.', options: [
+          ['anuncios', 'Anúncios que não vendem'], ['precificacao', 'Precificação e margem'], ['ads', 'Anúncios pagos (ads)'],
+          ['organizacao', 'Organização e falta de tempo'], ['crescer', 'Não sei por onde crescer'],
+        ] },
+        { name: 'quem_cuida', type: 'radio', label: 'Quem cuida dos marketplaces hoje?', options: [
+          ['eu', 'Eu mesmo(a)'], ['equipe', 'Tenho alguém da equipe'], ['agencia', 'Contrato agência ou assessoria'],
+        ] },
+      ],
+    },
+    {
+      id: 's3b', n: 3, title: 'Suas vendas hoje',
+      fields: [
+        { name: 'canal_principal', type: 'radio', label: 'Qual é o seu principal canal de vendas hoje?', options: [
+          ['atacado', 'Atacado'], ['loja_fisica', 'Loja física'], ['instagram_whatsapp', 'Instagram e WhatsApp'],
+          ['feiras', 'Feiras'], ['nao_vende', 'Ainda não vendo'],
+        ] },
+        { name: 'faturamento_empresa', type: 'radio', label: 'Quanto sua empresa fatura por mês?', options: [
+          ['ate_10k', 'Até R$ 10 mil'], ['10k_30k', 'R$ 10 a 30 mil'], ['30k_50k', 'R$ 30 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
+        ] },
+        { name: 'impedimento', type: 'text', label: 'O que te impediu de começar até agora?', placeholder: 'Conta em poucas palavras', max: 500 },
+      ],
+    },
+    {
+      id: 's4', n: 4, title: 'Compromisso', help: 'Última etapa.',
+      fields: [
+        { name: 'motivo', type: 'textarea', label: 'Por que você quer entrar na mentoria agora?', required: true, placeholder: 'Conta o que está acontecendo no seu negócio e o que você espera da mentoria.', max: 2000 },
+        { name: 'disponibilidade', type: 'radio', label: 'Os encontros da mentoria acontecem aos sábados. Você tem disponibilidade?', required: true, options: [
+          ['sim', 'Sim, consigo participar'], ['maioria', 'Consigo na maioria dos sábados'], ['nao', 'Não tenho disponibilidade aos sábados'],
+        ] },
+        { name: 'investimento', type: 'radio', label: 'O investimento na mentoria é de R$ 500. Se for selecionado(a), você está pronto(a) para investir agora?', required: true, options: [
+          ['sim', 'Sim, estou pronto(a) para investir R$ 500'], ['parcelar', 'Preciso parcelar'], ['nao', 'Não no momento'],
+        ] },
+        { name: 'preferencia', type: 'radio', label: 'Você prefere aprender a fazer ou ter alguém fazendo por você?', options: [
+          ['aprender', 'Quero aprender e fazer eu mesmo(a)'], ['fazer_por_mim', 'Prefiro que alguém faça por mim'], ['os_dois', 'Os dois'],
+        ] },
+      ],
+    },
+  ];
+  const TOTAL = 4;
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const onlyDigits = s => s.replace(/\D/g, '');
+
+  const answers = {};
+  const FIELDS = Object.fromEntries(STEPS.flatMap(s => s.fields.map(f => [f.name, f])));
+
+  // ---------- origem (UTM) ----------
+  const params = new URLSearchParams(location.search);
+  const origin = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(k => {
+    const v = (params.get(k) || '').trim();
+    if (v) origin[k] = v.slice(0, 200);
+  });
+
+  // ---------- montar as etapas ----------
+  const CHECK = '<svg viewBox="0 0 16 16" fill="none" stroke="#121212" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-6.5"/></svg>';
+  const ERR = '<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.8v3.6M8 11.1v.1"/></svg>';
+
+  function fieldHtml(f) {
+    const id = `f-${f.name}`;
+    const opt = f.required ? '' : ' <span class="opt">(opcional)</span>';
+    const help = f.help ? `<p class="q-help" id="${id}-help">${esc(f.help)}</p>` : '';
+    const err = `<p class="err" id="${id}-err" role="alert"></p>`;
+    if (f.type === 'radio' || f.type === 'checkbox') {
+      const multi = f.type === 'checkbox';
+      const opts = f.options.map(([v, t]) =>
+        `<button class="choice" type="button" role="${multi ? 'checkbox' : 'radio'}" aria-checked="false" data-value="${v}"><span class="mark">${CHECK}</span>${esc(t)}</button>`).join('');
+      return `<div class="q" data-name="${f.name}">
+        <p class="q-label" id="${id}-label">${esc(f.label)}${opt}</p>${help}
+        <div class="choices ${multi ? 'multi' : ''} ${f.cols === 2 ? 'grid-2' : ''}" role="${multi ? 'group' : 'radiogroup'}" aria-labelledby="${id}-label"${f.required ? ' aria-required="true"' : ''}>${opts}</div>${err}</div>`;
+    }
+    const common = `class="field" id="${id}" name="${f.name}" aria-describedby="${id}-err"${f.required ? ' required aria-required="true"' : ''}${f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : ''}${f.max ? ` maxlength="${f.max}"` : ''}`;
+    let input;
+    if (f.type === 'textarea') input = `<textarea ${common} rows="5"></textarea><p class="counter" aria-hidden="true"></p>`;
+    else if (f.type === 'tel') input = `<input ${common} type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15">`;
+    else input = `<input ${common} type="text"${f.autocomplete ? ` autocomplete="${f.autocomplete}"` : ''} autocapitalize="${f.autocapitalize || 'words'}" enterkeyhint="next">`;
+    return `<div class="q" data-name="${f.name}"><label class="q-label" for="${id}">${esc(f.label)}${opt}</label>${help}${input}${err}</div>`;
+  }
+
+  $('#steps').innerHTML = STEPS.map(s => `
+    <section class="screen" data-step="${s.id}">
+      <p class="eyebrow">Etapa ${s.n} de ${TOTAL}</p>
+      <h2 class="section-title">${esc(s.title)}<span class="dot">.</span></h2>
+      ${s.help ? `<p class="section-help">${esc(s.help)}</p>` : ''}
+      ${s.fields.map(fieldHtml).join('')}
+    </section>`).join('');
+
+  const screens = Object.fromEntries($$('.screen').map(el => [el.dataset.step, el]));
+  const fill = $('.progress-fill');
+  const progress = $('.progress');
+  const stepLabel = $('.step-label');
+  const nextBtn = $('[data-action="next"]');
+  const backBtn = $('[data-action="back"]');
+
+  // ---------- campos ----------
+  const phone = $('#f-whatsapp');
+  phone.addEventListener('input', () => {
+    const d = onlyDigits(phone.value).slice(0, 11);
+    let out = d;
+    if (d.length > 0) out = `(${d.slice(0, 2)}`;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    phone.value = out;
+  });
+
+  $$('.field').forEach(el => el.addEventListener('input', () => {
+    answers[el.name] = el.value;
+    el.closest('.q').classList.remove('invalid');
+  }));
+  $$('textarea.field').forEach(el => {
+    const counter = el.parentElement.querySelector('.counter');
+    const update = () => { counter.textContent = `${el.value.length} / ${el.maxLength}`; };
+    el.addEventListener('input', update);
+    update();
+  });
+  // Enter num campo de texto pula para o próximo campo
+  $$('input.field').forEach(el => el.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.isComposing) return;
+    e.preventDefault();
+    const all = $$('.field, .choice', screens[current]);
+    const nextEl = all[all.indexOf(el) + 1];
+    if (nextEl) nextEl.focus();
+    else advance();
+  }));
+
+  $$('.choice').forEach(btn => btn.addEventListener('click', () => {
+    const q = btn.closest('.q');
+    const name = q.dataset.name;
+    if (FIELDS[name].type === 'checkbox') {
+      btn.setAttribute('aria-checked', String(btn.getAttribute('aria-checked') !== 'true'));
+      answers[name] = $$('.choice[aria-checked="true"]', q).map(c => c.dataset.value);
+    } else {
+      $$('.choice', q).forEach(c => c.setAttribute('aria-checked', String(c === btn)));
+      answers[name] = btn.dataset.value;
+    }
+    q.classList.remove('invalid');
+  }));
+
+  // ---------- validação ----------
+  const MSG = {
+    nome: v => v.trim().length < 2 ? 'Escreve seu nome completo.' : '',
+    whatsapp: v => {
+      const d = onlyDigits(v || '');
+      if (!d) return 'Coloca seu WhatsApp com DDD.';
+      if (d.length !== 11 || !/^[1-9]{2}9/.test(d)) return 'Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.';
+      return '';
+    },
+    motivo: v => v.trim() ? '' : 'Conta pra gente por que você quer entrar agora.',
+  };
+
+  function fieldError(f) {
+    const v = answers[f.name];
+    if (f.name === 'whatsapp') return MSG.whatsapp(v);
+    if (!f.required) return '';
+    if (MSG[f.name]) return MSG[f.name](v || '');
+    if (f.type === 'radio') return v ? '' : 'Escolhe uma opção pra continuar.';
+    if (f.type === 'checkbox') return v && v.length ? '' : 'Marca pelo menos uma opção.';
+    return (v || '').trim() ? '' : 'Esse campo é obrigatório.';
+  }
+
+  function validateStep(id) {
+    const step = STEPS.find(s => s.id === id);
+    let first = null;
+    step.fields.forEach(f => {
+      const q = $(`.q[data-name="${f.name}"]`, screens[id]);
+      const msg = fieldError(f);
+      $('.err', q).innerHTML = msg ? `${ERR}${esc(msg)}` : '';
+      q.classList.toggle('invalid', !!msg);
+      if (msg && !first) first = q;
+    });
+    if (first) {
+      first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const el = $('.field', first) || $('.choice', first);
+      if (el) el.focus({ preventScroll: true });
+    }
+    return !first;
+  }
+
+  // ---------- navegação ----------
+  const FLOW = () => ['intro', 's1', 's2', answers.vende_marketplace === 'nao' ? 's3b' : 's3a', 's4'];
+  let current = 'intro';
+
+  function render(step, back = false) {
+    const from = screens[current];
+    from.classList.remove('active', 'from-back');
+    const to = screens[step];
+    to.classList.toggle('from-back', back);
+    to.classList.add('active');
+    current = step;
+    window.scrollTo(0, 0);
+
+    const info = STEPS.find(s => s.id === step);
+    const pct = info ? ((info.n - 1) / TOTAL) * 100 : ['loading', 'error', 'done'].includes(step) ? 100 : 0;
+    fill.style.width = pct + '%';
+    progress.setAttribute('aria-valuenow', Math.round(pct));
+    stepLabel.textContent = info ? `Etapa ${info.n} de ${TOTAL}` : '';
+
+    const formStep = step === 'intro' || !!info;
+    $('.bar').hidden = !(formStep || step === 'error');
+    backBtn.hidden = !(info || step === 'error');
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = step === 'intro' ? 'Começar aplicação <span class="arrow">→</span>'
+      : step === 's4' ? 'Enviar aplicação <span class="arrow">→</span>'
+      : step === 'error' ? 'Tentar de novo'
+      : 'Continuar <span class="arrow">→</span>';
+  }
+
+  // O voltar do celular (Android) também volta uma etapa.
+  function go(step) {
+    history.pushState({ step }, '');
+    render(step);
+  }
+
+  function advance() {
+    if (current === 'error') return submit();
+    const flow = FLOW();
+    const i = flow.indexOf(current);
+    if (i < 0) return;
+    if (current !== 'intro' && !validateStep(current)) return;
+    if (flow[i + 1]) go(flow[i + 1]);
+    else submit();
+  }
+
+  function goBack() {
+    if (current === 'error') return render('s4', true);
+    if (current === 'intro') return;
+    history.back();
+  }
+
+  window.addEventListener('popstate', e => {
+    if (['loading', 'done'].includes(current)) return;
+    const step = e.state && e.state.step;
+    render(step && screens[step] ? step : 'intro', true);
+  });
+
+  // ---------- envio ----------
+  const sb = window.supabase
+    ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, { auth: { persistSession: false, autoRefreshToken: false } })
+    : null;
+
+  async function insertRow(row) {
+    if (sb) {
+      const { error } = await sb.from('aplicacoes_mentoria').insert(row);
+      if (error) throw error;
+      return;
+    }
+    // reserva caso o CDN do cliente Supabase não carregue
+    const res = await fetch(`${CFG.supabaseUrl}/rest/v1/aplicacoes_mentoria`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey, Prefer: 'return=minimal' },
+      body: JSON.stringify(row),
+    });
+    if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+  }
+
+  const txt = name => (answers[name] || '').trim() || null;
+  function instagram() {
+    const v = (answers.instagram || '').trim().replace(/\s+/g, '');
+    if (!v) return null;
+    return /^https?:\/\//i.test(v) || v.startsWith('@') ? v : '@' + v;
+  }
+
+  async function submit() {
+    const vende = answers.vende_marketplace;
+    const row = {
+      nome: txt('nome'),
+      whatsapp: onlyDigits(answers.whatsapp || ''),
+      instagram: instagram(),
+      cidade_estado: txt('cidade_estado'),
+      producao: answers.producao,
+      vende_marketplace: vende,
+      marketplaces: vende === 'sim' ? answers.marketplaces || [] : [],
+      faturamento_marketplace: vende === 'sim' ? answers.faturamento_marketplace || null : null,
+      dificuldades: vende === 'sim' ? answers.dificuldades || [] : [],
+      quem_cuida: vende === 'sim' ? answers.quem_cuida || null : null,
+      canal_principal: vende === 'nao' ? answers.canal_principal || null : null,
+      faturamento_empresa: vende === 'nao' ? answers.faturamento_empresa || null : null,
+      impedimento: vende === 'nao' ? txt('impedimento') : null,
+      motivo: txt('motivo'),
+      disponibilidade: answers.disponibilidade,
+      investimento: answers.investimento,
+      preferencia: answers.preferencia || null,
+      ...origin,
+    };
+    const wasError = current === 'error';
+    render('loading', wasError);
+    const minWait = new Promise(r => setTimeout(r, 900));
+    try {
+      await Promise.all([insertRow(row), minWait]);
+      history.replaceState({ step: 'done' }, '');
+      render('done');
+    } catch (err) {
+      console.error(err);
+      await minWait;
+      render('error');
+    }
+  }
+
+  // ---------- eventos ----------
+  nextBtn.addEventListener('click', advance);
+  backBtn.addEventListener('click', goBack);
+
+  // estado inicial
+  history.replaceState({ step: 'intro' }, '');
+  screens.intro.classList.add('active');
+  render('intro');
+})();
+</script>
+</body>
+</html>
