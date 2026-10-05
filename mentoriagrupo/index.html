@@ -395,7 +395,7 @@
       fields: [
         { name: 'nome', type: 'text', label: 'Nome completo', required: true, placeholder: 'Seu nome e sobrenome', autocomplete: 'name', max: 160 },
         { name: 'whatsapp', type: 'tel', label: 'WhatsApp com DDD', required: true, placeholder: '(00) 00000-0000' },
-        { name: 'instagram', type: 'text', label: '@ do Instagram da sua marca', placeholder: '@suamarca', max: 100, autocapitalize: 'off' },
+        { name: 'link_loja', type: 'url', label: 'Link da sua loja', help: 'Site, Shopee, Mercado Livre, Instagram... o que você tiver.', placeholder: 'Ex.: shopee.com.br/suamarca', max: 300 },
         { name: 'cidade_estado', type: 'text', label: 'Cidade/Estado', placeholder: 'Ex.: Ribeirão Preto/SP', autocomplete: 'address-level2', max: 120 },
         { name: 'producao', type: 'radio', label: 'Você fabrica as peças que vende?', required: true, options: [
           ['propria', 'Sim, tenho produção própria'],
@@ -500,6 +500,7 @@
     let input;
     if (f.type === 'textarea') input = `<textarea ${common} rows="5"></textarea><p class="counter" aria-hidden="true"></p>`;
     else if (f.type === 'tel') input = `<input ${common} type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15">`;
+    else if (f.type === 'url') input = `<input ${common} type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" enterkeyhint="next">`;
     else input = `<input ${common} type="text"${f.autocomplete ? ` autocomplete="${f.autocomplete}"` : ''} autocapitalize="${f.autocapitalize || 'words'}" enterkeyhint="next">`;
     return `<div class="q" data-name="${f.name}"><label class="q-label" for="${id}">${esc(f.label)}${opt}</label>${help}${input}${err}</div>`;
   }
@@ -681,18 +682,13 @@
   }
 
   const txt = name => (answers[name] || '').trim() || null;
-  function instagram() {
-    const v = (answers.instagram || '').trim().replace(/\s+/g, '');
-    if (!v) return null;
-    return /^https?:\/\//i.test(v) || v.startsWith('@') ? v : '@' + v;
-  }
 
   async function submit() {
     const vende = answers.vende_marketplace;
     const row = {
       nome: txt('nome'),
       whatsapp: onlyDigits(answers.whatsapp || ''),
-      instagram: instagram(),
+      link_loja: (answers.link_loja || '').trim().replace(/\s+/g, '') || null,
       cidade_estado: txt('cidade_estado'),
       producao: answers.producao,
       vende_marketplace: vende,
