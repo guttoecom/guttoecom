@@ -1,9 +1,10 @@
 // Configuração do formulário "Kit do Fabricante no Marketplace".
 // Para trocar um link ou texto, edite só este arquivo.
 window.KIT_CONFIG = {
-  // Supabase: URL do projeto + chave pública (anon). A tabela leads_kit só aceita INSERT.
-  supabaseUrl: 'https://hklkhaitkzzkdlftiubn.supabase.co',
-  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrbGtoYWl0a3p6a2RsZnRpdWJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NzAwMjQsImV4cCI6MjEwNjQ0NjAyNH0.vW4l7hKUjLgyp2Ffp0qqXfsXwB_B_LKIrTWRl6vQayo',
+  // Supabase do sistema gutto (gutto-app): URL + chave pública. A tabela leads_kit só aceita INSERT de quem
+  // não está logado; os leads aparecem no sistema em Leads → Leads kit.
+  supabaseUrl: 'https://aedxvttmnjheussswyht.supabase.co',
+  supabaseAnonKey: 'sb_publishable_-yM9bTw9C5-YFUUrIX5wWQ__yRSxR_M',
 
   // Materiais da tela final. Links vazios aparecem como "em breve".
   // icone: 'tabela' | 'calculadora' | 'checklist' | 'grafico'
