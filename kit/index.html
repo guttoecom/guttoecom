@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kit do Fabricante no Marketplace | gutto.</title>
-<meta name="description" content="Responde 6 perguntas rapidinhas e libera na hora as planilhas do Kit do Fabricante no Marketplace.">
+<meta name="description" content="Responde algumas perguntas rapidinhas e libera na hora as planilhas do Kit do Fabricante no Marketplace.">
 <meta property="og:title" content="Kit do Fabricante no Marketplace | gutto.">
 <meta property="og:description" content="Planilha de precificação, checklist de anúncio e guia de ads para confecções. Libera em menos de 1 minuto.">
 <meta property="og:type" content="website">
@@ -447,7 +447,7 @@
   <section class="screen welcome" data-step="welcome">
     <div class="inner">
       <h1>Falta pouco para liberar seu Kit do Fabricante<span class="dot">.</span></h1>
-      <p class="sub">Responda 6 perguntas rápidas e receba as planilhas para precificar melhor, organizar sua operação e vender nos marketplaces com mais clareza.</p>
+      <p class="sub">Responda algumas perguntas rápidas e receba as planilhas para precificar melhor, organizar sua operação e vender nos marketplaces com mais clareza.</p>
       <button class="btn btn-lg" type="button" data-action="start">Liberar meu kit <span class="arrow">→</span></button>
       <p class="small">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2" stroke-linecap="round"/></svg>
@@ -537,6 +537,22 @@
     </div>
   </section>
 
+  <!-- 7. tipo de ajuda (só quem já vende) -->
+  <section class="screen" data-step="ajuda" data-type="choice">
+    <div class="inner">
+      <p class="qnum">7 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <h2 class="q" id="q-ajuda">Hoje, que tipo de ajuda faria mais diferença pra você?</h2>
+      <div class="choices" role="radiogroup" aria-labelledby="q-ajuda">
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="aprender"><span class="key">A</span>Aprender a fazer eu mesmo, com alguém me orientando<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="terceirizar"><span class="key">B</span>Ter alguém cuidando dos anúncios e do ADS por mim<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="basico"><span class="key">C</span>Só quero conhecer o básico por enquanto<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-value="nenhuma"><span class="key">D</span>Nenhuma<svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <p class="err" role="alert"></p>
+      <div class="actions choice-ok"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
   <!-- salvando -->
   <section class="screen status" data-step="loading">
     <div class="inner center" role="status" aria-live="polite">
@@ -575,7 +591,9 @@
 <script>
 (() => {
   const CFG = window.KIT_CONFIG;
-  const QUESTIONS = ['email', 'whatsapp', 'empresa', 'fabrica', 'vende', 'faturamento'];
+  const QUESTIONS = ['email', 'whatsapp', 'empresa', 'fabrica', 'vende', 'faturamento', 'ajuda'];
+  // quem ainda não vende pula as duas últimas (faturamento e tipo de ajuda)
+  const SO_QUEM_VENDE = 2;
   const ADVANCE_DELAY = 400;
   const SLIDE = 'translateY(9vh)';
   const SLIDE_UP = 'translateY(-9vh)';
@@ -641,7 +659,7 @@
 
   // ---------- navegação ----------
   function setProgress(step) {
-    const total = answers.vende === 'nao' ? QUESTIONS.length - 1 : QUESTIONS.length;
+    const total = answers.vende === 'nao' ? QUESTIONS.length - SO_QUEM_VENDE : QUESTIONS.length;
     let pct = 0;
     if (QUESTIONS.includes(step)) pct = (QUESTIONS.indexOf(step) / total) * 100;
     if (['loading', 'error', 'done'].includes(step)) pct = 100;
@@ -759,6 +777,7 @@
       fabrica_ou_revende: answers.fabrica,
       vende_marketplace: answers.vende,
       faturamento_mensal: answers.vende === 'nao' ? 'nao_vende' : answers.faturamento,
+      tipo_ajuda: answers.vende === 'nao' ? null : answers.ajuda,
       ...origin,
     };
     if (current !== 'loading') history.push('loading');
