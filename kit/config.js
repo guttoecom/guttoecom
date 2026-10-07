@@ -2,11 +2,11 @@
 // Para trocar um link ou texto, edite só este arquivo.
 window.KIT_CONFIG = {
   // Supabase do sistema gutto (gutto-app): URL + chave pública. A tabela leads_kit só aceita INSERT de quem
-  // não está logado; os leads aparecem no sistema em Leads → Leads kit.
+  // não está logado; os leads aparecem no CRM (Leads → Lista do kit).
   supabaseUrl: 'https://aedxvttmnjheussswyht.supabase.co',
   supabaseAnonKey: 'sb_publishable_-yM9bTw9C5-YFUUrIX5wWQ__yRSxR_M',
 
-  // Materiais da tela final. Links vazios aparecem como "em breve".
+  // Materiais da tela final e do e-mail do kit (o sistema lê esta lista). Links vazios aparecem como "em breve".
   // icone: 'tabela' | 'calculadora' | 'checklist' | 'grafico'
   materiais: [
     {
@@ -29,7 +29,7 @@ window.KIT_CONFIG = {
     },
   ],
 
-  // Ligar quando o envio do kit por e-mail estiver pronto.
-  mostrarAvisoEmail: false,
+  // O sistema manda as planilhas por e-mail (Gmail do Bruno) assim que o lead envia o formulário.
+  mostrarAvisoEmail: true,
   avisoEmail: 'Também mandamos tudo no seu e-mail.',
 };
