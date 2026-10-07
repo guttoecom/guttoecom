@@ -1,7 +1,9 @@
 {
   "redirects": [
     { "source": "/mentoria", "destination": "/mentoriagrupo", "permanent": false },
-    { "source": "/mentoria/", "destination": "/mentoriagrupo", "permanent": false }
+    { "source": "/mentoria/", "destination": "/mentoriagrupo", "permanent": false },
+    { "source": "/crm", "destination": "/app/crm", "permanent": false },
+    { "source": "/crm/:path*", "destination": "/app/crm/:path*", "permanent": false }
   ],
   "rewrites": [
     { "source": "/app", "destination": "https://guttoapp.vercel.app/app" },
