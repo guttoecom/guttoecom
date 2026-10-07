@@ -610,11 +610,22 @@
   let current = 'welcome';
   let busy = false;
 
-  // ---------- origem (DM do Instagram, anúncios) ----------
+  // ---------- origem (DM do Instagram via ManyChat, anúncios) ----------
+  // mc = ID do contato no ManyChat; ig = usuário do Instagram. Guardados no sessionStorage assim que a
+  // página abre, para não se perderem. Outros parâmetros (fbclid, mcp_token...) são ignorados.
   const params = new URLSearchParams(location.search);
   const origin = {};
-  [['ig', 'instagram'], ['utm_source', 'utm_source'], ['utm_medium', 'utm_medium'], ['utm_campaign', 'utm_campaign']]
-    .forEach(([param, col]) => { const v = (params.get(param) || '').trim(); if (v) origin[col] = v.slice(0, 200); });
+  const lerSessao = k => { try { return sessionStorage.getItem('kit_' + k) || ''; } catch (e) { return ''; } };
+  const gravarSessao = (k, v) => { try { sessionStorage.setItem('kit_' + k, v); } catch (e) {} };
+  [['mc', 'manychat_id'], ['ig', 'instagram'], ['utm_source', 'utm_source'], ['utm_medium', 'utm_medium'], ['utm_campaign', 'utm_campaign']]
+    .forEach(([param, col]) => {
+      let v = (params.get(param) || '').trim();
+      if (param === 'mc') v = /^[0-9]{1,30}$/.test(v) ? v : '';
+      if (param === 'ig') v = v.replace(/^@/, '');
+      if (v) gravarSessao(param, v.slice(0, 200));
+      else v = lerSessao(param);
+      if (v) origin[col] = v.slice(0, 200);
+    });
 
   // ---------- validação ----------
   const onlyDigits = s => s.replace(/\D/g, '');
