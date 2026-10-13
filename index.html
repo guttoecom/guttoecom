@@ -599,9 +599,10 @@
 </footer>
 
 <script>
-  // Supabase: URL do projeto + chave pública (anon/publishable). A tabela só aceita INSERT (ver supabase/leads.sql).
-  const SUPABASE_URL = 'https://hklkhaitkzzkdlftiubn.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrbGtoYWl0a3p6a2RsZnRpdWJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NzAwMjQsImV4cCI6MjEwNjQ0NjAyNH0.vW4l7hKUjLgyp2Ffp0qqXfsXwB_B_LKIrTWRl6vQayo';
+  // Supabase do sistema gutto (gutto-app): URL + chave pública. A tabela leads_diagnostico só aceita INSERT
+  // de quem não está logado; cada envio entra no CRM (funil Assessoria gutto · Novo lead).
+  const SUPABASE_URL = 'https://aedxvttmnjheussswyht.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_-yM9bTw9C5-YFUUrIX5wWQ__yRSxR_M';
 
   const form = document.getElementById('lead-form');
   const card = document.getElementById('diagnostico');
@@ -708,7 +709,7 @@
     const data = {
       nome: form.nome.value.trim(),
       whatsapp: phone.value,
-      confeccao: form.confeccao.value.trim(),
+      empresa: form.confeccao.value.trim(),
       fabrica: form.querySelector('input[name="fabrica"]:checked').value,
       vende: form.querySelector('input[name="vende"]:checked').value,
       canais: canais.filter(c => c.checked).map(c => c.value),
@@ -734,7 +735,7 @@
         };
         // chave anon antiga (JWT) também vai no Authorization; a publishable nova, não
         if (SUPABASE_KEY.startsWith('eyJ')) headers.Authorization = `Bearer ${SUPABASE_KEY}`;
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/leads_diagnostico`, {
           method: 'POST',
           headers,
           body: JSON.stringify(data),
