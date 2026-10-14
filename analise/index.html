@@ -76,6 +76,32 @@
   .field::placeholder { color: #B9B4AB; font-weight: 500; }
   .field:hover { border-color: var(--border-strong); }
   .field:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 4px var(--orange-tint); }
+  fieldset { margin: 20px 0 0; padding: 0; border: 0; min-width: 0; }
+  legend { padding: 0; font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em; }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .choice {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 50px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--off-white);
+    font-size: 15.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+  }
+  .choice:hover { border-color: var(--border-strong); }
+  .choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .mark { flex: none; width: 20px; height: 20px; border: 1.5px solid var(--border-strong); border-radius: 50%; background: var(--white); transition: border .15s; }
+  .choice:has(input:checked) { border-color: var(--orange); background: var(--orange-tint); }
+  .choice:has(input:checked) .mark { border: 6px solid var(--orange); }
+  .choice:has(input:focus-visible) { outline: 3px solid var(--black); outline-offset: 2px; }
+  .invalid .choice { border-color: var(--error); }
+  @media (max-width: 420px) { .choices { grid-template-columns: 1fr; } }
   .err { display: none; margin: 8px 0 0; font-size: 14.5px; font-weight: 700; color: var(--error); }
   .invalid .err { display: block; }
   .invalid .field { border-color: var(--error); }
@@ -148,6 +174,17 @@
         <input class="field" id="link_loja" name="link_loja" type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" maxlength="300" placeholder="Ex.: shopee.com.br/sualoja" required>
         <p class="err" role="alert">Cola o link da sua loja.</p>
       </div>
+      <fieldset class="q" data-name="faturamento">
+        <legend>Quanto sua loja fatura por mês?</legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="faturamento" value="nao_vende"><span class="mark" aria-hidden="true"></span>Ainda não vendo</label>
+          <label class="choice"><input type="radio" name="faturamento" value="ate_5k"><span class="mark" aria-hidden="true"></span>Até R$ 5 mil</label>
+          <label class="choice"><input type="radio" name="faturamento" value="5k_20k"><span class="mark" aria-hidden="true"></span>R$ 5 a 20 mil</label>
+          <label class="choice"><input type="radio" name="faturamento" value="20k_50k"><span class="mark" aria-hidden="true"></span>R$ 20 a 50 mil</label>
+          <label class="choice"><input type="radio" name="faturamento" value="acima_50k"><span class="mark" aria-hidden="true"></span>Acima de R$ 50 mil</label>
+        </div>
+        <p class="err" role="alert">Escolhe uma opção.</p>
+      </fieldset>
       <button class="btn" type="submit">Quero minha análise <span aria-hidden="true">→</span></button>
       <p class="erro-envio" role="alert" hidden>Não deu pra enviar agora. Confere sua conexão e tenta de novo.</p>
       <p class="nota">Seus dados ficam só com a gutto.</p>
@@ -184,12 +221,14 @@
     tel.value = out;
   });
   form.querySelectorAll('.field').forEach((el) => el.addEventListener('input', () => el.closest('.q').classList.remove('invalid')));
+  form.querySelectorAll('input[type=radio]').forEach((el) => el.addEventListener('change', () => el.closest('.q').classList.remove('invalid')));
 
   const REGRAS = {
     nome: (v) => v.trim().length >= 2,
     whatsapp: (v) => /^[1-9]{2}9\d{8}$/.test(so(v)),
     email: (v) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim()),
     link_loja: (v) => v.trim().length >= 3,
+    faturamento: (v) => !!v,
   };
 
   // origem (UTM)
@@ -208,7 +247,7 @@
       const q = form.querySelector(`.q[data-name="${n}"]`);
       const valido = ok(campo(n).value);
       q.classList.toggle('invalid', !valido);
-      if (!valido && !primeiro) primeiro = campo(n);
+      if (!valido && !primeiro) primeiro = q.querySelector('input');
     });
     if (primeiro) return primeiro.focus();
 
@@ -217,6 +256,7 @@
       whatsapp: so(tel.value),
       email: campo('email').value.trim().toLowerCase(),
       link_loja: campo('link_loja').value.trim().replace(/\s+/g, ''),
+      faturamento: campo('faturamento').value,
       ...origem,
     };
     btn.disabled = true;
