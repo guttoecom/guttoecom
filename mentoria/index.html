@@ -312,6 +312,126 @@
   .done h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.04; }
   .done .sub { margin: 18px 0 0; max-width: 540px; font-size: 18px; line-height: 1.55; color: var(--body); }
 
+  /* ---------- perguntas uma por tela (estilo Typeform) ---------- */
+  .screen.tf.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 150px);
+    min-height: calc(100dvh - 150px);
+    animation: tf-in .55s var(--ease);
+  }
+  .screen.tf.active.from-back { animation-name: tf-volta; }
+  @keyframes tf-in { from { opacity: 0; transform: translateY(40px); } }
+  @keyframes tf-volta { from { opacity: 0; transform: translateY(-40px); } }
+  .tf-q { width: 100%; max-width: 640px; padding-bottom: 8vh; }
+  .tf-num { display: flex; align-items: center; gap: 6px; margin: 0 0 12px; font-size: 15px; font-weight: 800; color: var(--orange-strong); }
+  .tf-num svg { width: 16px; height: 16px; }
+  .tf-label { margin: 0; font-size: clamp(25px, 4.8vw, 36px); font-weight: 800; line-height: 1.18; letter-spacing: -0.035em; }
+  .tf-req { margin-left: 4px; color: var(--orange); }
+  .tf-help { margin: 12px 0 0; font-size: 17px; line-height: 1.5; color: var(--gray); }
+
+  .tf-campo {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 6px 0 12px;
+    border: 0;
+    border-bottom: 2px solid rgba(232, 73, 15, .3);
+    border-radius: 0;
+    background: transparent;
+    font-size: clamp(22px, 4.2vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    outline: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .tf-campo::placeholder { color: #C9C4BB; font-weight: 500; }
+  .tf-campo:focus { border-bottom-color: var(--orange); }
+  textarea.tf-campo { resize: none; line-height: 1.35; min-height: 52px; overflow-y: auto; }
+  .tf-contador { margin: 8px 0 0; font-size: 13px; color: var(--gray); text-align: right; }
+
+  .tf-opcoes { display: grid; gap: 10px; margin-top: 28px; max-width: 540px; }
+  .tf-opcao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 52px;
+    padding: 11px 14px;
+    border: 1.5px solid rgba(232, 73, 15, .28);
+    border-radius: 12px;
+    background: rgba(255, 90, 31, .05);
+    color: var(--black);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s, transform .1s;
+    animation: tf-opcao .45s var(--ease) both;
+    animation-delay: calc(var(--i) * 55ms + 120ms);
+  }
+  @keyframes tf-opcao { from { opacity: 0; transform: translateY(12px); } }
+  .tf-opcao:hover { background: rgba(255, 90, 31, .11); border-color: rgba(232, 73, 15, .5); }
+  .tf-opcao:active { transform: scale(.985); }
+  .tf-opcao:focus-visible { outline: 3px solid var(--black); outline-offset: 2px; }
+  .tf-tecla {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 26px; height: 26px;
+    border: 1.5px solid rgba(232, 73, 15, .5);
+    border-radius: 7px;
+    background: var(--white);
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--orange-strong);
+    transition: background-color .15s, color .15s, border-color .15s;
+  }
+  .tf-txt { flex: 1; }
+  .tf-ok-ic { flex: none; opacity: 0; transform: scale(.6); transition: opacity .15s, transform .2s var(--ease); }
+  .tf-ok-ic svg { display: block; width: 20px; height: 20px; }
+  .tf-opcao[aria-checked="true"] { border-color: var(--orange); background: rgba(255, 90, 31, .16); }
+  .tf-opcao[aria-checked="true"] .tf-tecla { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .tf-opcao[aria-checked="true"] .tf-ok-ic { opacity: 1; transform: none; }
+  .tf-opcao.piscar { animation: piscar .42s linear; }
+  @keyframes piscar { 0%, 50%, 100% { background: rgba(255, 90, 31, .32); } 25%, 75% { background: rgba(255, 90, 31, .08); } }
+
+  .tf-err { display: none; align-items: center; gap: 6px; margin: 14px 0 0; font-size: 15px; font-weight: 700; color: var(--error); }
+  .tf-q.invalid .tf-err { display: flex; }
+  .tf-q.invalid .tf-campo { border-bottom-color: var(--error); }
+  .tf-q.tremer .tf-opcoes, .tf-q.tremer .tf-campo { animation: tremer .38s ease; }
+  @keyframes tremer { 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }
+
+  .tf-acoes { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+  .tf-avancar { min-height: 48px; padding: 12px 24px; font-size: 16px; }
+  .tf-pular { padding: 8px 4px; border: 0; background: none; font-size: 15px; font-weight: 700; color: var(--gray); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .tf-pular:hover { color: var(--black); }
+  .tf-dica { font-size: 13px; color: var(--gray); }
+  .tf-dica b { color: var(--black); }
+  @media (hover: none) { .tf-dica { display: none; } }
+
+  .tf-nav { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 25; display: flex; gap: 2px; }
+  .tf-nav button {
+    display: grid;
+    place-items: center;
+    width: 42px; height: 40px;
+    border: 0;
+    background: var(--orange);
+    color: var(--black);
+    cursor: pointer;
+    transition: background-color .15s;
+  }
+  .tf-nav button:first-child { border-radius: 10px 0 0 10px; }
+  .tf-nav button:last-child { border-radius: 0 10px 10px 0; }
+  .tf-nav button:hover { background: #FF6A33; }
+  .tf-nav button:disabled { opacity: .45; cursor: default; }
+  .tf-nav svg { width: 18px; height: 18px; }
+
   /* ---------- prova social ---------- */
   .prova { position: relative; padding-top: 1vh; }
   .pv-linha { position: relative; margin: 48px 0 0; padding: 0 0 0 26px; list-style: none; display: grid; gap: 48px; }
@@ -651,7 +771,7 @@
     </ul>
   </section>
 
-  <!-- etapas: montadas pelo script a partir de STEPS -->
+  <!-- perguntas: uma por tela, montadas pelo script a partir de QUESTIONS -->
   <div id="steps"></div>
 
   <!-- enviando -->
@@ -726,6 +846,10 @@
     <button class="btn btn-next" type="button" data-action="next">Começar aplicação <span class="arrow">→</span></button>
   </div>
 </nav>
+<div class="tf-nav" hidden>
+  <button type="button" data-nav="up" aria-label="Pergunta anterior"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10l4-4 4 4"/></svg></button>
+  <button type="button" data-nav="down" aria-label="Próxima pergunta"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
 <script src="/mentoria/config.js"></script>
@@ -733,75 +857,54 @@
 (() => {
   const CFG = window.MENTORIA_CONFIG;
 
-  // ---------- perguntas ----------
-  // tipos: text | tel | textarea | radio | checkbox. Valores codificados = os aceitos pelo banco.
-  const STEPS = [
-    {
-      id: 's1', n: 1, title: 'Sobre você', help: 'Pra gente saber com quem está falando.',
-      fields: [
-        { name: 'nome', type: 'text', label: 'Nome completo', required: true, placeholder: 'Seu nome e sobrenome', autocomplete: 'name', max: 160 },
-        { name: 'whatsapp', type: 'tel', label: 'WhatsApp com DDD', required: true, placeholder: '(00) 00000-0000' },
-        { name: 'link_loja', type: 'url', label: 'Link da sua loja', help: 'Site, Shopee, Mercado Livre, Instagram... o que você tiver.', placeholder: 'Ex.: shopee.com.br/suamarca', max: 300 },
-        { name: 'cidade_estado', type: 'text', label: 'Cidade/Estado', placeholder: 'Ex.: Ribeirão Preto/SP', autocomplete: 'address-level2', max: 120 },
-        { name: 'producao', type: 'radio', label: 'Você fabrica as peças que vende?', required: true, options: [
-          ['propria', 'Sim, tenho produção própria'],
-          ['terceirizada', 'Terceirizo a produção com a minha marca'],
-          ['revenda', 'Revendo produtos de outras marcas'],
-        ] },
-      ],
-    },
-    {
-      id: 's2', n: 2, title: 'Seu momento',
-      fields: [
-        { name: 'vende_marketplace', type: 'radio', label: 'Você já vende em marketplace hoje?', required: true, options: [
-          ['sim', 'Sim'],
-          ['nao', 'Ainda não'],
-        ] },
-      ],
-    },
-    {
-      id: 's3a', n: 3, title: 'Suas vendas no marketplace',
-      fields: [
-        { name: 'marketplaces', type: 'checkbox', label: 'Em quais marketplaces você vende?', help: 'Pode marcar mais de um.', cols: 2, options: [
-          ['mercadolivre', 'Mercado Livre'], ['shopee', 'Shopee'], ['shein', 'Shein'], ['tiktokshop', 'TikTok Shop'],
-          ['amazon', 'Amazon'], ['magalu', 'Magalu'], ['outro', 'Outro'],
-        ] },
-        { name: 'faturamento_marketplace', type: 'radio', label: 'Quanto você fatura por mês nos marketplaces?', required: true, options: [
-          ['ate_5k', 'Até R$ 5 mil'], ['5k_20k', 'R$ 5 a 20 mil'], ['20k_50k', 'R$ 20 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
-        ] },
-        { name: 'dificuldades', type: 'checkbox', label: 'Qual é a sua maior dificuldade hoje?', help: 'Pode marcar mais de uma.', options: [
-          ['anuncios', 'Anúncios que não vendem'], ['precificacao', 'Precificação e margem'], ['ads', 'Anúncios pagos (ads)'],
-          ['organizacao', 'Organização e falta de tempo'], ['crescer', 'Não sei por onde crescer'],
-        ] },
-        { name: 'quem_cuida', type: 'radio', label: 'Quem cuida dos marketplaces hoje?', options: [
-          ['eu', 'Eu mesmo(a)'], ['equipe', 'Tenho alguém da equipe'], ['agencia', 'Contrato agência ou assessoria'],
-        ] },
-      ],
-    },
-    {
-      id: 's3b', n: 3, title: 'Suas vendas hoje',
-      fields: [
-        { name: 'canal_principal', type: 'radio', label: 'Qual é o seu principal canal de vendas hoje?', options: [
-          ['atacado', 'Atacado'], ['loja_fisica', 'Loja física'], ['instagram_whatsapp', 'Instagram e WhatsApp'],
-          ['feiras', 'Feiras'], ['nao_vende', 'Ainda não vendo'],
-        ] },
-        { name: 'faturamento_empresa', type: 'radio', label: 'Quanto sua empresa fatura por mês?', required: true, options: [
-          ['ate_10k', 'Até R$ 10 mil'], ['10k_30k', 'R$ 10 a 30 mil'], ['30k_50k', 'R$ 30 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
-        ] },
-        { name: 'impedimento', type: 'text', label: 'O que te impediu de começar até agora?', placeholder: 'Conta em poucas palavras', max: 500 },
-      ],
-    },
-    {
-      id: 's4', n: 4, title: 'Compromisso', help: 'Última etapa.',
-      fields: [
-        { name: 'motivo', type: 'textarea', label: 'Por que você quer entrar na mentoria agora?', required: true, placeholder: 'Conta o que está acontecendo no seu negócio e o que você espera da mentoria.', max: 2000 },
-        { name: 'disponibilidade', type: 'radio', label: 'A mentoria tem 1 encontro ao vivo por semana, durante 2 meses. Você consegue reservar esse tempo?', required: true, options: [
-          ['sim', 'Sim, consigo'], ['maioria', 'Consigo na maioria das semanas'], ['nao', 'Não consigo agora'],
-        ] },
-      ],
-    },
+  // ---------- perguntas (uma por tela, estilo Typeform) ----------
+  // tipos: text | tel | url | textarea | radio | checkbox. Valores codificados = os aceitos pelo banco.
+  // label pode ser função das respostas (personaliza no meio do caminho).
+  const primeiroNome = () => ((answers.nome || '').trim().split(/\s+/)[0] || '');
+  const QUESTIONS = [
+    { name: 'nome', type: 'text', required: true, label: 'Pra começar, qual é o seu nome completo?', placeholder: 'Seu nome e sobrenome', autocomplete: 'name', max: 160 },
+    { name: 'whatsapp', type: 'tel', required: true, label: () => `Prazer${primeiroNome() ? `, ${primeiroNome()}` : ''}! Qual é o seu WhatsApp?`, help: 'Com DDD. É por lá que eu falo com você.', placeholder: '(00) 00000-0000' },
+    { name: 'link_loja', type: 'url', label: 'Qual é o link da sua loja?', help: 'Site, Shopee, Mercado Livre, Instagram... o que você tiver.', placeholder: 'shopee.com.br/suamarca', max: 300 },
+    { name: 'cidade_estado', type: 'text', label: 'De qual cidade você é?', placeholder: 'Ex.: Ribeirão Preto/SP', autocomplete: 'address-level2', max: 120 },
+    { name: 'producao', type: 'radio', required: true, label: 'Você fabrica as peças que vende?', options: [
+      ['propria', 'Sim, tenho produção própria'],
+      ['terceirizada', 'Terceirizo a produção com a minha marca'],
+      ['revenda', 'Revendo produtos de outras marcas'],
+    ] },
+    { name: 'vende_marketplace', type: 'radio', required: true, label: 'Você já vende em marketplace hoje?', options: [
+      ['sim', 'Sim'],
+      ['nao', 'Ainda não'],
+    ] },
+    // já vende
+    { name: 'marketplaces', type: 'checkbox', label: 'Em quais marketplaces você vende?', help: 'Pode marcar mais de um.', options: [
+      ['mercadolivre', 'Mercado Livre'], ['shopee', 'Shopee'], ['shein', 'Shein'], ['tiktokshop', 'TikTok Shop'],
+      ['amazon', 'Amazon'], ['magalu', 'Magalu'], ['outro', 'Outro'],
+    ] },
+    { name: 'faturamento_marketplace', type: 'radio', required: true, label: 'Quanto você fatura por mês nos marketplaces?', options: [
+      ['ate_5k', 'Até R$ 5 mil'], ['5k_20k', 'R$ 5 a 20 mil'], ['20k_50k', 'R$ 20 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
+    ] },
+    { name: 'dificuldades', type: 'checkbox', label: 'O que mais trava suas vendas hoje?', help: 'Pode marcar mais de uma.', options: [
+      ['anuncios', 'Anúncios que não vendem'], ['precificacao', 'Precificação e margem'], ['ads', 'Anúncios pagos (Ads)'],
+      ['organizacao', 'Organização e falta de tempo'], ['crescer', 'Não sei por onde crescer'],
+    ] },
+    { name: 'quem_cuida', type: 'radio', label: 'Quem cuida dos marketplaces hoje?', options: [
+      ['eu', 'Eu mesmo(a)'], ['equipe', 'Tenho alguém da equipe'], ['agencia', 'Contrato agência ou assessoria'],
+    ] },
+    // ainda não vende
+    { name: 'canal_principal', type: 'radio', label: 'Por onde você vende hoje?', options: [
+      ['atacado', 'Atacado'], ['loja_fisica', 'Loja física'], ['instagram_whatsapp', 'Instagram e WhatsApp'],
+      ['feiras', 'Feiras'], ['nao_vende', 'Ainda não vendo'],
+    ] },
+    { name: 'faturamento_empresa', type: 'radio', required: true, label: 'Quanto sua empresa fatura por mês?', options: [
+      ['ate_10k', 'Até R$ 10 mil'], ['10k_30k', 'R$ 10 a 30 mil'], ['30k_50k', 'R$ 30 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
+    ] },
+    { name: 'impedimento', type: 'text', label: 'O que te impediu de começar nos marketplaces até agora?', placeholder: 'Conta em poucas palavras', max: 500, autocapitalize: 'sentences' },
+    // compromisso
+    { name: 'motivo', type: 'textarea', required: true, label: () => `${primeiroNome() ? `${primeiroNome()}, por` : 'Por'} que você quer entrar na mentoria agora?`, help: 'Conta o que está acontecendo no seu negócio e o que você espera da mentoria.', placeholder: 'Escreva aqui...', max: 2000 },
+    { name: 'disponibilidade', type: 'radio', required: true, label: 'A mentoria tem 1 encontro ao vivo por semana, durante 2 meses. Você consegue reservar esse tempo?', options: [
+      ['sim', 'Sim, consigo'], ['maioria', 'Consigo na maioria das semanas'], ['nao', 'Não consigo agora'],
+    ] },
   ];
-  const TOTAL = 4;
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -809,7 +912,9 @@
   const onlyDigits = s => s.replace(/\D/g, '');
 
   const answers = {};
-  const FIELDS = Object.fromEntries(STEPS.flatMap(s => s.fields.map(f => [f.name, f])));
+  const FIELDS = Object.fromEntries(QUESTIONS.map(q => [q.name, q]));
+  const LETRAS = 'ABCDEFGHIJ';
+  const toque = window.matchMedia && matchMedia('(hover: none)').matches;
 
   // ---------- origem (UTM) ----------
   const params = new URLSearchParams(location.search);
@@ -819,38 +924,40 @@
     if (v) origin[k] = v.slice(0, 200);
   });
 
-  // ---------- montar as etapas ----------
+  // ---------- montar as telas ----------
   const CHECK = '<svg viewBox="0 0 16 16" fill="none" stroke="#121212" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-6.5"/></svg>';
   const ERR = '<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.8v3.6M8 11.1v.1"/></svg>';
 
-  function fieldHtml(f) {
+  function entradaHtml(f) {
     const id = `f-${f.name}`;
-    const opt = f.required ? '' : ' <span class="opt">(opcional)</span>';
-    const help = f.help ? `<p class="q-help" id="${id}-help">${esc(f.help)}</p>` : '';
-    const err = `<p class="err" id="${id}-err" role="alert"></p>`;
     if (f.type === 'radio' || f.type === 'checkbox') {
       const multi = f.type === 'checkbox';
-      const opts = f.options.map(([v, t]) =>
-        `<button class="choice" type="button" role="${multi ? 'checkbox' : 'radio'}" aria-checked="false" data-value="${v}"><span class="mark">${CHECK}</span>${esc(t)}</button>`).join('');
-      return `<div class="q" data-name="${f.name}">
-        <p class="q-label" id="${id}-label">${esc(f.label)}${opt}</p>${help}
-        <div class="choices ${multi ? 'multi' : ''} ${f.cols === 2 ? 'grid-2' : ''}" role="${multi ? 'group' : 'radiogroup'}" aria-labelledby="${id}-label"${f.required ? ' aria-required="true"' : ''}>${opts}</div>${err}</div>`;
+      return `<div class="tf-opcoes" role="${multi ? 'group' : 'radiogroup'}" aria-labelledby="${id}-label">${f.options.map(([v, t], i) =>
+        `<button class="tf-opcao" type="button" role="${multi ? 'checkbox' : 'radio'}" aria-checked="false" data-value="${v}" style="--i:${i}">
+          <span class="tf-tecla" aria-hidden="true">${LETRAS[i]}</span><span class="tf-txt">${esc(t)}</span><span class="tf-ok-ic" aria-hidden="true">${CHECK}</span>
+        </button>`).join('')}</div>`;
     }
-    const common = `class="field" id="${id}" name="${f.name}" aria-describedby="${id}-err"${f.required ? ' required aria-required="true"' : ''}${f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : ''}${f.max ? ` maxlength="${f.max}"` : ''}`;
-    let input;
-    if (f.type === 'textarea') input = `<textarea ${common} rows="5"></textarea><p class="counter" aria-hidden="true"></p>`;
-    else if (f.type === 'tel') input = `<input ${common} type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15">`;
-    else if (f.type === 'url') input = `<input ${common} type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" enterkeyhint="next">`;
-    else input = `<input ${common} type="text"${f.autocomplete ? ` autocomplete="${f.autocomplete}"` : ''} autocapitalize="${f.autocapitalize || 'words'}" enterkeyhint="next">`;
-    return `<div class="q" data-name="${f.name}"><label class="q-label" for="${id}">${esc(f.label)}${opt}</label>${help}${input}${err}</div>`;
+    const comum = `class="tf-campo" id="${id}" name="${f.name}" aria-labelledby="${id}-label" aria-describedby="${id}-err"${f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : ''}${f.max ? ` maxlength="${f.max}"` : ''}`;
+    if (f.type === 'textarea') return `<textarea ${comum} rows="3"></textarea><p class="tf-contador" aria-hidden="true"></p>`;
+    if (f.type === 'tel') return `<input ${comum} type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" enterkeyhint="next">`;
+    if (f.type === 'url') return `<input ${comum} type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" enterkeyhint="next">`;
+    return `<input ${comum} type="text"${f.autocomplete ? ` autocomplete="${f.autocomplete}"` : ''} autocapitalize="${f.autocapitalize || 'words'}" enterkeyhint="next">`;
   }
 
-  $('#steps').innerHTML = STEPS.map(s => `
-    <section class="screen" data-step="${s.id}">
-      <p class="eyebrow">Etapa ${s.n} de ${TOTAL}</p>
-      <h2 class="section-title">${esc(s.title)}<span class="dot">.</span></h2>
-      ${s.help ? `<p class="section-help">${esc(s.help)}</p>` : ''}
-      ${s.fields.map(fieldHtml).join('')}
+  $('#steps').innerHTML = QUESTIONS.map(f => `
+    <section class="screen tf" data-step="${f.name}">
+      <div class="tf-q" data-name="${f.name}">
+        <p class="tf-num" aria-hidden="true"><span class="tf-n"></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></p>
+        <h2 class="tf-label" id="f-${f.name}-label"></h2>
+        ${f.help ? `<p class="tf-help">${esc(f.help)}</p>` : ''}
+        ${entradaHtml(f)}
+        <p class="tf-err" id="f-${f.name}-err" role="alert"></p>
+        <div class="tf-acoes">
+          <button class="btn tf-avancar" type="button">OK <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg></button>
+          ${f.required ? '' : '<button class="tf-pular" type="button">Pular</button>'}
+          <span class="tf-dica">pressione <b>Enter ↵</b></span>
+        </div>
+      </div>
     </section>`).join('');
 
   const screens = Object.fromEntries($$('.screen').map(el => [el.dataset.step, el]));
@@ -871,38 +978,70 @@
     phone.value = out;
   });
 
-  $$('.field').forEach(el => el.addEventListener('input', () => {
+  $$('.tf-campo').forEach(el => el.addEventListener('input', () => {
     answers[el.name] = el.value;
-    el.closest('.q').classList.remove('invalid');
+    el.closest('.tf-q').classList.remove('invalid');
   }));
-  $$('textarea.field').forEach(el => {
-    const counter = el.parentElement.querySelector('.counter');
-    const update = () => { counter.textContent = `${el.value.length} / ${el.maxLength}`; };
-    el.addEventListener('input', update);
-    update();
+  $$('textarea.tf-campo').forEach(el => {
+    const contador = el.parentElement.querySelector('.tf-contador');
+    const atualizar = () => {
+      contador.textContent = `${el.value.length} / ${el.maxLength}`;
+      el.style.height = 'auto';
+      el.style.height = `${Math.min(el.scrollHeight, 320)}px`;
+    };
+    el.addEventListener('input', atualizar);
+    atualizar();
   });
-  // Enter num campo de texto pula para o próximo campo
-  $$('input.field').forEach(el => el.addEventListener('keydown', e => {
-    if (e.key !== 'Enter' || e.isComposing) return;
-    e.preventDefault();
-    const all = $$('.field, .choice', screens[current]);
-    const nextEl = all[all.indexOf(el) + 1];
-    if (nextEl) nextEl.focus();
-    else advance();
-  }));
 
-  $$('.choice').forEach(btn => btn.addEventListener('click', () => {
-    const q = btn.closest('.q');
+  let avancando = null; // escolha única avança sozinha depois do "piscar"
+  $$('.tf-opcao').forEach(btn => btn.addEventListener('click', () => {
+    const q = btn.closest('.tf-q');
     const name = q.dataset.name;
     if (FIELDS[name].type === 'checkbox') {
       btn.setAttribute('aria-checked', String(btn.getAttribute('aria-checked') !== 'true'));
-      answers[name] = $$('.choice[aria-checked="true"]', q).map(c => c.dataset.value);
+      answers[name] = $$('.tf-opcao[aria-checked="true"]', q).map(c => c.dataset.value);
     } else {
-      $$('.choice', q).forEach(c => c.setAttribute('aria-checked', String(c === btn)));
+      $$('.tf-opcao', q).forEach(c => c.setAttribute('aria-checked', String(c === btn)));
       answers[name] = btn.dataset.value;
+      btn.classList.remove('piscar');
+      void btn.offsetWidth;
+      btn.classList.add('piscar');
+      clearTimeout(avancando);
+      avancando = setTimeout(() => { if (current === name) advance(); }, 480);
     }
     q.classList.remove('invalid');
   }));
+
+  $$('.tf-avancar').forEach(b => b.addEventListener('click', () => advance()));
+  $$('.tf-pular').forEach(b => b.addEventListener('click', () => {
+    const name = b.closest('.tf-q').dataset.name;
+    const f = FIELDS[name];
+    answers[name] = f.type === 'checkbox' ? [] : '';
+    const campo = $(`#f-${name}`);
+    if (campo) campo.value = '';
+    $$('.tf-opcao', b.closest('.tf-q')).forEach(c => c.setAttribute('aria-checked', 'false'));
+    advance();
+  }));
+
+  // teclado: Enter avança (Shift+Enter quebra linha na resposta longa); letras marcam as opções
+  document.addEventListener('keydown', e => {
+    if (e.isComposing || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (current === 'intro' && e.key === 'Enter') { e.preventDefault(); return advance(); }
+    const f = FIELDS[current];
+    if (!f) return;
+    const digitando = e.target.matches && e.target.matches('input, textarea');
+    if (e.key === 'Enter') {
+      if (e.target.tagName === 'TEXTAREA' && e.shiftKey) return;
+      if (e.target.tagName === 'BUTTON' && e.target.classList.contains('tf-opcao')) return;
+      e.preventDefault();
+      return advance();
+    }
+    if (!digitando && f.options && /^[a-z]$/i.test(e.key)) {
+      const i = LETRAS.indexOf(e.key.toUpperCase());
+      const btn = $$('.tf-opcao', screens[current])[i];
+      if (btn) { e.preventDefault(); btn.click(); }
+    }
+  });
 
   // ---------- validação ----------
   const MSG = {
@@ -926,26 +1065,29 @@
     return (v || '').trim() ? '' : 'Esse campo é obrigatório.';
   }
 
-  function validateStep(id) {
-    const step = STEPS.find(s => s.id === id);
-    let first = null;
-    step.fields.forEach(f => {
-      const q = $(`.q[data-name="${f.name}"]`, screens[id]);
-      const msg = fieldError(f);
-      $('.err', q).innerHTML = msg ? `${ERR}${esc(msg)}` : '';
-      q.classList.toggle('invalid', !!msg);
-      if (msg && !first) first = q;
-    });
-    if (first) {
-      first.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const el = $('.field', first) || $('.choice', first);
+  function validar(name) {
+    const q = $('.tf-q', screens[name]);
+    const msg = fieldError(FIELDS[name]);
+    $('.tf-err', q).innerHTML = msg ? `${ERR}${esc(msg)}` : '';
+    q.classList.toggle('invalid', !!msg);
+    if (msg) {
+      q.classList.remove('tremer');
+      void q.offsetWidth;
+      q.classList.add('tremer');
+      const el = $('.tf-campo', q) || $('.tf-opcao', q);
       if (el) el.focus({ preventScroll: true });
     }
-    return !first;
+    return !msg;
   }
 
   // ---------- navegação ----------
-  const FLOW = () => ['intro', 's1', 's2', answers.vende_marketplace === 'nao' ? 's3b' : 's3a', 's4'];
+  const FLOW = () => [
+    'intro', 'nome', 'whatsapp', 'link_loja', 'cidade_estado', 'producao', 'vende_marketplace',
+    ...(answers.vende_marketplace === 'nao'
+      ? ['canal_principal', 'faturamento_empresa', 'impedimento']
+      : ['marketplaces', 'faturamento_marketplace', 'dificuldades', 'quem_cuida']),
+    'motivo', 'disponibilidade',
+  ];
   let current = 'intro';
 
   function render(step, back = false) {
@@ -957,43 +1099,65 @@
     current = step;
     window.scrollTo(0, 0);
 
-    const info = STEPS.find(s => s.id === step);
-    const pct = info ? ((info.n - 1) / TOTAL) * 100 : ['loading', 'error', 'prova', 'done'].includes(step) ? 100 : 0;
+    const f = FIELDS[step];
+    const flow = FLOW();
+    const perguntas = flow.length - 1;
+    const pos = flow.indexOf(step);
+    if (f) {
+      $('.tf-label', to).innerHTML = `${esc(typeof f.label === 'function' ? f.label(answers) : f.label)}${f.required ? '<span class="tf-req" aria-hidden="true">*</span>' : ''}`;
+      $('.tf-n', to).textContent = pos;
+      const ultima = pos === perguntas;
+      $('.tf-avancar', to).innerHTML = ultima
+        ? 'Enviar aplicação <span class="arrow">→</span>'
+        : `OK <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>`;
+      // texto: foco no campo (no celular abre o teclado só nas perguntas de digitar)
+      const campo = $('.tf-campo', to);
+      setTimeout(() => {
+        if (current !== step) return;
+        if (campo) campo.focus({ preventScroll: true });
+        else if (!toque) { const marcada = $('.tf-opcao[aria-checked="true"]', to) || $('.tf-opcao', to); if (marcada) marcada.focus({ preventScroll: true }); }
+      }, 320);
+    }
+    const pct = f ? ((pos - 1) / perguntas) * 100 : ['loading', 'error', 'prova', 'done'].includes(step) ? 100 : 0;
     fill.style.width = pct + '%';
     progress.setAttribute('aria-valuenow', Math.round(pct));
-    stepLabel.textContent = info ? `Etapa ${info.n} de ${TOTAL}` : '';
+    stepLabel.textContent = f ? `${pos} de ${perguntas}` : '';
 
-    const formStep = step === 'intro' || !!info;
-    $('.bar').hidden = !(formStep || step === 'error');
-    backBtn.hidden = !(info || step === 'error');
+    $('.bar').hidden = !(step === 'intro' || step === 'error');
+    $('.tf-nav').hidden = !f;
+    $('.tf-nav [data-nav="up"]').disabled = pos <= 1;
+    backBtn.hidden = step !== 'error';
     nextBtn.disabled = false;
     nextBtn.innerHTML = step === 'intro' ? 'Começar aplicação <span class="arrow">→</span>'
-      : step === 's4' ? 'Enviar aplicação <span class="arrow">→</span>'
       : step === 'error' ? 'Tentar de novo'
       : 'Continuar <span class="arrow">→</span>';
   }
 
-  // O voltar do celular (Android) também volta uma etapa.
+  // O voltar do celular (Android) também volta uma pergunta.
   function go(step) {
     history.pushState({ step }, '');
     render(step);
   }
 
   function advance() {
+    clearTimeout(avancando);
     if (current === 'error') return submit();
     const flow = FLOW();
     const i = flow.indexOf(current);
     if (i < 0) return;
-    if (current !== 'intro' && !validateStep(current)) return;
+    if (current !== 'intro' && !validar(current)) return;
     if (flow[i + 1]) go(flow[i + 1]);
     else submit();
   }
 
   function goBack() {
-    if (current === 'error') return render('s4', true);
+    if (current === 'error') return render('disponibilidade', true);
     if (current === 'intro') return;
     history.back();
   }
+
+  $('.tf-nav [data-nav="up"]').addEventListener('click', goBack);
+  $('.tf-nav [data-nav="down"]').addEventListener('click', () => advance());
 
   window.addEventListener('popstate', e => {
     if (['loading', 'prova', 'done'].includes(current)) return;
