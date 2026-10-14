@@ -353,7 +353,8 @@
   }
   .of-metodo-rot { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--orange-strong); }
   .of-metodo-tit { margin: 6px 0 0; font-size: clamp(26px, 5vw, 34px); line-height: 1.08; }
-  .of-metodo-sigla { margin: 4px 0 0; font-size: 15px; font-weight: 800; color: var(--gray); }
+  .of-faz { display: grid; gap: 6px; margin: 8px 0 0; padding: 0 0 0 18px; font-size: 15.5px; line-height: 1.45; color: var(--body); }
+  .of-faz li::marker { color: var(--orange); }
   .of-metodo-sub { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--body); }
   .of-pilares { display: grid; gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
   .of-pilares li { display: flex; gap: 14px; align-items: flex-start; }
@@ -363,10 +364,10 @@
     place-items: center;
     width: 32px; height: 32px;
     border-radius: 50%;
-    background: var(--black);
-    color: var(--white);
+    background: var(--orange);
+    color: var(--black);
     font-weight: 800;
-    font-size: 15px;
+    font-size: 16px;
   }
   .of-pilares b { font-size: 17.5px; font-weight: 800; letter-spacing: -0.02em; }
   .of-pilares p { margin: 4px 0 0; font-size: 15.5px; line-height: 1.5; color: var(--body); }
@@ -908,7 +909,7 @@
     const citacao = motivo.length >= 15
       ? `<figure class="of-citacao"><blockquote>“${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}”</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>`
       : '';
-    const pil = pilares(answers);
+    const pil = pilares(tipo, answers);
     const organizar = (answers.dificuldades || []).includes('organizacao');
 
     screens.done.innerHTML = `
@@ -925,11 +926,10 @@
 
       <div class="of-metodo">
         <p class="of-metodo-rot">O método</p>
-        <h2 class="of-metodo-tit">Método MVT<span class="dot">.</span></h2>
-        <p class="of-metodo-sigla">Margem, Vitrine e Tração</p>
-        <p class="of-metodo-sub">A maioria tenta vender mais baixando o preço ou colocando mais dinheiro em Ads, e acaba vendendo mais e lucrando menos. Aqui a ordem é outra:</p>
-        <ol class="of-pilares">${pil.map((p, i) => `
-          <li><span class="of-num">${i + 1}</span><div><b>${esc(p.t)}</b><p>${esc(p.d)}</p>${p.seu ? `<p class="of-seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div></li>`).join('')}
+        <h2 class="of-metodo-tit">MVT<span class="dot">.</span></h2>
+        <p class="of-metodo-sub">Os 3 passos que vamos aplicar na sua loja, nesta ordem:</p>
+        <ol class="of-pilares">${pil.map(p => `
+          <li><span class="of-num">${p.l}</span><div><b>${esc(p.t)}</b><ul class="of-faz">${p.itens.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${p.seu ? `<p class="of-seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div></li>`).join('')}
         </ol>
         ${organizar ? '<p class="of-seu of-seu-extra">E para a falta de tempo: uma rotina semanal simples para manter tudo andando.</p>' : ''}
       </div>
@@ -975,27 +975,41 @@
     ];
   }
 
-  /** Os 3 pilares do Método MVT, com o "no seu caso" pelas dificuldades marcadas. */
-  function pilares(a) {
+  /** Os 3 passos do Método MVT: o que é feito na loja, e o "no seu caso" pelas dificuldades marcadas. */
+  function pilares(tipo, a) {
     const d = new Set(a.dificuldades || []);
     const novo = a.vende_marketplace !== 'sim';
+    const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
+    const individual = tipo === 'individual';
     return [
       {
-        t: 'Margem',
-        d: 'Um preço que aguenta a tarifa, as promoções e os Ads sem comer o seu lucro.',
-        seu: novo ? 'seu primeiro preço já nasce com lucro.' : d.has('precificacao') ? 'você marcou precificação e margem, então é por aqui que a gente começa.' : '',
+        l: 'M', t: 'Margem',
+        itens: [
+          'Lucro real de cada produto, com tarifa, frete, imposto, custo e Ads na conta',
+          'Preço mínimo de cada anúncio e o desconto máximo que ele aguenta numa promoção',
+        ],
+        seu: novo ? 'antes do primeiro anúncio, você já sabe o preço que dá lucro.'
+          : d.has('precificacao') ? 'você marcou precificação, então esse é o primeiro passo dos encontros.' : '',
       },
       {
-        t: 'Vitrine',
-        d: 'Anúncio que ranqueia: título, ficha técnica e fotos que fazem você aparecer na busca.',
-        seu: novo ? 'seus primeiros anúncios já entram do jeito certo para ranquear.' : d.has('anuncios') ? 'você marcou anúncios que não vendem, então vamos refazer os seus para subir na busca.' : '',
+        l: 'V', t: 'Vitrine',
+        itens: [
+          `Título com as palavras que o comprador digita na busca${mks ? ` ${mks}` : ''}`,
+          'Ficha técnica completa, que pesa no ranqueamento',
+          'Capa e fotos que fazem o clique ser no seu anúncio, e não no do concorrente',
+        ],
+        seu: novo ? 'seus primeiros anúncios já entram completos para ranquear.'
+          : d.has('anuncios') ? (individual ? 'você marcou anúncios que não vendem, então a gente refaz os seus principais juntos, nos encontros.' : 'você marcou anúncios que não vendem, então você aplica esse passo a passo nos seus durante a turma.') : '',
       },
       {
-        t: 'Tração',
-        d: 'Ads e promoções no limite da margem, para cada real investido voltar com lucro.',
-        seu: novo ? 'as primeiras vendas vêm com Ads e promoções calculados.'
-          : d.has('ads') ? 'você marcou anúncios pagos, então vamos acertar quanto investir em cada anúncio.'
-          : d.has('crescer') ? 'você marcou que não sabe por onde crescer, então aqui entra o plano de crescimento da sua loja.' : '',
+        l: 'T', t: 'Tração',
+        itens: [
+          'Ads com teto de gasto calculado pela sua margem',
+          'Entrada só nas promoções que dão lucro: relâmpago, campanhas e cupons',
+        ],
+        seu: novo ? 'as primeiras vendas vêm com Ads e promoções no limite certo.'
+          : d.has('ads') ? 'você marcou Ads, então vamos definir quanto investir em cada anúncio sem queimar margem.'
+          : d.has('crescer') ? 'você marcou que não sabe por onde crescer, então aqui sai o plano dos próximos meses da sua loja.' : '',
       },
     ];
   }
