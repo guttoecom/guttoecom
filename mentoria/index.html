@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Aplicação · Mentoria de Marketplace | gutto.</title>
-<meta name="description" content="Vagas limitadas e entrada por seleção. Encontros aos sábados. Responda a aplicação em cerca de 3 minutos.">
+<meta name="description" content="Responda a aplicação em cerca de 3 minutos e veja qual mentoria é para o seu momento.">
 <meta property="og:title" content="Aplicação · Mentoria de Marketplace | gutto.">
-<meta property="og:description" content="Vagas limitadas e entrada por seleção. Encontros aos sábados. Leva cerca de 3 minutos.">
+<meta property="og:description" content="Responda em cerca de 3 minutos e veja qual mentoria é para o seu momento.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#F4F2EE">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -312,6 +312,79 @@
   .done h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.04; }
   .done .sub { margin: 18px 0 0; max-width: 540px; font-size: 18px; line-height: 1.55; color: var(--body); }
 
+  /* ---------- oferta ---------- */
+  .oferta { padding-top: 2vh; padding-bottom: 8px; }
+  .oferta h1 { font-size: clamp(32px, 6.4vw, 50px); line-height: 1.05; }
+  .oferta .sub { margin: 16px 0 0; max-width: 600px; font-size: 17.5px; line-height: 1.6; color: var(--body); }
+  .of-bloco {
+    margin-top: 22px;
+    padding: 20px 20px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    background: var(--white);
+  }
+  .of-h {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .of-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--orange-tint);
+    color: var(--orange-strong);
+    font-size: 12.5px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .of-lista { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .of-lista li { display: flex; align-items: flex-start; gap: 12px; font-size: 16.5px; font-weight: 600; line-height: 1.4; }
+  .of-lista li > span:nth-child(2) { flex: 1; }
+  .of-ck {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 22px; height: 22px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--orange);
+  }
+  .of-ck svg { width: 14px; height: 14px; }
+  .of-bonus s { flex: none; color: var(--gray); font-weight: 700; font-size: 15px; }
+  .of-total {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border-strong);
+    text-align: right;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--orange-strong);
+  }
+  .of-vagas { margin-top: 22px; }
+  .of-vagas-txt { margin: 0; font-size: 16px; color: var(--body); }
+  .of-vagas-txt b { color: var(--black); }
+  .of-barra { height: 8px; margin-top: 10px; border-radius: 999px; background: var(--warm-gray); overflow: hidden; }
+  .of-barra span { display: block; height: 100%; min-width: 4px; border-radius: 999px; background: var(--orange); }
+  .of-preco {
+    margin-top: 26px;
+    padding: 26px 22px 22px;
+    border-radius: 22px;
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+  }
+  .of-preco-rot { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #B9B4AB; }
+  .of-preco-val { margin: 6px 0 20px; font-size: clamp(44px, 10vw, 60px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .of-cta { width: 100%; }
+  .of-preco-nota { margin: 12px 0 0; font-size: 14px; color: #B9B4AB; }
+
   @media (max-width: 480px) {
     .choices.grid-2 { grid-template-columns: 1fr; }
     .btn-next { max-width: none; }
@@ -338,10 +411,10 @@
   <section class="screen intro" data-step="intro">
     <p class="eyebrow">Vagas limitadas</p>
     <h1>Aplicação – Mentoria de Marketplace<span class="dot">.</span></h1>
-    <p class="sub">As vagas são limitadas e a entrada é por seleção. Os encontros acontecem aos sábados. Responda com sinceridade, leva cerca de 3 minutos. Nossa equipe vai analisar e entrar em contato pelo WhatsApp.</p>
+    <p class="sub">Responda com sinceridade, leva cerca de 3 minutos. No final, você vê qual mentoria é a certa para o momento do seu negócio.</p>
     <ul class="facts">
-      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="7" r="2.8"/><path d="M2.5 16.5c.6-2.8 2.6-4.3 5-4.3s4.4 1.5 5 4.3M13 4.6a2.8 2.8 0 0 1 0 5M15 12.4c1.3.6 2.2 2 2.5 4.1"/></svg>Vagas limitadas, entrada por seleção</li>
-      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5V5M13 2.5V5"/></svg>Encontros aos sábados</li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="7" r="2.8"/><path d="M2.5 16.5c.6-2.8 2.6-4.3 5-4.3s4.4 1.5 5 4.3M13 4.6a2.8 2.8 0 0 1 0 5M15 12.4c1.3.6 2.2 2 2.5 4.1"/></svg>Vagas limitadas</li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5V5M13 2.5V5"/></svg>2 meses, 1 encontro ao vivo por semana</li>
       <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 2"/></svg>Leva cerca de 3 minutos</li>
     </ul>
   </section>
@@ -366,12 +439,8 @@
     </div>
   </section>
 
-  <!-- tela final -->
-  <section class="screen done" data-step="done">
-    <div class="done-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-    <h1>Aplicação recebida<span class="dot">!</span></h1>
-    <p class="sub">Nossa equipe vai analisar suas respostas e, se você tiver o perfil para a mentoria, vamos te chamar no WhatsApp.</p>
-  </section>
+  <!-- tela final: a oferta indicada pelas respostas (montada pelo script); o preço vem por último -->
+  <section class="screen oferta" data-step="done" aria-live="polite"></section>
 </main>
 
 <nav class="bar" aria-label="Navegação do formulário">
@@ -420,7 +489,7 @@
           ['mercadolivre', 'Mercado Livre'], ['shopee', 'Shopee'], ['shein', 'Shein'], ['tiktokshop', 'TikTok Shop'],
           ['amazon', 'Amazon'], ['magalu', 'Magalu'], ['outro', 'Outro'],
         ] },
-        { name: 'faturamento_marketplace', type: 'radio', label: 'Quanto você fatura por mês nos marketplaces?', options: [
+        { name: 'faturamento_marketplace', type: 'radio', label: 'Quanto você fatura por mês nos marketplaces?', required: true, options: [
           ['ate_5k', 'Até R$ 5 mil'], ['5k_20k', 'R$ 5 a 20 mil'], ['20k_50k', 'R$ 20 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
         ] },
         { name: 'dificuldades', type: 'checkbox', label: 'Qual é a sua maior dificuldade hoje?', help: 'Pode marcar mais de uma.', options: [
@@ -439,7 +508,7 @@
           ['atacado', 'Atacado'], ['loja_fisica', 'Loja física'], ['instagram_whatsapp', 'Instagram e WhatsApp'],
           ['feiras', 'Feiras'], ['nao_vende', 'Ainda não vendo'],
         ] },
-        { name: 'faturamento_empresa', type: 'radio', label: 'Quanto sua empresa fatura por mês?', options: [
+        { name: 'faturamento_empresa', type: 'radio', label: 'Quanto sua empresa fatura por mês?', required: true, options: [
           ['ate_10k', 'Até R$ 10 mil'], ['10k_30k', 'R$ 10 a 30 mil'], ['30k_50k', 'R$ 30 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
         ] },
         { name: 'impedimento', type: 'text', label: 'O que te impediu de começar até agora?', placeholder: 'Conta em poucas palavras', max: 500 },
@@ -449,14 +518,8 @@
       id: 's4', n: 4, title: 'Compromisso', help: 'Última etapa.',
       fields: [
         { name: 'motivo', type: 'textarea', label: 'Por que você quer entrar na mentoria agora?', required: true, placeholder: 'Conta o que está acontecendo no seu negócio e o que você espera da mentoria.', max: 2000 },
-        { name: 'disponibilidade', type: 'radio', label: 'Os encontros da mentoria acontecem aos sábados. Você tem disponibilidade?', required: true, options: [
-          ['sim', 'Sim, consigo participar'], ['maioria', 'Consigo na maioria dos sábados'], ['nao', 'Não tenho disponibilidade aos sábados'],
-        ] },
-        { name: 'investimento', type: 'radio', label: 'O investimento na mentoria é de R$ 500. Se for selecionado(a), você está pronto(a) para investir agora?', required: true, options: [
-          ['sim', 'Sim, estou pronto(a) para investir R$ 500'], ['parcelar', 'Preciso parcelar'], ['nao', 'Não no momento'],
-        ] },
-        { name: 'preferencia', type: 'radio', label: 'Você prefere aprender a fazer ou ter alguém fazendo por você?', options: [
-          ['aprender', 'Quero aprender e fazer eu mesmo(a)'], ['fazer_por_mim', 'Prefiro que alguém faça por mim'], ['os_dois', 'Os dois'],
+        { name: 'disponibilidade', type: 'radio', label: 'A mentoria tem 1 encontro ao vivo por semana, durante 2 meses. Você consegue reservar esse tempo?', required: true, options: [
+          ['sim', 'Sim, consigo'], ['maioria', 'Consigo na maioria das semanas'], ['nao', 'Não consigo agora'],
         ] },
       ],
     },
@@ -683,6 +746,132 @@
 
   const txt = name => (answers[name] || '').trim() || null;
 
+  // ---------- oferta (tela final) ----------
+  // Mesma regra do banco (public.oferta_mentoria): individual = fatura R$ 20 mil+ em marketplace,
+  // ou ainda não vende e a empresa fatura R$ 30 mil+; o resto vai para o grupo.
+  function ofertaDe(a) {
+    if (a.vende_marketplace === 'sim') return ['20k_50k', 'acima_50k'].includes(a.faturamento_marketplace) ? 'individual' : 'grupo';
+    return ['30k_50k', 'acima_50k'].includes(a.faturamento_empresa) ? 'individual' : 'grupo';
+  }
+
+  const OFERTAS = {
+    grupo: {
+      nome: 'Mentoria em Grupo',
+      inclui: [
+        '2 meses de mentoria, com 1 encontro ao vivo por semana',
+        'Grupo de WhatsApp da turma para tirar dúvidas entre os encontros',
+        'Início em 7 de novembro, com horário definido junto com a turma',
+        'Turma pequena: só 10 vagas',
+      ],
+      bonusTitulo: 'Bônus para os 5 primeiros',
+      bonus: [['Treinamento de Shopee', 147], ['Análise individual da sua conta, comigo', 197]],
+      preco: 'R$ 800',
+      cta: 'Garantir minha vaga',
+      msg: n => `Oi, Bruno! Sou ${n}, fiz a aplicação e quero garantir minha vaga na Mentoria em Grupo.`,
+    },
+    individual: {
+      nome: 'Mentoria Individual',
+      inclui: [
+        '2 meses de mentoria, com 1 encontro individual por semana, só você e eu',
+        'Você começa quando quiser, em horário combinado',
+        'Acesso direto ao meu WhatsApp pessoal',
+        'Acesso aos meus fornecedores',
+      ],
+      bonusTitulo: 'Você também recebe',
+      bonus: [['Treinamento de Shopee', 147], ['2 meses grátis da Finco: o lucro real de cada venda no Mercado Livre, Shopee, TikTok Shop e Shein', 194]],
+      preco: 'R$ 3.000',
+      cta: 'Quero começar minha mentoria',
+      msg: n => `Oi, Bruno! Sou ${n}, fiz a aplicação e quero começar a Mentoria Individual.`,
+    },
+  };
+
+  const FAIXA_MKT = { ate_5k: 'até R$ 5 mil', '5k_20k': 'de R$ 5 a 20 mil', '20k_50k': 'de R$ 20 a 50 mil', acima_50k: 'mais de R$ 50 mil' };
+  const FAIXA_EMP = { ate_10k: 'até R$ 10 mil', '10k_30k': 'de R$ 10 a 30 mil', '30k_50k': 'de R$ 30 a 50 mil', acima_50k: 'mais de R$ 50 mil' };
+  const DIFS = { anuncios: 'anúncios que não vendem', precificacao: 'precificação e margem', ads: 'anúncios pagos', organizacao: 'organização e falta de tempo', crescer: 'saber por onde crescer' };
+  const CANAIS = { atacado: 'do atacado', loja_fisica: 'da loja física', instagram_whatsapp: 'do Instagram e do WhatsApp', feiras: 'das feiras' };
+  const NO_MKT = { mercadolivre: 'no Mercado Livre', shopee: 'na Shopee', shein: 'na Shein', tiktokshop: 'no TikTok Shop', amazon: 'na Amazon', magalu: 'no Magalu', outro: 'em outros marketplaces' };
+  const lista = xs => xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} e ${xs[xs.length - 1]}`;
+  const reais = v => `R$ ${v.toLocaleString('pt-BR')}`;
+
+  /** Por que esta oferta, com as palavras das respostas. */
+  function razao(tipo, a) {
+    const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
+    const difs = lista((a.dificuldades || []).map(v => DIFS[v]).filter(Boolean));
+    if (tipo === 'individual') {
+      if (a.vende_marketplace === 'sim') {
+        return `Você já fatura ${FAIXA_MKT[a.faturamento_marketplace]} por mês${mks ? ` ${mks}` : ' em marketplace'}. Nesse nível, o que trava o crescimento é específico da sua loja${difs ? ` (hoje, ${difs})` : ''}, e é isso que vamos trabalhar juntos, só você e eu.`;
+      }
+      return `Sua empresa já fatura ${FAIXA_EMP[a.faturamento_empresa]} por mês. Para levar essa operação para os marketplaces, você precisa de um plano feito para o seu negócio, e é isso que vamos montar juntos, só você e eu.`;
+    }
+    if (a.vende_marketplace === 'sim') {
+      return `Você vende ${mks || 'em marketplace'} e fatura ${FAIXA_MKT[a.faturamento_marketplace]} por mês.${difs ? ` Hoje, o que mais trava é ${difs}.` : ''} Na turma, você aprende o método junto com quem está no mesmo momento que você e tira dúvidas com o grupo a semana toda.`;
+    }
+    const canal = CANAIS[a.canal_principal];
+    return `Você ainda não vende em marketplace${canal ? ` e hoje suas vendas vêm ${canal}` : ''}. A turma é o jeito mais rápido de começar do jeito certo: o método passo a passo e um grupo para tirar dúvidas a semana toda.`;
+  }
+
+  /** Vagas da turma (nunca impede a tela: sem resposta, mostra só o total). */
+  async function lerVagas() {
+    try {
+      const res = await fetch(`${CFG.supabaseUrl}/rest/v1/rpc/mentoria_vagas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey },
+        body: '{}',
+      });
+      return res.ok ? await res.json() : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function montarOferta(vagas) {
+    const tipo = ofertaDe(answers);
+    const o = OFERTAS[tipo];
+    const nome = (txt('nome') || '').split(/\s+/)[0];
+    const esgotada = tipo === 'grupo' && vagas && vagas.vagas === 0;
+    const comBonus = !(tipo === 'grupo' && vagas && vagas.bonus === 0);
+    const totalBonus = o.bonus.reduce((s, b) => s + b[1], 0);
+    const msg = esgotada ? `Oi, Bruno! Sou ${nome}, fiz a aplicação e quero entrar na lista de espera da próxima turma da Mentoria em Grupo.` : o.msg(nome);
+    const href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(msg)}`;
+    const item = t => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span></li>`;
+
+    let vagasHtml = '';
+    if (tipo === 'grupo') {
+      if (!vagas) vagasHtml = `<p class="of-vagas-txt"><b>Turma com 10 vagas.</b></p>`;
+      else if (esgotada) vagasHtml = `<p class="of-vagas-txt"><b>Esta turma está completa.</b> Entre na lista de espera e seja avisado(a) da próxima.</p>`;
+      else {
+        vagasHtml = `<p class="of-vagas-txt"><b>Restam ${vagas.vagas} de ${vagas.total} vagas</b></p>
+          <div class="of-barra" role="img" aria-label="${vagas.total - vagas.vagas} de ${vagas.total} vagas preenchidas"><span style="width:${((vagas.total - vagas.vagas) / vagas.total) * 100}%"></span></div>`;
+      }
+    }
+    const restamBonus = tipo === 'grupo' && vagas && vagas.bonus > 0 ? `<span class="of-pill">restam ${vagas.bonus}</span>` : '';
+
+    screens.done.innerHTML = `
+      <p class="eyebrow">Aplicação recebida${nome ? `, ${esc(nome)}` : ''}</p>
+      <h1>Seu perfil é para a ${esc(o.nome)}<span class="dot">.</span></h1>
+      <p class="sub">${esc(razao(tipo, answers))}</p>
+
+      <div class="of-bloco">
+        <h2 class="of-h">Como funciona</h2>
+        <ul class="of-lista">${o.inclui.map(item).join('')}</ul>
+      </div>
+
+      ${!esgotada && comBonus ? `
+      <div class="of-bloco">
+        <h2 class="of-h">${esc(o.bonusTitulo)} ${restamBonus}</h2>
+        <ul class="of-lista of-bonus">${o.bonus.map(([t, v]) => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span><s>${reais(v)}</s></li>`).join('')}</ul>
+        <p class="of-total">${reais(totalBonus)} em bônus</p>
+      </div>` : ''}
+
+      ${vagasHtml ? `<div class="of-vagas">${vagasHtml}</div>` : ''}
+
+      <div class="of-preco">
+        ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val">${o.preco}</p>`}
+        <a class="btn of-cta" href="${href}" target="_blank" rel="noopener">${esgotada ? 'Entrar na lista de espera' : esc(o.cta)} <span class="arrow">→</span></a>
+        <p class="of-preco-nota">Você fala direto comigo no WhatsApp.</p>
+      </div>`;
+  }
+
   async function submit() {
     const vende = answers.vende_marketplace;
     const row = {
@@ -701,15 +890,14 @@
       impedimento: vende === 'nao' ? txt('impedimento') : null,
       motivo: txt('motivo'),
       disponibilidade: answers.disponibilidade,
-      investimento: answers.investimento,
-      preferencia: answers.preferencia || null,
       ...origin,
     };
     const wasError = current === 'error';
     render('loading', wasError);
     const minWait = new Promise(r => setTimeout(r, 900));
     try {
-      await Promise.all([insertRow(row), minWait]);
+      const [, vagas] = await Promise.all([insertRow(row), lerVagas(), minWait]);
+      montarOferta(vagas);
       history.replaceState({ step: 'done' }, '');
       render('done');
     } catch (err) {
