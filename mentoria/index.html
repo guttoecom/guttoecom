@@ -328,16 +328,21 @@
     background: var(--orange-tint);
   }
   .of-sim-rot { margin: 0 0 4px; font-size: 14px; font-weight: 800; color: var(--orange-strong); }
-  .of-q { padding: 14px 0; border-bottom: 1px solid rgba(232, 73, 15, .2); scroll-margin-top: 90px; }
-  .of-q:last-of-type { border-bottom: 0; }
-  .of-q p { margin: 0 0 12px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.35; }
-  .of-q.ok p { margin-bottom: 8px; color: var(--body); font-weight: 700; }
-  .of-q:not([hidden]) { animation: enter .45s var(--ease); }
-  .of-sim-btn { min-width: 140px; min-height: 48px; padding: 12px 28px; }
-  .of-sim-ok { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; color: var(--orange-strong); }
-  .of-sim-ok[hidden] { display: none; }
-  .of-sim-fim { margin: 8px 0 0; font-size: 19px; font-weight: 800; letter-spacing: -0.02em; scroll-margin-top: 90px; }
-  .of-resto:not([hidden]) { animation: enter .5s var(--ease); }
+  .of-perguntas { display: grid; gap: 14px; margin: 12px 0 0; padding: 0; list-style: none; counter-reset: q; }
+  .of-perguntas li { counter-increment: q; display: flex; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.35; }
+  .of-perguntas li::before {
+    content: counter(q);
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px; height: 28px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 14px;
+  }
+  .of-sim-fim { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid rgba(232, 73, 15, .25); font-size: 17px; font-weight: 800; color: var(--orange-strong); }
 
   .of-metodo {
     margin-top: 22px;
@@ -912,17 +917,11 @@
       ${citacao}
 
       <div class="of-sim">
-        <p class="of-sim-rot">Antes de te mostrar como funciona, 3 perguntas rápidas:</p>
-        ${perguntasSim(tipo, answers).map((q, i) => `
-        <div class="of-q"${i ? ' hidden' : ''}>
-          <p>${esc(q)}</p>
-          <button class="btn of-sim-btn" type="button">Sim</button>
-          <span class="of-sim-ok" hidden><span class="of-ck" aria-hidden="true">${CHECK}</span>Sim</span>
-        </div>`).join('')}
-        <p class="of-sim-fim" hidden>Então a ${esc(o.nome)} foi feita para você.</p>
+        <p class="of-sim-rot">Responda para você mesmo(a):</p>
+        <ol class="of-perguntas">${perguntasSim(tipo, answers).map(q => `<li>${esc(q)}</li>`).join('')}</ol>
+        <p class="of-sim-fim">Se a resposta foi sim para as três, a ${esc(o.nome)} foi feita para você.</p>
       </div>
 
-      <div class="of-resto" hidden>
       <div class="of-metodo">
         <p class="of-metodo-rot">O método</p>
         <h2 class="of-metodo-tit">Método MVT<span class="dot">.</span></h2>
@@ -952,26 +951,7 @@
         ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val">${o.preco}</p>${o.parcelas ? `<p class="of-preco-parc">${o.parcelas}</p>` : ''}`}
         <a class="btn of-cta" href="${href}" target="_blank" rel="noopener">${esgotada ? 'Entrar na lista de espera' : esc(o.cta)} <span class="arrow">→</span></a>
         <p class="of-preco-nota">Você fala direto comigo no WhatsApp.</p>
-      </div>
       </div>`;
-
-    // triplo sim: cada "Sim" abre a próxima pergunta; o terceiro mostra o método, os bônus e, por último, o preço
-    const qs = $$('.of-q', screens.done);
-    qs.forEach((q, i) => $('.of-sim-btn', q).addEventListener('click', () => {
-      $('.of-sim-btn', q).hidden = true;
-      $('.of-sim-ok', q).hidden = false;
-      q.classList.add('ok');
-      if (qs[i + 1]) {
-        qs[i + 1].hidden = false;
-        $('.of-sim-btn', qs[i + 1]).focus({ preventScroll: true });
-        qs[i + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-      $('.of-sim-fim', screens.done).hidden = false;
-      const resto = $('.of-resto', screens.done);
-      resto.hidden = false;
-      setTimeout(() => $('.of-sim-fim', screens.done).scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
-    }));
   }
 
   const PRODUTO = { propria: 'já fabrica seu próprio produto', terceirizada: 'já tem marca própria', revenda: 'já tem produto para vender' };
