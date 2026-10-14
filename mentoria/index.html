@@ -348,6 +348,7 @@
   }
   .of-metodo-rot { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--orange-strong); }
   .of-metodo-tit { margin: 6px 0 0; font-size: clamp(26px, 5vw, 34px); line-height: 1.08; }
+  .of-metodo-sigla { margin: 4px 0 0; font-size: 15px; font-weight: 800; color: var(--gray); }
   .of-metodo-sub { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--body); }
   .of-pilares { display: grid; gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
   .of-pilares li { display: flex; gap: 14px; align-items: flex-start; }
@@ -924,7 +925,8 @@
       <div class="of-resto" hidden>
       <div class="of-metodo">
         <p class="of-metodo-rot">O método</p>
-        <h2 class="of-metodo-tit">Método Margem Primeiro<span class="dot">.</span></h2>
+        <h2 class="of-metodo-tit">Método MVT<span class="dot">.</span></h2>
+        <p class="of-metodo-sigla">Margem, Vitrine e Tração</p>
         <p class="of-metodo-sub">A maioria tenta vender mais baixando o preço ou colocando mais dinheiro em Ads, e acaba vendendo mais e lucrando menos. Aqui a ordem é outra:</p>
         <ol class="of-pilares">${pil.map((p, i) => `
           <li><span class="of-num">${i + 1}</span><div><b>${esc(p.t)}</b><p>${esc(p.d)}</p>${p.seu ? `<p class="of-seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div></li>`).join('')}
@@ -992,7 +994,7 @@
     ];
   }
 
-  /** Os 3 pilares do Método Margem Primeiro, com o "no seu caso" pelas dificuldades marcadas. */
+  /** Os 3 pilares do Método MVT, com o "no seu caso" pelas dificuldades marcadas. */
   function pilares(a) {
     const d = new Set(a.dificuldades || []);
     const novo = a.vende_marketplace !== 'sim';
