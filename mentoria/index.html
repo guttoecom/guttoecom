@@ -312,137 +312,279 @@
   .done h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.04; }
   .done .sub { margin: 18px 0 0; max-width: 540px; font-size: 18px; line-height: 1.55; color: var(--body); }
 
-  /* ---------- oferta ---------- */
-  .oferta { padding-top: 2vh; padding-bottom: 8px; }
-  .oferta h1 { font-size: clamp(32px, 6.4vw, 50px); line-height: 1.05; }
-  .oferta .sub { margin: 16px 0 0; max-width: 600px; font-size: 17.5px; line-height: 1.6; color: var(--body); }
-  .of-citacao { margin: 18px 0 0; padding: 4px 0 4px 16px; border-left: 3px solid var(--orange); max-width: 600px; }
-  .of-citacao blockquote { margin: 0; font-size: 17px; font-weight: 600; font-style: italic; line-height: 1.5; color: var(--black); overflow-wrap: anywhere; }
-  .of-citacao figcaption { margin-top: 6px; font-size: 13.5px; color: var(--gray); }
+  /* ---------- oferta (tela final) ---------- */
+  body { overflow-x: clip; }
+  .oferta { position: relative; padding-top: 1vh; }
+  .of-brilho {
+    position: absolute;
+    inset: -120px -40vw auto;
+    height: 420px;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(60% 70% at 50% 0%, rgba(255, 90, 31, .16), transparent 70%);
+  }
 
-  .of-sim {
-    margin-top: 26px;
-    padding: 20px;
-    border: 1.5px solid var(--orange);
-    border-radius: 18px;
-    background: var(--orange-tint);
-  }
-  .of-sim-rot { margin: 0 0 4px; font-size: 14px; font-weight: 800; color: var(--orange-strong); }
-  .of-perguntas { display: grid; gap: 14px; margin: 12px 0 0; padding: 0; list-style: none; counter-reset: q; }
-  .of-perguntas li { counter-increment: q; display: flex; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.35; }
-  .of-perguntas li::before {
-    content: counter(q);
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 28px; height: 28px;
-    margin-top: 1px;
-    border-radius: 50%;
-    background: var(--orange);
-    color: var(--black);
-    font-size: 14px;
-  }
-  .of-sim-fim { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid rgba(232, 73, 15, .25); font-size: 17px; font-weight: 800; color: var(--orange-strong); }
+  /* entradas ao rolar */
+  [data-rv] { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0ms); }
+  [data-rv].in { opacity: 1; transform: none; }
 
-  .of-metodo {
-    margin-top: 22px;
-    padding: 24px 20px 20px;
-    border-radius: 18px;
-    background: var(--white);
-    border: 1.5px solid var(--border);
-  }
-  .of-metodo-rot { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--orange-strong); }
-  .of-metodo-tit { margin: 6px 0 0; font-size: clamp(26px, 5vw, 34px); line-height: 1.08; }
-  .of-faz { display: grid; gap: 6px; margin: 8px 0 0; padding: 0 0 0 18px; font-size: 15.5px; line-height: 1.45; color: var(--body); }
-  .of-faz li::marker { color: var(--orange); }
-  .of-metodo-sub { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--body); }
-  .of-pilares { display: grid; gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
-  .of-pilares li { display: flex; gap: 14px; align-items: flex-start; }
-  .of-num {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--orange);
-    color: var(--black);
-    font-weight: 800;
-    font-size: 16px;
-  }
-  .of-pilares b { font-size: 17.5px; font-weight: 800; letter-spacing: -0.02em; }
-  .of-pilares p { margin: 4px 0 0; font-size: 15.5px; line-height: 1.5; color: var(--body); }
-  .of-pilares .of-seu, .of-seu { color: var(--orange-strong); font-weight: 700; }
-  .of-seu-extra { margin: 16px 0 0; font-size: 15.5px; line-height: 1.5; }
-
-  .of-bloco {
-    margin-top: 22px;
-    padding: 20px 20px 18px;
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    background: var(--white);
-  }
-  .of-h {
+  .of-kicker {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
-    margin: 0 0 12px;
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--gray);
-  }
-  .of-pill {
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: var(--orange-tint);
-    color: var(--orange-strong);
+    margin: 0 0 14px;
     font-size: 12.5px;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-  .of-lista { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-  .of-lista li { display: flex; align-items: flex-start; gap: 12px; font-size: 16.5px; font-weight: 600; line-height: 1.4; }
-  .of-lista li > span:nth-child(2) { flex: 1; }
-  .of-ck {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 22px; height: 22px;
-    margin-top: 1px;
-    border-radius: 50%;
-    background: var(--orange);
-  }
-  .of-ck svg { width: 14px; height: 14px; }
-  .of-bonus s { flex: none; color: var(--gray); font-weight: 700; font-size: 15px; }
-  .of-total {
-    margin: 14px 0 0;
-    padding-top: 12px;
-    border-top: 1px dashed var(--border-strong);
-    text-align: right;
-    font-size: 16px;
     font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
     color: var(--orange-strong);
   }
-  .of-vagas { margin-top: 22px; }
-  .of-vagas-txt { margin: 0; font-size: 16px; color: var(--body); }
-  .of-vagas-txt b { color: var(--black); }
-  .of-barra { height: 8px; margin-top: 10px; border-radius: 999px; background: var(--warm-gray); overflow: hidden; }
-  .of-barra span { display: block; height: 100%; min-width: 4px; border-radius: 999px; background: var(--orange); }
-  .of-preco {
-    margin-top: 26px;
-    padding: 26px 22px 22px;
+  .of-kicker::before { content: ''; width: 26px; height: 2px; background: currentColor; }
+  .of-sec { margin-top: 64px; }
+
+  /* topo */
+  .of-ok {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0 18px;
+    padding: 7px 14px 7px 8px;
+    border-radius: 999px;
+    background: var(--black);
+    color: var(--white);
+    font-size: 13.5px;
+    font-weight: 800;
+  }
+  .of-ok i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--orange); font-style: normal; }
+  .of-ok svg { width: 13px; height: 13px; }
+  .of-h1 { font-size: clamp(38px, 8.8vw, 66px); line-height: 1.02; letter-spacing: -0.05em; }
+  .of-h1 em { font-style: normal; color: var(--orange-strong); }
+  .of-marca {
+    background: linear-gradient(transparent 64%, rgba(255, 90, 31, .32) 64%) no-repeat 0 0 / 0% 100%;
+    animation: marca .9s .35s var(--ease) forwards;
+  }
+  @keyframes marca { to { background-size: 100% 100%; } }
+  .of-lead { margin: 22px 0 0; max-width: 600px; font-size: clamp(17.5px, 2.3vw, 20px); line-height: 1.6; color: var(--body); }
+
+  .of-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    padding: 11px 16px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 14.5px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 12px 28px -16px rgba(232, 73, 15, 1);
+  }
+  .of-chip .pulso { position: relative; width: 9px; height: 9px; border-radius: 50%; background: var(--black); }
+  .of-chip .pulso::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--black); animation: pulso 1.6s ease-out infinite; }
+  @keyframes pulso { to { transform: scale(2.8); opacity: 0; } }
+
+  .of-quote { position: relative; margin: 34px 0 0; padding: 0 0 0 46px; max-width: 600px; }
+  .of-quote::before {
+    content: '“';
+    position: absolute;
+    left: -4px;
+    top: -18px;
+    font-size: 92px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--orange);
+  }
+  .of-quote blockquote { margin: 0; font-size: clamp(18px, 2.4vw, 21px); font-weight: 700; line-height: 1.45; letter-spacing: -0.015em; overflow-wrap: anywhere; }
+  .of-quote figcaption { margin-top: 10px; font-size: 13.5px; font-weight: 600; color: var(--gray); }
+
+  /* triplo sim */
+  .of-q3 { margin: 0; padding: 0; list-style: none; counter-reset: q; }
+  .of-q3 li {
+    counter-increment: q;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 6px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-strong);
+    font-size: clamp(19px, 2.6vw, 23px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.32;
+  }
+  .of-q3 li::before {
+    content: '0' counter(q);
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--orange);
+  }
+  .of-q3-fim {
+    margin: 0;
+    padding: 22px 0 0;
+    border-top: 1px solid var(--border-strong);
+    font-size: clamp(18px, 2.4vw, 21px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--orange-strong);
+  }
+
+  /* MVT: faixa escura de ponta a ponta */
+  .of-full { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%); }
+  .of-mvt {
+    position: relative;
+    overflow: hidden;
+    margin-top: 72px;
+    padding-top: 64px;
+    padding-bottom: 60px;
+    background: var(--black);
+    color: var(--white);
+  }
+  .of-mvt::before {
+    content: 'MVT';
+    position: absolute;
+    right: -2vw;
+    top: -4vw;
+    font-size: clamp(170px, 42vw, 380px);
+    font-weight: 800;
+    letter-spacing: -0.07em;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, .08);
+    pointer-events: none;
+  }
+  .of-mvt > * { position: relative; }
+  .of-mvt .of-kicker { color: var(--orange); }
+  .of-mvt-tit { font-size: clamp(64px, 16vw, 112px); line-height: .9; letter-spacing: -0.06em; }
+  .of-mvt-sub { margin: 16px 0 0; font-size: 17px; color: #B9B4AB; }
+  .of-passos { margin: 36px 0 0; padding: 0; list-style: none; display: grid; gap: 34px; }
+  .of-passo { display: grid; grid-template-columns: 70px 1fr; gap: 4px; }
+  .of-letra { font-size: 64px; font-weight: 800; line-height: .82; letter-spacing: -0.05em; color: var(--orange); }
+  .of-passo b { display: block; font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
+  .of-faz { display: grid; gap: 7px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .of-faz li { position: relative; padding-left: 20px; font-size: 15.5px; line-height: 1.5; color: #D9D5CE; }
+  .of-faz li::before { content: ''; position: absolute; left: 0; top: .62em; width: 10px; height: 2px; background: var(--orange); }
+  .of-seu { margin: 14px 0 0; padding: 10px 14px; border-left: 3px solid var(--orange); background: rgba(255, 90, 31, .1); font-size: 15px; font-weight: 700; line-height: 1.45; color: #FFD9C9; }
+  .of-seu-extra { margin-top: 30px; }
+
+  /* como funciona */
+  .of-inclui { margin: 0; padding: 0; list-style: none; }
+  .of-inclui li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .of-inclui li:last-child { border-bottom: 1px solid var(--border); }
+  .of-ck { flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--orange); }
+  .of-ck svg { width: 14px; height: 14px; }
+
+  /* ingresso do bônus */
+  .of-ticket {
+    --furo: 14px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 64px;
+    padding: 28px 22px 26px;
     border-radius: 22px;
+    background: var(--orange);
+    color: var(--black);
+    -webkit-mask: radial-gradient(circle var(--furo) at 0 var(--y, 62%), transparent 98%, #000) left / 51% 100% no-repeat,
+                  radial-gradient(circle var(--furo) at 100% var(--y, 62%), transparent 98%, #000) right / 51% 100% no-repeat;
+            mask: radial-gradient(circle var(--furo) at 0 var(--y, 62%), transparent 98%, #000) left / 51% 100% no-repeat,
+                  radial-gradient(circle var(--furo) at 100% var(--y, 62%), transparent 98%, #000) right / 51% 100% no-repeat;
+    scroll-margin-top: 80px;
+  }
+  .of-ticket::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%);
+    transform: translateX(-120%);
+    animation: brilho 3.6s 1s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes brilho { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+  .of-ticket-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .of-ticket-tag { padding: 6px 12px; border-radius: 999px; background: var(--black); color: var(--orange); font-size: 12.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .of-ticket-resta { font-size: 14px; font-weight: 800; }
+  .of-ticket-resta b { font-size: 22px; }
+  .of-ticket-tit { margin: 18px 0 0; font-size: clamp(27px, 6.4vw, 40px); font-weight: 800; line-height: 1.04; letter-spacing: -0.045em; }
+  .of-ticket-tit span { display: inline-block; padding: 0 6px; background: var(--black); color: var(--orange); border-radius: 6px; }
+  .of-assentos { display: flex; gap: 8px; margin-top: 18px; }
+  .of-assento { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--black); display: grid; place-items: center; font-size: 13px; font-weight: 800; }
+  .of-assento.tomado { background: var(--black); color: var(--orange); }
+  .of-assento.livre { animation: livre 1.8s ease-in-out infinite; animation-delay: calc(var(--i) * 140ms); }
+  @keyframes livre { 50% { background: rgba(18, 18, 18, .14); } }
+  .of-assentos-leg { margin: 8px 0 0; font-size: 13.5px; font-weight: 700; }
+  .of-ticket-corte { margin: 22px -22px 0; border-top: 2px dashed rgba(18, 18, 18, .35); }
+  .of-ticket-lista { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+  .of-ticket-lista li { display: flex; align-items: baseline; gap: 12px; font-size: 16.5px; font-weight: 800; line-height: 1.35; }
+  .of-ticket-lista li span { flex: 1; }
+  .of-ticket-lista s { flex: none; font-weight: 700; opacity: .7; }
+  .of-ticket-nota { margin: 18px 0 0; font-size: 13.5px; font-weight: 700; opacity: .78; }
+  .of-ticket.escuro { background: var(--black); color: var(--white); }
+  .of-ticket.escuro .of-ticket-tag { background: var(--orange); color: var(--black); }
+  .of-ticket.escuro .of-ticket-tit span { background: var(--orange); color: var(--black); }
+  .of-ticket.escuro .of-ticket-corte { border-color: rgba(255, 255, 255, .25); }
+  .of-ticket.escuro::after { background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .12) 50%, transparent 65%); }
+
+  /* vagas da turma: 10 lugares */
+  .of-lugares { margin-top: 44px; }
+  .of-lugares-txt { margin: 0 0 12px; font-size: 17px; font-weight: 700; color: var(--body); }
+  .of-lugares-txt b { color: var(--black); font-weight: 800; }
+  .of-fila { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; max-width: 420px; }
+  .of-fila span { height: 10px; border-radius: 999px; background: var(--border); }
+  .of-fila span.tomado { background: var(--orange); transform-origin: left; transform: scaleX(0); transition: transform .5s var(--ease); transition-delay: calc(var(--i) * 90ms + 200ms); }
+  .of-lugares.in .of-fila span.tomado { transform: none; }
+
+  /* preço */
+  .of-preco {
+    position: relative;
+    overflow: hidden;
+    margin-top: 44px;
+    padding: 34px 24px 26px;
+    border-radius: 26px;
     background: var(--black);
     color: var(--white);
     text-align: center;
   }
-  .of-preco-rot { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #B9B4AB; }
-  .of-preco-val { margin: 6px 0 20px; font-size: clamp(44px, 10vw, 60px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
-  .of-preco-parc { margin: -12px 0 20px; font-size: 17px; font-weight: 700; color: #E4E0D9; }
-  .of-cta { width: 100%; }
+  .of-preco::before {
+    content: '';
+    position: absolute;
+    inset: auto -30% -60% -30%;
+    height: 90%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(255, 90, 31, .35), transparent 70%);
+    pointer-events: none;
+  }
+  .of-preco > * { position: relative; }
+  .of-preco-rot { margin: 0; font-size: 12.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #B9B4AB; }
+  .of-preco-val { margin: 10px 0 0; overflow: hidden; font-size: clamp(52px, 13vw, 76px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.02; }
+  .of-preco-val span { display: inline-block; transform: translateY(105%); transition: transform .9s var(--ease) .15s; }
+  .of-preco.in .of-preco-val span { transform: none; }
+  .of-preco-parc { margin: 8px 0 0; font-size: 17px; font-weight: 700; color: #E4E0D9; }
+  .of-cta { width: 100%; margin-top: 24px; animation: chamar 2.4s 1.2s ease-out infinite; }
+  @keyframes chamar { 0% { box-shadow: 0 0 0 0 rgba(255, 90, 31, .55); } 70%, 100% { box-shadow: 0 0 0 16px rgba(255, 90, 31, 0); } }
   .of-preco-nota { margin: 12px 0 0; font-size: 14px; color: #B9B4AB; }
+
+  @media (min-width: 720px) {
+    .of-passos { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .of-passo { grid-template-columns: 1fr; gap: 12px; }
+    .of-ticket { padding: 34px 34px 30px; }
+    .of-ticket-corte { margin-left: -34px; margin-right: -34px; }
+    .of-preco { padding: 44px 48px 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-rv] { opacity: 1; transform: none; transition: none; }
+    .of-marca { background-size: 100% 100%; animation: none; }
+    .of-ticket::after, .of-chip .pulso::after, .of-assento.livre, .of-cta { animation: none; }
+    .of-fila span.tomado, .of-preco-val span { transform: none; transition: none; }
+  }
 
   @media (max-width: 480px) {
     .choices.grid-2 { grid-template-columns: 1fr; }
@@ -895,64 +1037,110 @@
     const href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(msg)}`;
     const item = t => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span></li>`;
 
-    let vagasHtml = '';
-    if (tipo === 'grupo') {
-      if (!vagas) vagasHtml = `<p class="of-vagas-txt"><b>Turma com 10 vagas.</b></p>`;
-      else if (esgotada) vagasHtml = `<p class="of-vagas-txt"><b>Esta turma está completa.</b> Entre na lista de espera e seja avisado(a) da próxima.</p>`;
-      else {
-        vagasHtml = `<p class="of-vagas-txt"><b>Restam ${vagas.vagas} de ${vagas.total} vagas</b></p>
-          <div class="of-barra" role="img" aria-label="${vagas.total - vagas.vagas} de ${vagas.total} vagas preenchidas"><span style="width:${((vagas.total - vagas.vagas) / vagas.total) * 100}%"></span></div>`;
-      }
-    }
-    const restamBonus = tipo === 'grupo' && vagas && vagas.bonus > 0 ? `<span class="of-pill">restam ${vagas.bonus}</span>` : '';
     const motivo = txt('motivo') || '';
-    const citacao = motivo.length >= 15
-      ? `<figure class="of-citacao"><blockquote>“${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}”</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>`
-      : '';
     const pil = pilares(tipo, answers);
     const organizar = (answers.dificuldades || []).includes('organizacao');
+    const grupo = tipo === 'grupo';
+    const bonusRestam = grupo && vagas ? vagas.bonus : null;
+    const comIngresso = !esgotada && comBonus;
+    const rv = (d = 0) => `data-rv style="--d:${d}ms"`;
+
+    const assentos = grupo && bonusRestam != null
+      ? `<div class="of-assentos" aria-hidden="true">${Array.from({ length: 5 }, (_, i) =>
+          `<span class="of-assento ${i < 5 - bonusRestam ? 'tomado' : 'livre'}" style="--i:${i}">${i + 1}</span>`).join('')}</div>
+        <p class="of-assentos-leg">${5 - bonusRestam} de 5 bônus já garantidos</p>`
+      : '';
+
+    const ingresso = !comIngresso ? '' : `
+      <section class="of-ticket${grupo ? '' : ' escuro'}" id="of-bonus" ${rv()}>
+        <div class="of-ticket-top">
+          <span class="of-ticket-tag">${grupo ? 'Só para os 5 primeiros' : 'Você também recebe'}</span>
+          ${bonusRestam != null ? `<span class="of-ticket-resta">restam <b>${bonusRestam}</b></span>` : ''}
+        </div>
+        <p class="of-ticket-tit">${grupo ? 'Entre agora e leve' : 'Junto com a mentoria,'} <span>${reais(totalBonus)}</span> em bônus.</p>
+        ${assentos}
+        <div class="of-ticket-corte"></div>
+        <ul class="of-ticket-lista">${o.bonus.map(([t, v]) => `<li><span>${esc(t)}</span><s>${reais(v)}</s></li>`).join('')}</ul>
+        ${grupo ? '<p class="of-ticket-nota">Quando os 5 bônus forem garantidos, eles saem desta página.</p>' : ''}
+      </section>`;
+
+    let lugares = '';
+    if (grupo) {
+      if (!vagas) lugares = `<div class="of-lugares" ${rv()}><p class="of-lugares-txt"><b>Turma com 10 vagas.</b></p></div>`;
+      else {
+        const tomadas = vagas.total - vagas.vagas;
+        lugares = `<div class="of-lugares" ${rv()}>
+          <p class="of-lugares-txt">${esgotada ? '<b>Esta turma está completa.</b> Entre na lista de espera da próxima.' : `<b>Restam ${vagas.vagas} de ${vagas.total} vagas</b> nesta turma.`}</p>
+          <div class="of-fila" role="img" aria-label="${tomadas} de ${vagas.total} vagas preenchidas">${Array.from({ length: vagas.total }, (_, i) =>
+            `<span class="${i < tomadas ? 'tomado' : ''}" style="--i:${i}"></span>`).join('')}</div>
+        </div>`;
+      }
+    }
 
     screens.done.innerHTML = `
-      <p class="eyebrow">Aplicação recebida</p>
-      <h1>${nome ? `${esc(nome)}, seu` : 'Seu'} perfil é para a ${esc(o.nome)}<span class="dot">.</span></h1>
-      <p class="sub">${esc(razao(tipo, answers))}</p>
-      ${citacao}
+      <div class="of-brilho" aria-hidden="true"></div>
+      <p class="of-ok"><i aria-hidden="true">${CHECK}</i>Aplicação recebida</p>
+      <h1 class="of-h1">${nome ? `<span class="of-marca">${esc(nome)}</span>, seu` : 'Seu'} perfil é para a <em>${esc(o.nome)}</em>.</h1>
+      <p class="of-lead">${esc(razao(tipo, answers))}</p>
+      ${grupo && comIngresso ? `<a class="of-chip" href="#of-bonus"><span class="pulso" aria-hidden="true"></span>${reais(totalBonus)} em bônus para os 5 primeiros${bonusRestam != null ? ` · restam ${bonusRestam}` : ''}</a>` : ''}
+      ${motivo.length >= 15 ? `<figure class="of-quote" ${rv()}><blockquote>${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>` : ''}
 
-      <div class="of-sim">
-        <p class="of-sim-rot">Responda para você mesmo(a):</p>
-        <ol class="of-perguntas">${perguntasSim(tipo, answers).map(q => `<li>${esc(q)}</li>`).join('')}</ol>
-        <p class="of-sim-fim">Se a resposta foi sim para as três, a ${esc(o.nome)} foi feita para você.</p>
-      </div>
+      <section class="of-sec">
+        <p class="of-kicker" ${rv()}>Responda para você mesmo(a)</p>
+        <ol class="of-q3">${perguntasSim(tipo, answers).map((q, i) => `<li ${rv(i * 120)}>${esc(q)}</li>`).join('')}</ol>
+        <p class="of-q3-fim" ${rv(360)}>Se a resposta foi sim para as três, a ${esc(o.nome)} foi feita para você.</p>
+      </section>
 
-      <div class="of-metodo">
-        <p class="of-metodo-rot">O método</p>
-        <h2 class="of-metodo-tit">MVT<span class="dot">.</span></h2>
-        <p class="of-metodo-sub">Os 3 passos que vamos aplicar na sua loja, nesta ordem:</p>
-        <ol class="of-pilares">${pil.map(p => `
-          <li><span class="of-num">${p.l}</span><div><b>${esc(p.t)}</b><ul class="of-faz">${p.itens.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${p.seu ? `<p class="of-seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div></li>`).join('')}
+      <section class="of-mvt of-full">
+        <p class="of-kicker" ${rv()}>O método</p>
+        <h2 class="of-mvt-tit" ${rv(80)}>MVT<span class="dot">.</span></h2>
+        <p class="of-mvt-sub" ${rv(160)}>Os 3 passos que vamos aplicar na sua loja, nesta ordem:</p>
+        <ol class="of-passos">${pil.map((p, i) => `
+          <li class="of-passo" ${rv(i * 140)}>
+            <span class="of-letra" aria-hidden="true">${p.l}</span>
+            <div><b>${esc(p.t)}</b><ul class="of-faz">${p.itens.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${p.seu ? `<p class="of-seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div>
+          </li>`).join('')}
         </ol>
-        ${organizar ? '<p class="of-seu of-seu-extra">E para a falta de tempo: uma rotina semanal simples para manter tudo andando.</p>' : ''}
-      </div>
+        ${organizar ? `<p class="of-seu of-seu-extra" ${rv()}>E para a falta de tempo: uma rotina semanal simples para manter tudo andando.</p>` : ''}
+      </section>
 
-      <div class="of-bloco">
-        <h2 class="of-h">Como funciona</h2>
-        <ul class="of-lista">${o.inclui.map(item).join('')}</ul>
-      </div>
+      <section class="of-sec">
+        <p class="of-kicker" ${rv()}>Como funciona</p>
+        <ul class="of-inclui">${o.inclui.map((t, i) => `<li ${rv(i * 90)}><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span></li>`).join('')}</ul>
+      </section>
 
-      ${!esgotada && comBonus ? `
-      <div class="of-bloco">
-        <h2 class="of-h">${esc(o.bonusTitulo)} ${restamBonus}</h2>
-        <ul class="of-lista of-bonus">${o.bonus.map(([t, v]) => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span><s>${reais(v)}</s></li>`).join('')}</ul>
-        <p class="of-total">${reais(totalBonus)} em bônus</p>
-      </div>` : ''}
+      ${ingresso}
+      ${lugares}
 
-      ${vagasHtml ? `<div class="of-vagas">${vagasHtml}</div>` : ''}
-
-      <div class="of-preco">
-        ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val">${o.preco}</p>${o.parcelas ? `<p class="of-preco-parc">${o.parcelas}</p>` : ''}`}
+      <section class="of-preco" ${rv()}>
+        ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val"><span>${o.preco}</span></p>${o.parcelas ? `<p class="of-preco-parc">${o.parcelas}</p>` : ''}`}
         <a class="btn of-cta" href="${href}" target="_blank" rel="noopener">${esgotada ? 'Entrar na lista de espera' : esc(o.cta)} <span class="arrow">→</span></a>
         <p class="of-preco-nota">Você fala direto comigo no WhatsApp.</p>
-      </div>`;
+      </section>`;
+
+    // furos do ingresso na altura da linha picotada (que muda com o texto)
+    const ticket = $('.of-ticket', screens.done);
+    if (ticket) {
+      const corte = $('.of-ticket-corte', ticket);
+      const alinhar = () => ticket.style.setProperty('--y', `${corte.offsetTop}px`);
+      alinhar();
+      window.addEventListener('resize', alinhar);
+    }
+
+    revelar(screens.done);
+  }
+
+  /** Entradas ao rolar: cada [data-rv] ganha .in quando aparece na tela. */
+  function revelar(raiz) {
+    const els = $$('[data-rv]', raiz);
+    const semMovimento = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || typeof IntersectionObserver === 'undefined') return els.forEach(el => el.classList.add('in'));
+    const io = new IntersectionObserver(entradas => entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    els.forEach(el => io.observe(el));
   }
 
   const PRODUTO = { propria: 'já fabrica seu próprio produto', terceirizada: 'já tem marca própria', revenda: 'já tem produto para vender' };
