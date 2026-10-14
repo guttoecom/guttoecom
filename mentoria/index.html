@@ -316,6 +316,57 @@
   .oferta { padding-top: 2vh; padding-bottom: 8px; }
   .oferta h1 { font-size: clamp(32px, 6.4vw, 50px); line-height: 1.05; }
   .oferta .sub { margin: 16px 0 0; max-width: 600px; font-size: 17.5px; line-height: 1.6; color: var(--body); }
+  .of-citacao { margin: 18px 0 0; padding: 4px 0 4px 16px; border-left: 3px solid var(--orange); max-width: 600px; }
+  .of-citacao blockquote { margin: 0; font-size: 17px; font-weight: 600; font-style: italic; line-height: 1.5; color: var(--black); overflow-wrap: anywhere; }
+  .of-citacao figcaption { margin-top: 6px; font-size: 13.5px; color: var(--gray); }
+
+  .of-sim {
+    margin-top: 26px;
+    padding: 20px;
+    border: 1.5px solid var(--orange);
+    border-radius: 18px;
+    background: var(--orange-tint);
+  }
+  .of-sim-rot { margin: 0 0 4px; font-size: 14px; font-weight: 800; color: var(--orange-strong); }
+  .of-q { padding: 14px 0; border-bottom: 1px solid rgba(232, 73, 15, .2); scroll-margin-top: 90px; }
+  .of-q:last-of-type { border-bottom: 0; }
+  .of-q p { margin: 0 0 12px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.35; }
+  .of-q.ok p { margin-bottom: 8px; color: var(--body); font-weight: 700; }
+  .of-q:not([hidden]) { animation: enter .45s var(--ease); }
+  .of-sim-btn { min-width: 140px; min-height: 48px; padding: 12px 28px; }
+  .of-sim-ok { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; color: var(--orange-strong); }
+  .of-sim-ok[hidden] { display: none; }
+  .of-sim-fim { margin: 8px 0 0; font-size: 19px; font-weight: 800; letter-spacing: -0.02em; scroll-margin-top: 90px; }
+  .of-resto:not([hidden]) { animation: enter .5s var(--ease); }
+
+  .of-metodo {
+    margin-top: 22px;
+    padding: 24px 20px 20px;
+    border-radius: 18px;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+  }
+  .of-metodo-rot { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--orange-strong); }
+  .of-metodo-tit { margin: 6px 0 0; font-size: clamp(26px, 5vw, 34px); line-height: 1.08; }
+  .of-metodo-sub { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--body); }
+  .of-pilares { display: grid; gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .of-pilares li { display: flex; gap: 14px; align-items: flex-start; }
+  .of-num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--black);
+    color: var(--white);
+    font-weight: 800;
+    font-size: 15px;
+  }
+  .of-pilares b { font-size: 17.5px; font-weight: 800; letter-spacing: -0.02em; }
+  .of-pilares p { margin: 4px 0 0; font-size: 15.5px; line-height: 1.5; color: var(--body); }
+  .of-pilares .of-seu, .of-seu { color: var(--orange-strong); font-weight: 700; }
+  .of-seu-extra { margin: 16px 0 0; font-size: 15.5px; line-height: 1.5; }
+
   .of-bloco {
     margin-top: 22px;
     padding: 20px 20px 18px;
@@ -789,7 +840,7 @@
 
   const FAIXA_MKT = { ate_5k: 'até R$ 5 mil', '5k_20k': 'de R$ 5 a 20 mil', '20k_50k': 'de R$ 20 a 50 mil', acima_50k: 'mais de R$ 50 mil' };
   const FAIXA_EMP = { ate_10k: 'até R$ 10 mil', '10k_30k': 'de R$ 10 a 30 mil', '30k_50k': 'de R$ 30 a 50 mil', acima_50k: 'mais de R$ 50 mil' };
-  const DIFS = { anuncios: 'anúncios que não vendem', precificacao: 'precificação e margem', ads: 'anúncios pagos', organizacao: 'organização e falta de tempo', crescer: 'saber por onde crescer' };
+  const DIFS = { anuncios: 'anúncios que não vendem', precificacao: 'precificação', ads: 'Ads', organizacao: 'falta de tempo', crescer: 'não saber por onde crescer' };
   const CANAIS = { atacado: 'do atacado', loja_fisica: 'da loja física', instagram_whatsapp: 'do Instagram e do WhatsApp', feiras: 'das feiras' };
   const NO_MKT = { mercadolivre: 'no Mercado Livre', shopee: 'na Shopee', shein: 'na Shein', tiktokshop: 'no TikTok Shop', amazon: 'na Amazon', magalu: 'no Magalu', outro: 'em outros marketplaces' };
   const lista = xs => xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} e ${xs[xs.length - 1]}`;
@@ -798,15 +849,14 @@
   /** Por que esta oferta, com as palavras das respostas. */
   function razao(tipo, a) {
     const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
-    const difs = lista((a.dificuldades || []).map(v => DIFS[v]).filter(Boolean));
     if (tipo === 'individual') {
       if (a.vende_marketplace === 'sim') {
-        return `Você já fatura ${FAIXA_MKT[a.faturamento_marketplace]} por mês${mks ? ` ${mks}` : ' em marketplace'}. Nesse nível, o que trava o crescimento é específico da sua loja${difs ? ` (hoje, ${difs})` : ''}, e é isso que vamos trabalhar juntos, só você e eu.`;
+        return `Você já fatura ${FAIXA_MKT[a.faturamento_marketplace]} por mês${mks ? ` ${mks}` : ' em marketplace'}. Nesse nível, o que trava o crescimento é específico da sua loja, e é isso que vamos trabalhar juntos, só você e eu.`;
       }
       return `Sua empresa já fatura ${FAIXA_EMP[a.faturamento_empresa]} por mês. Para levar essa operação para os marketplaces, você precisa de um plano feito para o seu negócio, e é isso que vamos montar juntos, só você e eu.`;
     }
     if (a.vende_marketplace === 'sim') {
-      return `Você vende ${mks || 'em marketplace'} e fatura ${FAIXA_MKT[a.faturamento_marketplace]} por mês.${difs ? ` Hoje, o que mais trava é ${difs}.` : ''} Na turma, você aprende o método junto com quem está no mesmo momento que você e tira dúvidas com o grupo a semana toda.`;
+      return `Você vende ${mks || 'em marketplace'} e fatura ${FAIXA_MKT[a.faturamento_marketplace]} por mês. Na turma, você aprende o método junto com quem está no mesmo momento que você e tira dúvidas com o grupo a semana toda.`;
     }
     const canal = CANAIS[a.canal_principal];
     return `Você ainda não vende em marketplace${canal ? ` e hoje suas vendas vêm ${canal}` : ''}. A turma é o jeito mais rápido de começar do jeito certo: o método passo a passo e um grupo para tirar dúvidas a semana toda.`;
@@ -847,11 +897,40 @@
       }
     }
     const restamBonus = tipo === 'grupo' && vagas && vagas.bonus > 0 ? `<span class="of-pill">restam ${vagas.bonus}</span>` : '';
+    const motivo = txt('motivo') || '';
+    const citacao = motivo.length >= 15
+      ? `<figure class="of-citacao"><blockquote>“${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}”</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>`
+      : '';
+    const pil = pilares(answers);
+    const organizar = (answers.dificuldades || []).includes('organizacao');
 
     screens.done.innerHTML = `
-      <p class="eyebrow">Aplicação recebida${nome ? `, ${esc(nome)}` : ''}</p>
-      <h1>Seu perfil é para a ${esc(o.nome)}<span class="dot">.</span></h1>
+      <p class="eyebrow">Aplicação recebida</p>
+      <h1>${nome ? `${esc(nome)}, seu` : 'Seu'} perfil é para a ${esc(o.nome)}<span class="dot">.</span></h1>
       <p class="sub">${esc(razao(tipo, answers))}</p>
+      ${citacao}
+
+      <div class="of-sim">
+        <p class="of-sim-rot">Antes de te mostrar como funciona, 3 perguntas rápidas:</p>
+        ${perguntasSim(tipo, answers).map((q, i) => `
+        <div class="of-q"${i ? ' hidden' : ''}>
+          <p>${esc(q)}</p>
+          <button class="btn of-sim-btn" type="button">Sim</button>
+          <span class="of-sim-ok" hidden><span class="of-ck" aria-hidden="true">${CHECK}</span>Sim</span>
+        </div>`).join('')}
+        <p class="of-sim-fim" hidden>Então a ${esc(o.nome)} foi feita para você.</p>
+      </div>
+
+      <div class="of-resto" hidden>
+      <div class="of-metodo">
+        <p class="of-metodo-rot">O método</p>
+        <h2 class="of-metodo-tit">Método Margem Primeiro<span class="dot">.</span></h2>
+        <p class="of-metodo-sub">A maioria tenta vender mais baixando o preço ou colocando mais dinheiro em Ads, e acaba vendendo mais e lucrando menos. Aqui a ordem é outra:</p>
+        <ol class="of-pilares">${pil.map((p, i) => `
+          <li><span class="of-num">${i + 1}</span><div><b>${esc(p.t)}</b><p>${esc(p.d)}</p>${p.seu ? `<p class="of-seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div></li>`).join('')}
+        </ol>
+        ${organizar ? '<p class="of-seu of-seu-extra">E para a falta de tempo: uma rotina semanal simples para manter tudo andando.</p>' : ''}
+      </div>
 
       <div class="of-bloco">
         <h2 class="of-h">Como funciona</h2>
@@ -871,7 +950,71 @@
         ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val">${o.preco}</p>${o.parcelas ? `<p class="of-preco-parc">${o.parcelas}</p>` : ''}`}
         <a class="btn of-cta" href="${href}" target="_blank" rel="noopener">${esgotada ? 'Entrar na lista de espera' : esc(o.cta)} <span class="arrow">→</span></a>
         <p class="of-preco-nota">Você fala direto comigo no WhatsApp.</p>
+      </div>
       </div>`;
+
+    // triplo sim: cada "Sim" abre a próxima pergunta; o terceiro mostra o método, os bônus e, por último, o preço
+    const qs = $$('.of-q', screens.done);
+    qs.forEach((q, i) => $('.of-sim-btn', q).addEventListener('click', () => {
+      $('.of-sim-btn', q).hidden = true;
+      $('.of-sim-ok', q).hidden = false;
+      q.classList.add('ok');
+      if (qs[i + 1]) {
+        qs[i + 1].hidden = false;
+        $('.of-sim-btn', qs[i + 1]).focus({ preventScroll: true });
+        qs[i + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      $('.of-sim-fim', screens.done).hidden = false;
+      const resto = $('.of-resto', screens.done);
+      resto.hidden = false;
+      setTimeout(() => $('.of-sim-fim', screens.done).scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+    }));
+  }
+
+  const PRODUTO = { propria: 'já fabrica seu próprio produto', terceirizada: 'já tem marca própria', revenda: 'já tem produto para vender' };
+
+  /** Triplo sim: três perguntas montadas com as respostas, todas para responder "sim". */
+  function perguntasSim(tipo, a) {
+    const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
+    const difs = lista((a.dificuldades || []).map(v => DIFS[v]).filter(Boolean));
+    const prod = PRODUTO[a.producao] || 'já tem produto';
+    return [
+      a.vende_marketplace === 'sim'
+        ? `Você ${prod} e quer vender mais ${mks || 'nos marketplaces'}?`
+        : `Você ${prod} e quer levar esse produto para os marketplaces?`,
+      difs
+        ? `Hoje o que mais trava é ${difs}. Você quer resolver isso com um método, em vez de tentativa e erro?`
+        : 'Você quer crescer com um método claro, em vez de tentativa e erro?',
+      tipo === 'grupo'
+        ? 'Você consegue reservar 1 encontro por semana nos próximos 2 meses, a partir de 7 de novembro?'
+        : 'Você consegue reservar 1 encontro por semana nos próximos 2 meses, no horário que a gente combinar?',
+    ];
+  }
+
+  /** Os 3 pilares do Método Margem Primeiro, com o "no seu caso" pelas dificuldades marcadas. */
+  function pilares(a) {
+    const d = new Set(a.dificuldades || []);
+    const novo = a.vende_marketplace !== 'sim';
+    return [
+      {
+        t: 'Margem',
+        d: 'Um preço que aguenta a tarifa, as promoções e os Ads sem comer o seu lucro.',
+        seu: novo ? 'seu primeiro preço já nasce com lucro.' : d.has('precificacao') ? 'você marcou precificação e margem, então é por aqui que a gente começa.' : '',
+      },
+      {
+        t: 'Vitrine',
+        d: 'Anúncio que ranqueia: título, ficha técnica e fotos que fazem você aparecer na busca.',
+        seu: novo ? 'seus primeiros anúncios já entram do jeito certo para ranquear.' : d.has('anuncios') ? 'você marcou anúncios que não vendem, então vamos refazer os seus para subir na busca.' : '',
+      },
+      {
+        t: 'Tração',
+        d: 'Ads e promoções no limite da margem, para cada real investido voltar com lucro.',
+        seu: novo ? 'as primeiras vendas vêm com Ads e promoções calculados.'
+          : d.has('ads') ? 'você marcou anúncios pagos, então vamos acertar quanto investir em cada anúncio.'
+          : d.has('crescer') ? 'você marcou que não sabe por onde crescer, então aqui entra o plano de crescimento da sua loja.' : '',
+      },
+    ];
   }
 
   async function submit() {
