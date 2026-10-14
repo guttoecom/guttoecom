@@ -1,7 +1,7 @@
 {
   "redirects": [
-    { "source": "/mentoria", "destination": "/mentoriagrupo", "permanent": false },
-    { "source": "/mentoria/", "destination": "/mentoriagrupo", "permanent": false },
+    { "source": "/mentoriagrupo", "destination": "/mentoria", "permanent": false },
+    { "source": "/mentoriagrupo/", "destination": "/mentoria", "permanent": false },
     { "source": "/crm", "destination": "/app/crm", "permanent": false },
     { "source": "/crm/:path*", "destination": "/app/crm/:path*", "permanent": false }
   ],
