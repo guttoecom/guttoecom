@@ -382,6 +382,7 @@
   }
   .of-preco-rot { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #B9B4AB; }
   .of-preco-val { margin: 6px 0 20px; font-size: clamp(44px, 10vw, 60px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .of-preco-parc { margin: -12px 0 20px; font-size: 17px; font-weight: 700; color: #E4E0D9; }
   .of-cta { width: 100%; }
   .of-preco-nota { margin: 12px 0 0; font-size: 14px; color: #B9B4AB; }
 
@@ -765,7 +766,8 @@
       ],
       bonusTitulo: 'Bônus para os 5 primeiros',
       bonus: [['Treinamento de Shopee', 147], ['Análise individual da sua conta, comigo', 197]],
-      preco: 'R$ 800',
+      preco: 'R$ 799',
+      parcelas: 'ou em até 12x de R$ 82,37',
       cta: 'Garantir minha vaga',
       msg: n => `Oi, Bruno! Sou ${n}, fiz a aplicação e quero garantir minha vaga na Mentoria em Grupo.`,
     },
@@ -866,7 +868,7 @@
       ${vagasHtml ? `<div class="of-vagas">${vagasHtml}</div>` : ''}
 
       <div class="of-preco">
-        ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val">${o.preco}</p>`}
+        ${esgotada ? '' : `<p class="of-preco-rot">Investimento</p><p class="of-preco-val">${o.preco}</p>${o.parcelas ? `<p class="of-preco-parc">${o.parcelas}</p>` : ''}`}
         <a class="btn of-cta" href="${href}" target="_blank" rel="noopener">${esgotada ? 'Entrar na lista de espera' : esc(o.cta)} <span class="arrow">→</span></a>
         <p class="of-preco-nota">Você fala direto comigo no WhatsApp.</p>
       </div>`;
