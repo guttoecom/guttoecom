@@ -1,12 +1,44 @@
 {
   "redirects": [
-    { "source": "/mentoriagrupo", "destination": "/mentoria", "permanent": false },
-    { "source": "/mentoriagrupo/", "destination": "/mentoria", "permanent": false },
-    { "source": "/crm", "destination": "/app/crm", "permanent": false },
-    { "source": "/crm/:path*", "destination": "/app/crm/:path*", "permanent": false }
+    {
+      "source": "/analise",
+      "destination": "https://umleogutemberg.com.br/analise",
+      "permanent": false
+    },
+    {
+      "source": "/analise/",
+      "destination": "https://umleogutemberg.com.br/analise",
+      "permanent": false
+    },
+    {
+      "source": "/mentoriagrupo",
+      "destination": "/mentoria",
+      "permanent": false
+    },
+    {
+      "source": "/mentoriagrupo/",
+      "destination": "/mentoria",
+      "permanent": false
+    },
+    {
+      "source": "/crm",
+      "destination": "/app/crm",
+      "permanent": false
+    },
+    {
+      "source": "/crm/:path*",
+      "destination": "/app/crm/:path*",
+      "permanent": false
+    }
   ],
   "rewrites": [
-    { "source": "/app", "destination": "https://guttoapp.vercel.app/app" },
-    { "source": "/app/:path*", "destination": "https://guttoapp.vercel.app/app/:path*" }
+    {
+      "source": "/app",
+      "destination": "https://guttoapp.vercel.app/app"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "https://guttoapp.vercel.app/app/:path*"
+    }
   ]
 }
