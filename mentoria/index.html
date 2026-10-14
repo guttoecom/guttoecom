@@ -1057,6 +1057,28 @@
   history.replaceState({ step: 'intro' }, '');
   screens.intro.classList.add('active');
   render('intro');
+
+  // prévia da tela final (?ver=grupo ou ?ver=individual): respostas de exemplo, nada é salvo
+  const EXEMPLOS = {
+    grupo: {
+      nome: 'Ana Souza', producao: 'propria', vende_marketplace: 'sim', marketplaces: ['mercadolivre', 'shopee'],
+      faturamento_marketplace: '5k_20k', dificuldades: ['anuncios', 'ads'], disponibilidade: 'sim',
+      motivo: 'Quero parar de depender de promoção para vender e entender de verdade quanto sobra de cada venda.',
+    },
+    individual: {
+      nome: 'Carla Lima', producao: 'terceirizada', vende_marketplace: 'sim', marketplaces: ['shopee', 'mercadolivre'],
+      faturamento_marketplace: '20k_50k', dificuldades: ['precificacao', 'crescer'], disponibilidade: 'sim',
+      motivo: 'Minha loja parou de crescer nos 30 mil e não sei qual é o próximo passo.',
+    },
+  };
+  const ver = params.get('ver');
+  if (EXEMPLOS[ver]) {
+    Object.assign(answers, EXEMPLOS[ver]);
+    lerVagas().then(vagas => {
+      montarOferta(vagas);
+      render('done');
+    });
+  }
 })();
 </script>
 </body>
