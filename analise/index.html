@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Análise da sua loja na Shopee | gutto.</title>
+<meta name="description" content="Mande o link da sua loja na Shopee e receba a análise da gutto no seu WhatsApp.">
+<meta property="og:title" content="Análise da sua loja na Shopee | gutto.">
+<meta property="og:description" content="Mande o link da sua loja na Shopee e receba a análise no seu WhatsApp.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F4F2EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --gray: #6B6862;
+    --white: #FFFFFF;
+    --border: #E2DED7;
+    --border-strong: #C9C4BB;
+    --body: #3A3835;
+    --orange-tint: rgba(255, 90, 31, .09);
+    --error: #B83A0C;
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --gutter: clamp(16px, 5vw, 48px);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--black);
+    background: var(--off-white);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button, input { font-family: inherit; }
+  [hidden] { display: none !important; }
+
+  .top-row { max-width: 640px; margin: 0 auto; padding: 18px var(--gutter); }
+  .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.05em; line-height: 1; color: var(--black); text-decoration: none; }
+  .dot { color: var(--orange); }
+
+  main { max-width: 640px; margin: 0 auto; padding: 12px var(--gutter) 56px; }
+  .eyebrow { margin: 8px 0 10px; font-size: 14px; font-weight: 800; color: var(--orange-strong); }
+  h1 { margin: 0; font-size: clamp(34px, 7.5vw, 54px); line-height: 1.04; font-weight: 800; letter-spacing: -0.04em; }
+  .sub { margin: 16px 0 0; font-size: clamp(17px, 2.2vw, 19px); line-height: 1.55; color: var(--body); }
+
+  form { margin-top: 28px; padding: 22px 20px; border: 1.5px solid var(--border); border-radius: 20px; background: var(--white); }
+  .q + .q { margin-top: 20px; }
+  label { display: block; font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em; }
+  .help { margin: 4px 0 0; font-size: 14px; color: var(--gray); }
+  .field {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--off-white);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s, background-color .15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field::placeholder { color: #B9B4AB; font-weight: 500; }
+  .field:hover { border-color: var(--border-strong); }
+  .field:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 4px var(--orange-tint); }
+  .err { display: none; margin: 8px 0 0; font-size: 14.5px; font-weight: 700; color: var(--error); }
+  .invalid .err { display: block; }
+  .invalid .field { border-color: var(--error); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 26px;
+    border: 0;
+    border-radius: 999px;
+    padding: 16px 28px;
+    min-height: 56px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -14px rgba(232, 73, 15, .9);
+    transition: transform .15s ease, background-color .2s;
+  }
+  .btn:hover { background: #FF6A33; }
+  .btn:active { transform: scale(.98); }
+  .btn[disabled] { opacity: .6; cursor: default; }
+  .btn:focus-visible, .logo:focus-visible { outline: 3px solid var(--black); outline-offset: 3px; }
+  .nota { margin: 12px 0 0; font-size: 13.5px; color: var(--gray); text-align: center; }
+  .erro-envio { margin: 14px 0 0; padding: 12px 14px; border-radius: 12px; background: #FBE3D9; color: var(--error); font-size: 15px; font-weight: 700; }
+
+  .done { padding-top: 8vh; animation: enter .45s var(--ease); }
+  .done-icon { width: 64px; height: 64px; margin-bottom: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--orange); }
+  .done-icon svg { width: 30px; height: 30px; }
+  @keyframes enter { from { opacity: 0; transform: translateY(18px); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+<header class="top-row">
+  <a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a>
+</header>
+
+<main>
+  <section id="tela-form">
+    <p class="eyebrow">Análise de loja</p>
+    <h1>Análise da sua loja na Shopee<span class="dot">.</span></h1>
+    <p class="sub">Mande seus dados e o link da sua loja. A gente analisa e te chama no WhatsApp.</p>
+
+    <form id="form" novalidate>
+      <div class="q" data-name="nome">
+        <label for="nome">Nome</label>
+        <input class="field" id="nome" name="nome" type="text" autocomplete="name" autocapitalize="words" maxlength="160" placeholder="Seu nome e sobrenome" required>
+        <p class="err" role="alert">Escreve seu nome.</p>
+      </div>
+      <div class="q" data-name="whatsapp">
+        <label for="whatsapp">WhatsApp com DDD</label>
+        <input class="field" id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="(00) 00000-0000" required>
+        <p class="err" role="alert">Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.</p>
+      </div>
+      <div class="q" data-name="email">
+        <label for="email">E-mail</label>
+        <input class="field" id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="voce@email.com" required>
+        <p class="err" role="alert">Confere o e-mail.</p>
+      </div>
+      <div class="q" data-name="link_loja">
+        <label for="link_loja">Link da sua loja na Shopee</label>
+        <p class="help">Abra sua loja na Shopee, toque em compartilhar e copie o link.</p>
+        <input class="field" id="link_loja" name="link_loja" type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" maxlength="300" placeholder="Ex.: shopee.com.br/sualoja" required>
+        <p class="err" role="alert">Cola o link da sua loja.</p>
+      </div>
+      <button class="btn" type="submit">Quero minha análise <span aria-hidden="true">→</span></button>
+      <p class="erro-envio" role="alert" hidden>Não deu pra enviar agora. Confere sua conexão e tenta de novo.</p>
+      <p class="nota">Seus dados ficam só com a gutto.</p>
+    </form>
+  </section>
+
+  <section id="tela-ok" class="done" hidden aria-live="polite">
+    <div class="done-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Recebido<span class="dot">!</span></h1>
+    <p class="sub">Vamos analisar sua loja e te chamar no WhatsApp.</p>
+  </section>
+</main>
+
+<script>
+(() => {
+  // Supabase do sistema gutto (gutto-app): só a chave pública. A tabela analises_shopee só aceita INSERT
+  // de quem não está logado; cada envio vira contato no CRM (origem analise_form).
+  const SUPABASE_URL = 'https://aedxvttmnjheussswyht.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_-yM9bTw9C5-YFUUrIX5wWQ__yRSxR_M';
+
+  const form = document.getElementById('form');
+  const btn = form.querySelector('.btn');
+  const erroEnvio = form.querySelector('.erro-envio');
+  const so = (s) => s.replace(/\D/g, '');
+  const campo = (n) => form.elements[n];
+
+  const tel = campo('whatsapp');
+  tel.addEventListener('input', () => {
+    const d = so(tel.value).slice(0, 11);
+    let out = d;
+    if (d.length > 0) out = `(${d.slice(0, 2)}`;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    tel.value = out;
+  });
+  form.querySelectorAll('.field').forEach((el) => el.addEventListener('input', () => el.closest('.q').classList.remove('invalid')));
+
+  const REGRAS = {
+    nome: (v) => v.trim().length >= 2,
+    whatsapp: (v) => /^[1-9]{2}9\d{8}$/.test(so(v)),
+    email: (v) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim()),
+    link_loja: (v) => v.trim().length >= 3,
+  };
+
+  // origem (UTM)
+  const params = new URLSearchParams(location.search);
+  const origem = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((k) => {
+    const v = (params.get(k) || '').trim();
+    if (v) origem[k] = v.slice(0, 200);
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    erroEnvio.hidden = true;
+    let primeiro = null;
+    Object.entries(REGRAS).forEach(([n, ok]) => {
+      const q = form.querySelector(`.q[data-name="${n}"]`);
+      const valido = ok(campo(n).value);
+      q.classList.toggle('invalid', !valido);
+      if (!valido && !primeiro) primeiro = campo(n);
+    });
+    if (primeiro) return primeiro.focus();
+
+    const linha = {
+      nome: campo('nome').value.trim(),
+      whatsapp: so(tel.value),
+      email: campo('email').value.trim().toLowerCase(),
+      link_loja: campo('link_loja').value.trim().replace(/\s+/g, ''),
+      ...origem,
+    };
+    btn.disabled = true;
+    btn.firstChild.textContent = 'Enviando... ';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/analises_shopee`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY, Prefer: 'return=minimal' },
+        body: JSON.stringify(linha),
+      });
+      if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+      document.getElementById('tela-form').hidden = true;
+      document.getElementById('tela-ok').hidden = false;
+      window.scrollTo(0, 0);
+    } catch (err) {
+      console.error(err);
+      erroEnvio.hidden = false;
+      btn.disabled = false;
+      btn.firstChild.textContent = 'Quero minha análise ';
+    }
+  });
+})();
+</script>
+</body>
+</html>
