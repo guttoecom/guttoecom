@@ -312,6 +312,37 @@
   .done h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.04; }
   .done .sub { margin: 18px 0 0; max-width: 540px; font-size: 18px; line-height: 1.55; color: var(--body); }
 
+  /* ---------- prova social ---------- */
+  .prova { position: relative; padding-top: 1vh; }
+  .pv-linha { position: relative; margin: 48px 0 0; padding: 0 0 0 26px; list-style: none; display: grid; gap: 48px; }
+  .pv-linha::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--border-strong), var(--orange)); }
+  .pv-mes { position: relative; }
+  .pv-mes::before { content: ''; position: absolute; left: -26px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--off-white); border: 2px solid var(--orange); }
+  .pv-mes:last-child::before { background: var(--orange); box-shadow: 0 0 0 6px var(--orange-tint); }
+  .pv-quando { margin: 0; font-size: 15px; color: var(--gray); }
+  .pv-quando b { display: block; margin-bottom: 2px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--orange-strong); }
+  .pv-valor { margin: 10px 0 0; font-size: clamp(36px, 9vw, 58px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .pv-mes:last-child .pv-valor { color: var(--orange-strong); }
+  .pv-pedidos { margin: 6px 0 0; font-size: 17px; font-weight: 700; color: var(--body); font-variant-numeric: tabular-nums; }
+  .pv-delta { display: inline-block; margin: 12px 0 0; padding: 6px 12px; border-radius: 999px; background: var(--black); color: var(--orange); font-size: 13.5px; font-weight: 800; }
+  .pv-print { display: block; margin-top: 16px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 24px 40px -28px rgba(18, 18, 18, .55); transition: transform .3s var(--ease); }
+  .pv-print:hover { transform: translateY(-3px); }
+  .pv-print img { display: block; width: 100%; height: auto; }
+  .pv-multi {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 56px;
+    padding-top: 36px;
+    padding-bottom: 36px;
+    background: var(--black);
+    color: var(--white);
+  }
+  .pv-multi p { margin: 0; font-size: 16px; font-weight: 700; color: #D9D5CE; }
+  .pv-multi b { display: block; font-size: clamp(54px, 15vw, 96px); font-weight: 800; line-height: .95; letter-spacing: -0.06em; color: var(--orange); }
+  .pv-fecho { margin: 36px 0 0; max-width: 560px; font-size: clamp(19px, 2.6vw, 23px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.35; }
+  .pv-seguir { width: 100%; max-width: 440px; margin-top: 26px; }
+
   /* ---------- oferta (tela final) ---------- */
   body { overflow-x: clip; }
   .oferta { position: relative; padding-top: 1vh; }
@@ -640,6 +671,51 @@
     </div>
   </section>
 
+  <!-- prova social: entre o envio da aplicação e a oferta (os mesmos prints da página do curso de Shopee) -->
+  <section class="screen prova" data-step="prova">
+    <div class="of-brilho" aria-hidden="true"></div>
+    <p class="of-ok"><i aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#121212" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-6.5"/></svg></i>Aplicação recebida</p>
+    <h1 class="of-h1"><span class="pv-nome">Antes</span> de ver sua mentoria, olha isso<span class="dot">.</span></h1>
+    <p class="of-lead">Não acredite no método só porque eu estou dizendo que funciona. Veja o que aconteceu quando ele foi aplicado em uma conta nova da Shopee.</p>
+
+    <ol class="pv-linha">
+      <li class="pv-mes" data-rv>
+        <p class="pv-quando"><b>Fevereiro 2026</b> a operação ainda estava começando</p>
+        <p class="pv-valor" data-conta="1436.29" data-tipo="reais">R$ 1.436,29</p>
+        <p class="pv-pedidos" data-conta="35" data-sufixo="pedidos">35 pedidos</p>
+        <a class="pv-print" href="prova/print-fevereiro.jpg" target="_blank" rel="noopener" aria-label="Ver o print de fevereiro em tamanho real">
+          <picture><source srcset="prova/print-fevereiro.webp" type="image/webp"><img src="prova/print-fevereiro.jpg" alt="Painel da Shopee em fevereiro de 2026: R$ 1.436,29 em vendas e 35 pedidos" width="1400" height="722" loading="lazy"></picture>
+        </a>
+      </li>
+      <li class="pv-mes" data-rv>
+        <p class="pv-quando"><b>Março 2026</b> um mês depois</p>
+        <p class="pv-valor" data-conta="64677.58" data-tipo="reais">R$ 64.677,58</p>
+        <p class="pv-pedidos" data-conta="1131" data-sufixo="pedidos">1.131 pedidos</p>
+        <p class="pv-delta">+4.403% em vendas vs. fevereiro</p>
+        <a class="pv-print" href="prova/print-marco.jpg" target="_blank" rel="noopener" aria-label="Ver o print de março em tamanho real">
+          <picture><source srcset="prova/print-marco.webp" type="image/webp"><img src="prova/print-marco.jpg" alt="Painel da Shopee em março de 2026: R$ 64.677,58 em vendas e 1.131 pedidos" width="1400" height="640" loading="lazy"></picture>
+        </a>
+      </li>
+      <li class="pv-mes" data-rv>
+        <p class="pv-quando"><b>Abril 2026</b> a mesma conta, dois meses depois</p>
+        <p class="pv-valor" data-conta="161210.59" data-tipo="reais">R$ 161.210,59</p>
+        <p class="pv-pedidos" data-conta="2562" data-sufixo="pedidos">2.562 pedidos</p>
+        <p class="pv-delta">+149% em vendas vs. março</p>
+        <a class="pv-print" href="prova/print-abril.jpg" target="_blank" rel="noopener" aria-label="Ver o print de abril em tamanho real">
+          <picture><source srcset="prova/print-abril.webp" type="image/webp"><img src="prova/print-abril.jpg" alt="Painel da Shopee em abril de 2026: R$ 161.210,59 em vendas e 2.562 pedidos" width="1400" height="636" loading="lazy"></picture>
+        </a>
+      </li>
+    </ol>
+
+    <div class="pv-multi of-full" data-rv>
+      <p><b>73x</b> mais pedidos</p>
+      <p><b>112x</b> mais vendas</p>
+    </div>
+
+    <p class="pv-fecho" data-rv>Não foi um “segredo da Shopee”. Foi método aplicado na operação, todo dia. É esse método que você vai ver agora.</p>
+    <button class="btn pv-seguir" type="button">Ver a mentoria indicada para mim <span class="arrow">→</span></button>
+  </section>
+
   <!-- tela final: a oferta indicada pelas respostas (montada pelo script); o preço vem por último -->
   <section class="screen oferta" data-step="done" aria-live="polite"></section>
 </main>
@@ -882,7 +958,7 @@
     window.scrollTo(0, 0);
 
     const info = STEPS.find(s => s.id === step);
-    const pct = info ? ((info.n - 1) / TOTAL) * 100 : ['loading', 'error', 'done'].includes(step) ? 100 : 0;
+    const pct = info ? ((info.n - 1) / TOTAL) * 100 : ['loading', 'error', 'prova', 'done'].includes(step) ? 100 : 0;
     fill.style.width = pct + '%';
     progress.setAttribute('aria-valuenow', Math.round(pct));
     stepLabel.textContent = info ? `Etapa ${info.n} de ${TOTAL}` : '';
@@ -920,7 +996,7 @@
   }
 
   window.addEventListener('popstate', e => {
-    if (['loading', 'done'].includes(current)) return;
+    if (['loading', 'prova', 'done'].includes(current)) return;
     const step = e.state && e.state.step;
     render(step && screens[step] ? step : 'intro', true);
   });
@@ -1228,13 +1304,57 @@
     try {
       const [, vagas] = await Promise.all([insertRow(row), lerVagas(), minWait]);
       montarOferta(vagas);
-      history.replaceState({ step: 'done' }, '');
-      render('done');
+      mostrarProva();
     } catch (err) {
       console.error(err);
       await minWait;
       render('error');
     }
+  }
+
+  // ---------- prova social (entre o envio e a oferta) ----------
+  function mostrarProva() {
+    const nome = (txt('nome') || '').split(/\s+/)[0];
+    $('.pv-nome', screens.prova).textContent = nome ? `${nome}, antes` : 'Antes';
+    history.replaceState({ step: 'prova' }, '');
+    render('prova');
+    revelar(screens.prova);
+    contarValores(screens.prova);
+  }
+
+  $('.pv-seguir', screens.prova).addEventListener('click', () => {
+    history.replaceState({ step: 'done' }, '');
+    render('done');
+  });
+
+  /** Valores da prova sobem de 0 até o número quando aparecem na tela. */
+  function contarValores(raiz) {
+    const els = $$('[data-conta]', raiz);
+    const fmt = (el, v) => {
+      el.textContent = el.dataset.tipo === 'reais'
+        ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        : `${Math.round(v).toLocaleString('pt-BR')} ${el.dataset.sufixo || ''}`.trim();
+    };
+    const semMovimento = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || typeof IntersectionObserver === 'undefined') return els.forEach(el => fmt(el, Number(el.dataset.conta)));
+    const animar = el => {
+      const fim = Number(el.dataset.conta);
+      const t0 = performance.now();
+      const dur = 1400;
+      const passo = t => {
+        const p = Math.min(1, (t - t0) / dur);
+        fmt(el, fim * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(passo);
+        else fmt(el, fim);
+      };
+      requestAnimationFrame(passo);
+    };
+    const io = new IntersectionObserver(entradas => entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      animar(e.target);
+      io.unobserve(e.target);
+    }), { threshold: 0.6 });
+    els.forEach(el => { fmt(el, 0); io.observe(el); });
   }
 
   // ---------- eventos ----------
@@ -1264,7 +1384,7 @@
     Object.assign(answers, EXEMPLOS[ver]);
     lerVagas().then(vagas => {
       montarOferta(vagas);
-      render('done');
+      mostrarProva();
     });
   }
 })();
