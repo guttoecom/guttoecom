@@ -924,6 +924,24 @@
     if (v) origin[k] = v.slice(0, 200);
   });
 
+  // ---------- rastreio da sessão (cada resposta e cada etapa, mesmo de quem abandona) ----------
+  const PREVIA = ['grupo', 'individual'].includes(params.get('ver'));
+  const SESSAO = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+  function rpc(nome, corpo) {
+    if (PREVIA) return;
+    try {
+      fetch(`${CFG.supabaseUrl}/rest/v1/rpc/${nome}`, {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey },
+        body: JSON.stringify(corpo),
+      }).catch(() => {});
+    } catch { /* rastreio nunca atrapalha o formulário */ }
+  }
+  const salvarSessao = pergunta => rpc('mentoria_sessao_salvar', { p_id: SESSAO, p_respostas: answers, p_pergunta: pergunta, p_utm: origin });
+  const eventoSessao = evento => rpc('mentoria_sessao_evento', { p_id: SESSAO, p_evento: evento });
+
   // ---------- montar as telas ----------
   const CHECK = '<svg viewBox="0 0 16 16" fill="none" stroke="#121212" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-6.5"/></svg>';
   const ERR = '<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.8v3.6M8 11.1v.1"/></svg>';
@@ -1146,6 +1164,7 @@
     const i = flow.indexOf(current);
     if (i < 0) return;
     if (current !== 'intro' && !validar(current)) return;
+    if (current !== 'intro') salvarSessao(current);
     if (flow[i + 1]) go(flow[i + 1]);
     else submit();
   }
@@ -1460,6 +1479,7 @@
       impedimento: vende === 'nao' ? txt('impedimento') : null,
       motivo: txt('motivo'),
       disponibilidade: answers.disponibilidade,
+      sessao_id: SESSAO,
       ...origin,
     };
     const wasError = current === 'error';
@@ -1484,11 +1504,17 @@
     render('prova');
     revelar(screens.prova);
     contarValores(screens.prova);
+    eventoSessao('prova');
   }
 
   $('.pv-seguir', screens.prova).addEventListener('click', () => {
     history.replaceState({ step: 'done' }, '');
     render('done');
+    eventoSessao('oferta'); // última tela: vira tarefa de WhatsApp no CRM
+  });
+  // clique no botão do WhatsApp da oferta (o botão é recriado a cada montagem, então escuta na tela)
+  screens.done.addEventListener('click', e => {
+    if (e.target.closest && e.target.closest('.of-cta')) eventoSessao('whatsapp');
   });
 
   /** Valores da prova sobem de 0 até o número quando aparecem na tela. */
