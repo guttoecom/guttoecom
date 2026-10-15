@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diagnóstico do aluno · Mentoria em Grupo | gutto.</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F4F2EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212; --off-white: #F4F2EE; --orange: #FF5A1F; --orange-strong: #E8490F;
+    --gray: #6B6862; --white: #FFFFFF; --border: #E2DED7; --border-strong: #C9C4BB; --body: #3A3835;
+    --orange-tint: rgba(255, 90, 31, .09); --error: #B83A0C; --good: #2F8F5B;
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif; --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: var(--font); font-weight: 500; color: var(--black);
+    background-color: var(--off-white);
+    background-image: linear-gradient(rgba(18,18,18,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(18,18,18,.035) 1px, transparent 1px);
+    background-size: 28px 28px; -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea { font-family: inherit; }
+  [hidden] { display: none !important; }
+  .top { padding: 18px clamp(16px, 5vw, 48px); }
+  .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.05em; color: var(--black); text-decoration: none; }
+  .dot { color: var(--orange); }
+  main { max-width: 680px; margin: 0 auto; padding: 8px 16px 80px; }
+  .kicker { margin: 0 0 14px; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray); }
+  h1 { margin: 0; font-size: clamp(32px, 7vw, 52px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
+  h1 .laranja { color: var(--orange); }
+  .sub { margin: 16px 0 28px; font-size: 16px; line-height: 1.55; color: var(--body); }
+  form { display: grid; gap: 14px; }
+  .q { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 20px; }
+  .q > label, .q legend { display: flex; gap: 10px; align-items: baseline; padding: 0; margin: 0 0 12px; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; }
+  .q .n { color: var(--orange); font-size: 13px; letter-spacing: .08em; font-variant-numeric: tabular-nums; flex: none; }
+  .q .dica { margin: -6px 0 12px 30px; font-size: 13px; color: var(--gray); }
+  fieldset.q { margin: 0; min-width: 0; }
+  input[type=text], input[type=url], textarea {
+    width: 100%; border: 1.5px solid transparent; background: var(--off-white); border-radius: 12px;
+    padding: 13px 14px; font-size: 16px; font-weight: 600; color: var(--black); outline: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+  }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.5; font-weight: 500; }
+  input:focus, textarea:focus { background: var(--white); border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
+  .ops { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ops label { position: relative; cursor: pointer; }
+  .ops input { position: absolute; opacity: 0; pointer-events: none; }
+  .ops span {
+    display: inline-block; padding: 10px 14px; border-radius: 999px; border: 1.5px solid var(--border-strong);
+    background: var(--white); font-size: 14.5px; font-weight: 700; transition: background .15s, border-color .15s, color .15s;
+  }
+  .ops input:checked + span { background: var(--black); border-color: var(--black); color: var(--white); }
+  .ops input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .q.erro { border-color: var(--error); }
+  .q .msg-erro { display: none; margin: 8px 0 0; font-size: 13px; font-weight: 700; color: var(--error); }
+  .q.erro .msg-erro { display: block; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; border-radius: 999px;
+    padding: 17px 28px; min-height: 54px; background: var(--orange); color: var(--black); font-size: 17px; font-weight: 800;
+    cursor: pointer; transition: transform .15s, filter .2s;
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px; }
+  .acoes p { margin: 0; font-size: 13px; color: var(--gray); }
+  .estado { background: var(--black); color: var(--white); border-radius: 22px; padding: clamp(24px, 5vw, 40px); position: relative; overflow: hidden; }
+  .estado::before { content: ""; position: absolute; right: -120px; top: -140px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.42), rgba(255,90,31,0) 68%); }
+  .estado > * { position: relative; }
+  .estado h2 { margin: 0 0 10px; font-size: clamp(28px, 6vw, 40px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.05; }
+  .estado p { margin: 0; color: rgba(255,255,255,.78); line-height: 1.55; }
+  .aviso { margin: 0 0 18px; padding: 12px 14px; border-radius: 12px; background: var(--white); border: 1px solid var(--border); font-size: 14px; color: var(--body); }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<header class="top"><a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a></header>
+<main>
+  <section id="carregando"><p class="sub">Carregando…</p></section>
+
+  <section id="invalido" hidden>
+    <div class="estado">
+      <h2>Link não encontrado<span class="dot">.</span></h2>
+      <p>Esse link de diagnóstico não é válido. Me chama no WhatsApp que eu te mando o link certo.</p>
+    </div>
+  </section>
+
+  <section id="formulario" hidden>
+    <p class="kicker" id="kicker">Mentoria em Grupo · Diagnóstico do aluno</p>
+    <h1 id="titulo">Bora começar com <span class="laranja">o pé direito</span><span class="dot">.</span></h1>
+    <p class="sub">Responde com calma (uns 5 minutos). Com isso o Léo já chega no primeiro encontro sabendo do seu momento, e a mentoria fica feita para o seu caso.</p>
+    <p class="aviso" id="ja" hidden>Você já enviou o diagnóstico. Se quiser atualizar alguma resposta, é só enviar de novo.</p>
+    <form id="form" novalidate></form>
+  </section>
+
+  <section id="pronto" hidden>
+    <div class="estado">
+      <h2>Recebido<span class="dot">.</span></h2>
+      <p id="pronto-txt">Obrigado! O Léo vai ler tudo antes do primeiro encontro. Qualquer coisa, é só chamar a gente no WhatsApp.</p>
+    </div>
+  </section>
+</main>
+
+<script src="/mentoria/config.js"></script>
+<script>
+(() => {
+  const CFG = window.MENTORIA_CONFIG;
+  // Perguntas do diagnóstico (o CRM guarda pergunta + resposta, então mudar aqui não quebra nada).
+  const PERGUNTAS = [
+    { id: 'loja', tipo: 'url', obrigatoria: true, rotulo: 'Qual é o link da sua loja principal?', dica: 'Shopee, Mercado Livre, site ou Instagram.', ph: 'shopee.com.br/sualoja' },
+    { id: 'marketplaces', tipo: 'multi', obrigatoria: true, rotulo: 'Em quais marketplaces você vende hoje?', ops: ['Shopee', 'Mercado Livre', 'TikTok Shop', 'Shein', 'Amazon', 'Magalu', 'Ainda não vendo'] },
+    { id: 'faturamento', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto você fatura por mês nos marketplaces?', ops: ['Ainda não vendo', 'Até R$ 5 mil', 'R$ 5 a 20 mil', 'R$ 20 a 50 mil', 'Acima de R$ 50 mil'] },
+    { id: 'produto', tipo: 'texto', obrigatoria: true, rotulo: 'Qual é o seu produto principal?', ph: 'Ex.: kit de regatas canelado' },
+    { id: 'margem', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto sobra de lucro, em média, em cada venda?', ops: ['Não sei', 'Menos de 10%', '10% a 20%', '20% a 30%', 'Mais de 30%'] },
+    { id: 'dificuldade', tipo: 'longo', obrigatoria: true, rotulo: 'Qual é a sua maior dificuldade hoje?', ph: 'Conta do seu jeito' },
+    { id: 'meta', tipo: 'longo', obrigatoria: true, rotulo: 'Qual é a sua meta para esses 2 meses de mentoria?', ph: 'Ex.: chegar a R$ 20 mil por mês com margem de 20%' },
+    { id: 'tempo', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto tempo por semana você tem para aplicar o que aprender?', ops: ['Até 2 horas', '2 a 5 horas', '5 a 10 horas', 'Mais de 10 horas'] },
+    { id: 'quem', tipo: 'uma', obrigatoria: true, rotulo: 'Quem opera a loja no dia a dia?', ops: ['Eu mesmo(a)', 'Alguém da minha equipe', 'Agência ou assessoria'] },
+    { id: 'valer', tipo: 'longo', obrigatoria: false, rotulo: 'O que faria esses 2 meses valerem muito a pena para você?', ph: 'Opcional, mas ajuda muito' },
+  ];
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const aluno = (new URLSearchParams(location.search).get('a') || '').trim();
+  const rpc = (nome, corpo) => fetch(`${CFG.supabaseUrl}/rest/v1/rpc/${nome}`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey }, body: JSON.stringify(corpo),
+  });
+  const mostrar = id => ['carregando', 'invalido', 'formulario', 'pronto'].forEach(x => { $(x).hidden = x !== id; });
+
+  function montar() {
+    $('form').innerHTML = PERGUNTAS.map((p, i) => {
+      const n = `<span class="n">${String(i + 1).padStart(2, '0')}</span>`;
+      const dica = p.dica ? `<p class="dica">${esc(p.dica)}</p>` : '';
+      const erro = `<p class="msg-erro">${p.tipo === 'multi' ? 'Marca pelo menos uma opção.' : p.tipo === 'uma' ? 'Escolhe uma opção.' : 'Essa resposta é importante.'}</p>`;
+      if (p.tipo === 'uma' || p.tipo === 'multi') {
+        const tipo = p.tipo === 'uma' ? 'radio' : 'checkbox';
+        return `<fieldset class="q" data-q="${p.id}"><legend>${n}<span>${esc(p.rotulo)}</span></legend>${dica}
+          <div class="ops">${p.ops.map(o => `<label><input type="${tipo}" name="${p.id}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div>${erro}</fieldset>`;
+      }
+      const campo = p.tipo === 'longo'
+        ? `<textarea id="f-${p.id}" name="${p.id}" maxlength="2000" placeholder="${esc(p.ph || '')}"></textarea>`
+        : `<input id="f-${p.id}" name="${p.id}" type="${p.tipo === 'url' ? 'url' : 'text'}" maxlength="300" placeholder="${esc(p.ph || '')}" ${p.tipo === 'url' ? 'inputmode="url" autocapitalize="off"' : ''}>`;
+      return `<div class="q" data-q="${p.id}"><label for="f-${p.id}">${n}<span>${esc(p.rotulo)}</span></label>${dica}${campo}${erro}</div>`;
+    }).join('') + `<div class="acoes"><button class="btn" type="submit" id="enviar">Enviar diagnóstico →</button><p>Só o Léo e a equipe veem suas respostas.</p></div>`;
+
+    $('form').addEventListener('input', e => e.target.closest('.q')?.classList.remove('erro'));
+    $('form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const fd = new FormData($('form'));
+      const respostas = [];
+      let primeiro = null;
+      for (const p of PERGUNTAS) {
+        const v = p.tipo === 'multi' ? fd.getAll(p.id).join(', ') : String(fd.get(p.id) || '').trim();
+        const bloco = $('form').querySelector(`[data-q="${p.id}"]`);
+        const falta = p.obrigatoria && !v;
+        bloco.classList.toggle('erro', falta);
+        if (falta && !primeiro) primeiro = bloco;
+        if (v) respostas.push({ pergunta: p.rotulo, resposta: v.slice(0, 2000) });
+      }
+      if (primeiro) return primeiro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const btn = $('enviar');
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+      try {
+        const r = await rpc('mentoria_diagnostico_salvar', { p_aluno: aluno, p_respostas: respostas });
+        if (!r.ok || (await r.json()) !== true) throw new Error('falhou');
+        mostrar('pronto');
+        scrollTo({ top: 0 });
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Tentar de novo →';
+        alert('Não consegui enviar agora. Confere a internet e tenta de novo.');
+      }
+    });
+  }
+
+  (async () => {
+    if (!/^[0-9a-f-]{36}$/i.test(aluno)) return mostrar('invalido');
+    try {
+      const r = await rpc('mentoria_diagnostico_info', { p_aluno: aluno });
+      const info = r.ok ? await r.json() : null;
+      if (!info) return mostrar('invalido');
+      if (info.nome) $('titulo').innerHTML = `${esc(info.nome)}, bora começar com <span class="laranja">o pé direito</span><span class="dot">.</span>`;
+      if (info.turma) $('kicker').textContent = `Mentoria em Grupo · ${info.turma}`;
+      $('ja').hidden = !info.preenchido;
+      montar();
+      mostrar('formulario');
+    } catch {
+      mostrar('invalido');
+    }
+  })();
+})();
+</script>
+</body>
+</html>
