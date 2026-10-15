@@ -184,7 +184,8 @@
       const info = r.ok ? await r.json() : null;
       if (!info) return mostrar('invalido');
       if (info.nome) $('titulo').innerHTML = `${esc(info.nome)}, bora começar com <span class="laranja">o pé direito</span><span class="dot">.</span>`;
-      if (info.turma) $('kicker').textContent = `Mentoria em Grupo · ${info.turma}`;
+      if (info.produto === 'individual') $('kicker').textContent = 'Mentoria Individual · Diagnóstico do aluno';
+      else if (info.turma) $('kicker').textContent = `Mentoria em Grupo · ${info.turma}`;
       $('ja').hidden = !info.preenchido;
       montar();
       mostrar('formulario');
