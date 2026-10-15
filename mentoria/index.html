@@ -1220,10 +1220,10 @@
       inclui: [
         '2 meses de mentoria, com 1 encontro ao vivo por semana',
         'Grupo de WhatsApp da turma para tirar dúvidas entre os encontros',
-        'Início em 7 de novembro, com horário definido junto com a turma',
-        'Turma pequena: só 10 vagas',
+        'Início em {inicio}, com horário definido junto com a turma',
+        'Turma pequena: só {vagas} vagas',
       ],
-      bonusTitulo: 'Bônus para os 5 primeiros',
+      bonusTitulo: 'Bônus para os {bonus} primeiros',
       bonus: [['Treinamento de Shopee', 147], ['Análise individual da sua conta, comigo', 197]],
       preco: 'R$ 799',
       parcelas: 'ou em até 12x de R$ 82,37',
@@ -1271,6 +1271,12 @@
     return `Você ainda não vende em marketplace${canal ? ` e hoje suas vendas vêm ${canal}` : ''}. A turma é o jeito mais rápido de começar do jeito certo: o método passo a passo e um grupo para tirar dúvidas a semana toda.`;
   }
 
+  /** Data de início da turma que está vendendo (vem do CRM junto com as vagas). */
+  let INICIO_TURMA = '7 de novembro';
+  let TOTAL_VAGAS = 10;
+  let TOTAL_BONUS = 5;
+  const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
   /** Vagas da turma (nunca impede a tela: sem resposta, mostra só o total). */
   async function lerVagas() {
     try {
@@ -1279,11 +1285,19 @@
         headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey },
         body: '{}',
       });
-      return res.ok ? await res.json() : null;
+      const v = res.ok ? await res.json() : null;
+      const d = v && /^d{4}-d{2}-d{2}$/.test(v.inicio || '') ? v.inicio.split('-').map(Number) : null;
+      if (d) INICIO_TURMA = `${d[2]} de ${MESES[d[1] - 1]}`;
+      if (v && v.total > 0) TOTAL_VAGAS = v.total;
+      if (v && v.bonus_total >= 0 && v.bonus_total != null) TOTAL_BONUS = v.bonus_total;
+      return v;
     } catch {
       return null;
     }
   }
+
+  /** Troca {inicio}, {vagas} e {bonus} pelos números da turma. */
+  const marcar = t => String(t).replace('{inicio}', INICIO_TURMA).replace('{vagas}', TOTAL_VAGAS).replace('{bonus}', TOTAL_BONUS);
 
   function montarOferta(vagas) {
     const tipo = ofertaDe(answers);
@@ -1294,7 +1308,7 @@
     const totalBonus = o.bonus.reduce((s, b) => s + b[1], 0);
     const msg = esgotada ? `Oi! Sou ${nome}, fiz a aplicação e quero entrar na lista de espera da próxima turma da Mentoria em Grupo.` : o.msg(nome);
     const href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(msg)}`;
-    const item = t => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span></li>`;
+    const item = t => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(marcar(t))}</span></li>`;
 
     const motivo = txt('motivo') || '';
     const pil = pilares(tipo, answers);
@@ -1305,27 +1319,27 @@
     const rv = (d = 0) => `data-rv style="--d:${d}ms"`;
 
     const assentos = grupo && bonusRestam != null
-      ? `<div class="of-assentos" aria-hidden="true">${Array.from({ length: 5 }, (_, i) =>
-          `<span class="of-assento ${i < 5 - bonusRestam ? 'tomado' : 'livre'}" style="--i:${i}">${i + 1}</span>`).join('')}</div>
-        <p class="of-assentos-leg">${5 - bonusRestam} de 5 bônus já garantidos</p>`
+      ? `<div class="of-assentos" aria-hidden="true">${Array.from({ length: TOTAL_BONUS }, (_, i) =>
+          `<span class="of-assento ${i < TOTAL_BONUS - bonusRestam ? 'tomado' : 'livre'}" style="--i:${i}">${i + 1}</span>`).join('')}</div>
+        <p class="of-assentos-leg">${TOTAL_BONUS - bonusRestam} de ${TOTAL_BONUS} bônus já garantidos</p>`
       : '';
 
     const ingresso = !comIngresso ? '' : `
       <section class="of-ticket${grupo ? '' : ' escuro'}" id="of-bonus" ${rv()}>
         <div class="of-ticket-top">
-          <span class="of-ticket-tag">${grupo ? 'Só para os 5 primeiros' : 'Você também recebe'}</span>
+          <span class="of-ticket-tag">${grupo ? `Só para os ${TOTAL_BONUS} primeiros` : 'Você também recebe'}</span>
           ${bonusRestam != null ? `<span class="of-ticket-resta">restam <b>${bonusRestam}</b></span>` : ''}
         </div>
         <p class="of-ticket-tit">${grupo ? 'Entre agora e leve' : 'Junto com a mentoria,'} <span>${reais(totalBonus)}</span> em bônus.</p>
         ${assentos}
         <div class="of-ticket-corte"></div>
         <ul class="of-ticket-lista">${o.bonus.map(([t, v]) => `<li><span>${esc(t)}</span><s>${reais(v)}</s></li>`).join('')}</ul>
-        ${grupo ? '<p class="of-ticket-nota">Quando os 5 bônus forem garantidos, eles saem desta página.</p>' : ''}
+        ${grupo ? `<p class="of-ticket-nota">Quando os ${TOTAL_BONUS} bônus forem garantidos, eles saem desta página.</p>` : ''}
       </section>`;
 
     let lugares = '';
     if (grupo) {
-      if (!vagas) lugares = `<div class="of-lugares" ${rv()}><p class="of-lugares-txt"><b>Turma com 10 vagas.</b></p></div>`;
+      if (!vagas) lugares = `<div class="of-lugares" ${rv()}><p class="of-lugares-txt"><b>Turma com ${TOTAL_VAGAS} vagas.</b></p></div>`;
       else {
         const tomadas = vagas.total - vagas.vagas;
         lugares = `<div class="of-lugares" ${rv()}>
@@ -1341,7 +1355,7 @@
       <p class="of-ok"><i aria-hidden="true">${CHECK}</i>Aplicação recebida</p>
       <h1 class="of-h1">${nome ? `<span class="of-marca">${esc(nome)}</span>, seu` : 'Seu'} perfil é para a <em>${esc(o.nome)}</em>.</h1>
       <p class="of-lead">${esc(razao(tipo, answers))}</p>
-      ${grupo && comIngresso ? `<a class="of-chip" href="#of-bonus"><span class="pulso" aria-hidden="true"></span>${reais(totalBonus)} em bônus para os 5 primeiros${bonusRestam != null ? ` · restam ${bonusRestam}` : ''}</a>` : ''}
+      ${grupo && comIngresso ? `<a class="of-chip" href="#of-bonus"><span class="pulso" aria-hidden="true"></span>${reais(totalBonus)} em bônus para os ${TOTAL_BONUS} primeiros${bonusRestam != null ? ` · restam ${bonusRestam}` : ''}</a>` : ''}
       ${motivo.length >= 15 ? `<figure class="of-quote" ${rv()}><blockquote>${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>` : ''}
 
       <section class="of-sec">
@@ -1365,7 +1379,7 @@
 
       <section class="of-sec">
         <p class="of-kicker" ${rv()}>Como funciona</p>
-        <ul class="of-inclui">${o.inclui.map((t, i) => `<li ${rv(i * 90)}><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span></li>`).join('')}</ul>
+        <ul class="of-inclui">${o.inclui.map((t, i) => `<li ${rv(i * 90)}><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(marcar(t))}</span></li>`).join('')}</ul>
       </section>
 
       ${ingresso}
@@ -1417,7 +1431,7 @@
         ? `Hoje o que mais trava é ${difs}. Você quer resolver isso com um método, em vez de tentativa e erro?`
         : 'Você quer crescer com um método claro, em vez de tentativa e erro?',
       tipo === 'grupo'
-        ? 'Você consegue reservar 1 encontro por semana nos próximos 2 meses, a partir de 7 de novembro?'
+        ? `Você consegue reservar 1 encontro por semana nos próximos 2 meses, a partir de ${INICIO_TURMA}?`
         : 'Você consegue reservar 1 encontro por semana nos próximos 2 meses, no horário que a gente combinar?',
     ];
   }
