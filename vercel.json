@@ -33,6 +33,10 @@
   ],
   "rewrites": [
     {
+      "source": "/e/:k",
+      "destination": "https://aedxvttmnjheussswyht.supabase.co/functions/v1/crm-rastreio/:k"
+    },
+    {
       "source": "/app",
       "destination": "https://guttoapp.vercel.app/app"
     },
