@@ -3,3 +3,4 @@ logos
 .env
 .env.*
 analise/
+calculadora/*.test.cjs
