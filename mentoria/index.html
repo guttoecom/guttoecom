@@ -1228,7 +1228,7 @@
       preco: 'R$ 799',
       parcelas: 'ou em até 12x de R$ 82,37',
       cta: 'Garantir minha vaga',
-      msg: n => `Oi, Bruno! Sou ${n}, fiz a aplicação e quero garantir minha vaga na Mentoria em Grupo.`,
+      msg: n => `Oi! Sou ${n}, fiz a aplicação e quero garantir minha vaga na Mentoria em Grupo.`,
     },
     individual: {
       nome: 'Mentoria Individual',
@@ -1243,7 +1243,7 @@
       preco: 'R$ 2.997',
       parcelas: 'ou em até 6x de R$ 518,09',
       cta: 'Quero começar minha mentoria',
-      msg: n => `Oi, Bruno! Sou ${n}, fiz a aplicação e quero começar a Mentoria Individual.`,
+      msg: n => `Oi! Sou ${n}, fiz a aplicação e quero começar a Mentoria Individual.`,
     },
   };
 
@@ -1292,7 +1292,7 @@
     const esgotada = tipo === 'grupo' && vagas && vagas.vagas === 0;
     const comBonus = !(tipo === 'grupo' && vagas && vagas.bonus === 0);
     const totalBonus = o.bonus.reduce((s, b) => s + b[1], 0);
-    const msg = esgotada ? `Oi, Bruno! Sou ${nome}, fiz a aplicação e quero entrar na lista de espera da próxima turma da Mentoria em Grupo.` : o.msg(nome);
+    const msg = esgotada ? `Oi! Sou ${nome}, fiz a aplicação e quero entrar na lista de espera da próxima turma da Mentoria em Grupo.` : o.msg(nome);
     const href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(msg)}`;
     const item = t => `<li><span class="of-ck" aria-hidden="true">${CHECK}</span><span>${esc(t)}</span></li>`;
 
