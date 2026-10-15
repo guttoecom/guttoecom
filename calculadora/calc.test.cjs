@@ -1,4 +1,4 @@
-// node --test calculadora/  · confere a calculadora contra os valores que as planilhas mostram.
+// node --test calculadora/calc.test.cjs  · confere a calculadora contra os valores que as planilhas mostram.
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const C = require("./calc.js");
