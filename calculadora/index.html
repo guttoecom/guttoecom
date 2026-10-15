@@ -774,9 +774,8 @@
         "<li>Afiliado e imposto são uma porcentagem do preço de venda.</li>" +
         "<li>Preço sugerido = (custos + taxa fixa) ÷ (1 − comissão − envio − imposto − margem − afiliado). Se der R$ 50 ou mais, a conta é refeita com as taxas dessa faixa.</li></ul>";
     } else {
-      var f1 = estado.modo === "reversa" ? "R$ 4,00" : "R$ 4,50";
       html = "<table><thead><tr><th>Preço</th><th>Comissão</th><th>Taxa fixa</th></tr></thead><tbody>" +
-        "<tr><td>Até R$ 79,99</td><td>20%</td><td>" + f1 + "</td></tr>" +
+        "<tr><td>Até R$ 79,99</td><td>20%</td><td>R$ 4,50</td></tr>" +
         "<tr><td>R$ 80 a R$ 99,99</td><td>14%</td><td>R$ 16,00</td></tr>" +
         "<tr><td>R$ 100 a R$ 199,99</td><td>14%</td><td>R$ 20,00</td></tr>" +
         "<tr><td>R$ 200 ou mais</td><td>14%</td><td>R$ 26,00</td></tr></tbody></table>" +

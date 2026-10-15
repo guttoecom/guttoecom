@@ -5,9 +5,9 @@ const C = require("./calc.js");
 
 const perto = (a, b, casas = 2) => assert.equal(a.toFixed(casas), b.toFixed(casas));
 
-test("Shopee Precificador: exemplo da planilha (sugerido R$ 29,17; manual R$ 47,99 → lucro R$ 17,99 / 37,49%)", () => {
+test("Shopee Precificador: exemplo da planilha (sugerido R$ 30,00 com taxa fixa R$ 4,50; manual R$ 47,99 → lucro R$ 17,99 / 37,49%)", () => {
   const e = { custo: 12, embalagem: 0.5, outros: 1, imposto: 0.05, lucro: 0.15, roas: 0, afiliado: false, afiliadoPct: 0.105 };
-  perto(C.shopeePrecificar(e).sugerido, 29.17);
+  perto(C.shopeePrecificar(e).sugerido, 30);
   const r = C.shopeePrecificar({ ...e, precoManual: 47.99 });
   assert.equal(r.faixa, "Até R$ 79,99");
   assert.equal(r.taxaFixa, 4.5);
@@ -17,7 +17,7 @@ test("Shopee Precificador: exemplo da planilha (sugerido R$ 29,17; manual R$ 47,
 
 test("Shopee Precificador: afiliado e ROAS entram no preço e no resultado; % impossível → 0", () => {
   const r = C.shopeePrecificar({ custo: 12, embalagem: 0.5, outros: 1, imposto: 0.05, lucro: 0.15, roas: 10, afiliado: true, afiliadoPct: 0.105 });
-  perto(r.sugerido, 17.5 / (1 - 0.2 - 0.05 - 0.1 - 0.105 - 0.15));
+  perto(r.sugerido, 18 / (1 - 0.2 - 0.05 - 0.1 - 0.105 - 0.15));
   perto(r.ads, r.preco / 10);
   perto(r.afiliado, r.preco * 0.105);
   const x = C.shopeePrecificar({ custo: 10, imposto: 0.5, lucro: 0.4 });
@@ -27,22 +27,22 @@ test("Shopee Precificador: afiliado e ROAS entram no preço e no resultado; % im
 
 test("Shopee Precificador: pula de faixa como a planilha", () => {
   const r = C.shopeePrecificar({ custo: 60, imposto: 0.05, lucro: 0.15 });
-  // (60+4)/0,6 = 106,67 > 79,99 → (60+16)/0,66 = 115,15 fora de 80–99,99 → (60+20)/0,66 = 121,21
+  // (60+4,5)/0,6 = 106,67 > 79,99 → (60+16)/0,66 = 115,15 fora de 80–99,99 → (60+20)/0,66 = 121,21
   perto(r.sugerido, 80 / 0.66);
   assert.equal(r.taxaFixa, 20);
   assert.equal(r.comissaoPct, 0.14);
 });
 
-test("Shopee Reversa: exemplo da planilha (R$ 45,90 → líquido R$ 30,15, lucro R$ 4,15, mínimo R$ 40,40)", () => {
+test("Shopee Reversa: exemplo da planilha com taxa fixa R$ 4,50 (R$ 45,90 → líquido R$ 29,65, lucro R$ 3,65, mínimo R$ 41,06)", () => {
   const r = C.shopeeReversa({ preco: 45.9, qtd: 1, imposto: 0.045, embalagem: 0.5, custo: 26 });
   perto(r.comissao, 9.18);
-  assert.equal(r.taxaFixa, 4);
+  assert.equal(r.taxaFixa, 4.5);
   perto(r.imposto, 2.07);
-  perto(r.total, 41.75);
-  perto(r.liquido, 30.15);
-  perto(r.lucro, 4.15);
-  perto(r.margem * 100, 9.05);
-  perto(r.minimo, 40.4);
+  perto(r.total, 42.25);
+  perto(r.liquido, 29.65);
+  perto(r.lucro, 3.65);
+  perto(r.margem * 100, 7.96);
+  perto(r.minimo, 41.06);
   assert.equal(r.bateuMeta, true);
 });
 

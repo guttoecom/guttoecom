@@ -9,11 +9,9 @@
   const shopeeFaixa = (p) =>
     p <= 79.99 ? "Até R$ 79,99" : p <= 99.99 ? "R$ 80 a R$ 99,99" : p <= 199.99 ? "R$ 100 a R$ 199,99" : "Acima de R$ 200";
   const shopeeComissao = (p) => (p <= 79.99 ? 0.2 : 0.14);
-  // Taxa fixa da Calculadora Reversa (e da conta do preço sugerido no Precificador).
-  const shopeeTaxaFixa = (p) => (p <= 79.99 ? 4 : p <= 99.99 ? 16 : p <= 199.99 ? 20 : 26);
-  // Taxa fixa do resultado no Precificador (célula F8): a 1ª faixa usa R$ 4,50 lá.
-  const TAXA_FIXA_PRECIFICADOR_FAIXA1 = 4.5;
-  const shopeeTaxaFixaPrecificador = (p) => (p <= 79.99 ? TAXA_FIXA_PRECIFICADOR_FAIXA1 : shopeeTaxaFixa(p));
+  // Taxa fixa por item. 1ª faixa = R$ 4,50 (definido pelo Bruno em 15/10; as planilhas tinham R$ 4 em algumas células).
+  const TAXA_FIXA_FAIXA1 = 4.5;
+  const shopeeTaxaFixa = (p) => (p <= 79.99 ? TAXA_FIXA_FAIXA1 : p <= 99.99 ? 16 : p <= 199.99 ? 20 : 26);
 
   /** Precificador: preço sugerido pela margem desejada e o resultado do preço usado (manual ou sugerido). */
   function shopeePrecificar(e) {
@@ -24,7 +22,7 @@
     const pctAfiliado = e.afiliado ? n(e.afiliadoPct) : 0; // I7
     const d20 = 1 - 0.2 - imposto - pctAds - pctAfiliado - lucroDesejado; // I8
     const d14 = 1 - 0.14 - imposto - pctAds - pctAfiliado - lucroDesejado; // I9
-    const p1 = (custos + 4) / d20; // I10
+    const p1 = (custos + TAXA_FIXA_FAIXA1) / d20; // I10
     const p2 = (custos + 16) / d14; // I11
     const p3 = (custos + 20) / d14; // I12
     const p4 = (custos + 26) / d14; // I13
@@ -39,7 +37,7 @@
     const preco = manual > 0 ? manual : sugerido;
     const comissaoPct = shopeeComissao(preco); // F7
     const comissao = preco * comissaoPct;
-    const taxaFixa = shopeeTaxaFixaPrecificador(preco); // F8
+    const taxaFixa = shopeeTaxaFixa(preco); // F8
     const ads = roas > 0 ? preco / roas : 0; // F9
     const afiliado = e.afiliado ? preco * n(e.afiliadoPct) : 0; // F10
     const impostoR = preco * imposto; // F11
