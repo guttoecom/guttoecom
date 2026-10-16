@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Diagnóstico do aluno · Mentoria em Grupo | gutto.</title>
+<title>Diagnóstico do aluno · Mentoria | gutto.</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#F4F2EE">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,18 +28,35 @@
   .top { padding: 18px clamp(16px, 5vw, 48px); }
   .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.05em; color: var(--black); text-decoration: none; }
   .dot { color: var(--orange); }
-  main { max-width: 680px; margin: 0 auto; padding: 8px 16px 80px; }
+  main { max-width: 680px; margin: 0 auto; padding: 8px 16px 96px; }
   .kicker { margin: 0 0 14px; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray); }
   h1 { margin: 0; font-size: clamp(32px, 7vw, 52px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
   h1 .laranja { color: var(--orange); }
   .sub { margin: 16px 0 28px; font-size: 16px; line-height: 1.55; color: var(--body); }
+
+  /* progresso: fica preso no topo enquanto a pessoa rola */
+  .progresso { position: sticky; top: 0; z-index: 5; margin: 0 -16px 18px; padding: 10px 16px; background: rgba(244,242,238,.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); }
+  .progresso .linha { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gray); }
+  .progresso .barra { margin-top: 7px; height: 6px; border-radius: 99px; background: var(--border); overflow: hidden; }
+  .progresso .barra span { display: block; height: 100%; width: 0; border-radius: 99px; background: var(--orange); transition: width .35s var(--ease); }
+
   form { display: grid; gap: 14px; }
+  .bloco { margin: 26px 0 2px; display: flex; align-items: baseline; gap: 12px; scroll-margin-top: 70px; }
+  .bloco:first-child { margin-top: 0; }
+  .bloco .num { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 50%; background: var(--black); color: var(--white); font-size: 14px; font-weight: 800; }
+  .bloco h2 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; }
+  .bloco p { margin: 4px 0 0; font-size: 14px; color: var(--gray); }
+
   .q { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 20px; }
   .q > label, .q legend { display: flex; gap: 10px; align-items: baseline; padding: 0; margin: 0 0 12px; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; }
   .q .n { color: var(--orange); font-size: 13px; letter-spacing: .08em; font-variant-numeric: tabular-nums; flex: none; }
+  .q .opc { margin-left: 6px; font-size: 12px; font-weight: 700; color: var(--gray); letter-spacing: 0; }
   .q .dica { margin: -6px 0 12px 30px; font-size: 13px; color: var(--gray); }
   fieldset.q { margin: 0; min-width: 0; }
-  input[type=text], input[type=url], textarea {
+  /* legenda do grupo de opções dentro do cartão (não em cima da borda) */
+  fieldset.q > legend { float: left; width: 100%; }
+  fieldset.q > legend ~ * { clear: left; }
+  input[type=text], input[type=email], input[type=tel], textarea {
     width: 100%; border: 1.5px solid transparent; background: var(--off-white); border-radius: 12px;
     padding: 13px 14px; font-size: 16px; font-weight: 600; color: var(--black); outline: none;
     transition: border-color .2s, box-shadow .2s, background .2s;
@@ -55,6 +72,7 @@
   }
   .ops input:checked + span { background: var(--black); border-color: var(--black); color: var(--white); }
   .ops input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .outro-txt { margin-top: 10px; }
   .q.erro { border-color: var(--error); }
   .q .msg-erro { display: none; margin: 8px 0 0; font-size: 13px; font-weight: 700; color: var(--error); }
   .q.erro .msg-erro { display: block; }
@@ -66,7 +84,7 @@
   .btn:hover { filter: brightness(1.05); }
   .btn:active { transform: scale(.98); }
   .btn:disabled { opacity: .6; cursor: default; }
-  .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px; }
+  .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 10px; }
   .acoes p { margin: 0; font-size: 13px; color: var(--gray); }
   .estado { background: var(--black); color: var(--white); border-radius: 22px; padding: clamp(24px, 5vw, 40px); position: relative; overflow: hidden; }
   .estado::before { content: ""; position: absolute; right: -120px; top: -140px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.42), rgba(255,90,31,0) 68%); }
@@ -81,46 +99,74 @@
 <header class="top"><a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a></header>
 <main>
   <section id="carregando"><p class="sub">Carregando…</p></section>
-
   <section id="invalido" hidden>
     <div class="estado">
       <h2>Link não encontrado<span class="dot">.</span></h2>
       <p>Esse link de diagnóstico não é válido. Me chama no WhatsApp que eu te mando o link certo.</p>
     </div>
   </section>
-
   <section id="formulario" hidden>
     <p class="kicker" id="kicker">Mentoria em Grupo · Diagnóstico do aluno</p>
-    <h1 id="titulo">Bora começar com <span class="laranja">o pé direito</span><span class="dot">.</span></h1>
-    <p class="sub">Responde com calma (uns 5 minutos). Com isso o Léo já chega no primeiro encontro sabendo do seu momento, e a mentoria fica feita para o seu caso.</p>
+    <h1 id="titulo">Seja bem-vindo(a) <span class="laranja">à mentoria</span><span class="dot">.</span></h1>
+    <p class="sub">Este formulário leva uns 10 minutos e é o ponto de partida do nosso trabalho. Com suas respostas, o Leonardo chega no primeiro encontro já conhecendo a sua operação e o que você precisa destravar. Pode responder com tranquilidade: as informações ficam só com a gente.</p>
     <p class="aviso" id="ja" hidden>Você já enviou o diagnóstico. Se quiser atualizar alguma resposta, é só enviar de novo.</p>
+    <div class="progresso" aria-hidden="true">
+      <div class="linha"><span id="prog-bloco">1. Identificação</span><span id="prog-txt">0%</span></div>
+      <div class="barra"><span id="prog-barra"></span></div>
+    </div>
     <form id="form" novalidate></form>
   </section>
-
   <section id="pronto" hidden>
     <div class="estado">
       <h2>Recebido<span class="dot">.</span></h2>
-      <p id="pronto-txt">Obrigado! O Léo vai ler tudo antes do primeiro encontro. Qualquer coisa, é só chamar a gente no WhatsApp.</p>
+      <p>Agora é com a gente. Nos vemos no primeiro encontro. 🚀</p>
     </div>
   </section>
 </main>
-
 <script src="/mentoria/config.js"></script>
 <script>
 (() => {
   const CFG = window.MENTORIA_CONFIG;
-  // Perguntas do diagnóstico (o CRM guarda pergunta + resposta, então mudar aqui não quebra nada).
+  // Blocos e perguntas do diagnóstico (as mesmas do Google Forms). O CRM guarda bloco + pergunta + resposta,
+  // então mudar aqui não quebra nada.
+  const BLOCOS = [
+    { id: 'identificacao', titulo: 'Identificação', sub: 'Para a gente saber quem é você.' },
+    { id: 'operacao', titulo: 'Raio-x da operação', sub: 'Como a sua loja funciona hoje.' },
+    { id: 'produto', titulo: 'Produto e anúncios', sub: 'O que vende mais e como você anuncia.' },
+    { id: 'objetivo', titulo: 'Seu objetivo na mentoria', sub: 'Onde você quer chegar com o Leonardo.' },
+  ];
   const PERGUNTAS = [
-    { id: 'loja', tipo: 'url', obrigatoria: true, rotulo: 'Qual é o link da sua loja principal?', dica: 'Shopee, Mercado Livre, site ou Instagram.', ph: 'shopee.com.br/sualoja' },
-    { id: 'marketplaces', tipo: 'multi', obrigatoria: true, rotulo: 'Em quais marketplaces você vende hoje?', ops: ['Shopee', 'Mercado Livre', 'TikTok Shop', 'Shein', 'Amazon', 'Magalu', 'Ainda não vendo'] },
-    { id: 'faturamento', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto você fatura por mês nos marketplaces?', ops: ['Ainda não vendo', 'Até R$ 5 mil', 'R$ 5 a 20 mil', 'R$ 20 a 50 mil', 'Acima de R$ 50 mil'] },
-    { id: 'produto', tipo: 'texto', obrigatoria: true, rotulo: 'Qual é o seu produto principal?', ph: 'Ex.: kit de regatas canelado' },
-    { id: 'margem', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto sobra de lucro, em média, em cada venda?', ops: ['Não sei', 'Menos de 10%', '10% a 20%', '20% a 30%', 'Mais de 30%'] },
-    { id: 'dificuldade', tipo: 'longo', obrigatoria: true, rotulo: 'Qual é a sua maior dificuldade hoje?', ph: 'Conta do seu jeito' },
-    { id: 'meta', tipo: 'longo', obrigatoria: true, rotulo: 'Qual é a sua meta para esses 2 meses de mentoria?', ph: 'Ex.: chegar a R$ 20 mil por mês com margem de 20%' },
-    { id: 'tempo', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto tempo por semana você tem para aplicar o que aprender?', ops: ['Até 2 horas', '2 a 5 horas', '5 a 10 horas', 'Mais de 10 horas'] },
-    { id: 'quem', tipo: 'uma', obrigatoria: true, rotulo: 'Quem opera a loja no dia a dia?', ops: ['Eu mesmo(a)', 'Alguém da minha equipe', 'Agência ou assessoria'] },
-    { id: 'valer', tipo: 'longo', obrigatoria: false, rotulo: 'O que faria esses 2 meses valerem muito a pena para você?', ph: 'Opcional, mas ajuda muito' },
+    // 1. Identificação
+    { b: 'identificacao', id: 'nome', tipo: 'texto', obrigatoria: true, rotulo: 'Nome completo', auto: 'name' },
+    { b: 'identificacao', id: 'email', tipo: 'email', obrigatoria: true, rotulo: 'E-mail', auto: 'email' },
+    { b: 'identificacao', id: 'whatsapp', tipo: 'tel', obrigatoria: true, rotulo: 'WhatsApp (com DDD)', ph: '(11) 99999-9999', auto: 'tel' },
+    { b: 'identificacao', id: 'marca', tipo: 'texto', obrigatoria: true, rotulo: 'Nome da marca/loja' },
+    { b: 'identificacao', id: 'cidade', tipo: 'texto', obrigatoria: true, rotulo: 'Cidade/estado', ph: 'Ex.: Franca/SP' },
+    // 2. Raio-x da operação
+    { b: 'operacao', id: 'perfil', tipo: 'uma', obrigatoria: true, rotulo: 'Você é fabricante ou revendedor?', ops: ['Fabricante', 'Revendedor', 'Os dois'] },
+    { b: 'operacao', id: 'nicho', tipo: 'texto', obrigatoria: true, rotulo: 'Qual o seu nicho/segmento?', ph: 'Ex.: moda fitness feminina' },
+    { b: 'operacao', id: 'tempo_mkt', tipo: 'uma', obrigatoria: true, rotulo: 'Há quanto tempo vende em marketplace?', ops: ['Menos de 6 meses', '6 a 12 meses', '1 a 3 anos', 'Mais de 3 anos'] },
+    { b: 'operacao', id: 'marketplaces', tipo: 'multi', outro: true, obrigatoria: true, rotulo: 'Em quais marketplaces você vende?', ops: ['Mercado Livre', 'Shopee', 'Amazon', 'Magalu', 'Shein', 'TikTok Shop', 'Loja própria (site)'] },
+    { b: 'operacao', id: 'links', tipo: 'longo', obrigatoria: true, rotulo: 'Links das suas lojas', dica: 'Um link por linha.', ph: 'shopee.com.br/sualoja' },
+    { b: 'operacao', id: 'faturamento', tipo: 'texto', obrigatoria: true, rotulo: 'Faturamento médio mensal (somando todos os canais)', dica: 'Pode ser um valor aproximado.', ph: 'Ex.: R$ 25 mil' },
+    { b: 'operacao', id: 'skus', tipo: 'texto', obrigatoria: false, rotulo: 'Quantos produtos (SKUs) ativos você tem, mais ou menos?' },
+    { b: 'operacao', id: 'reputacao', tipo: 'texto', obrigatoria: false, rotulo: 'Reputação atual no seu principal canal', dica: 'Ex.: termômetro/medalha no Mercado Livre, nota na Shopee.' },
+    { b: 'operacao', id: 'logistica', tipo: 'multi', outro: true, obrigatoria: false, rotulo: 'Como funciona sua logística?', ops: ['Full', 'Flex', 'Envio próprio / Correios', 'Coleta do marketplace'] },
+    { b: 'operacao', id: 'equipe', tipo: 'longo', obrigatoria: false, rotulo: 'Quem trabalha na operação e você usa algum ERP?', dica: 'Ex.: "eu e minha esposa, uso o Bling".' },
+    // 3. Produto e anúncios
+    { b: 'produto', id: 'campeao', tipo: 'longo', obrigatoria: true, rotulo: 'Qual é o seu produto campeão e quanto ele representa do faturamento?' },
+    { b: 'produto', id: 'ticket', tipo: 'texto', obrigatoria: false, rotulo: 'Qual o seu ticket médio?', ph: 'Ex.: R$ 89' },
+    { b: 'produto', id: 'margem', tipo: 'texto', obrigatoria: false, rotulo: 'Qual a margem líquida do seu produto campeão?', dica: 'Se não souber, escreva "não sei". Sem problema, vamos trabalhar isso.' },
+    { b: 'produto', id: 'ads', tipo: 'multi', outro: true, obrigatoria: true, rotulo: 'Em quais plataformas você anuncia?', ops: ['Mercado Ads', 'Shopee Ads', 'Amazon Ads', 'Meta (Instagram/Facebook)', 'Google', 'TikTok', 'Não anuncio'] },
+    { b: 'produto', id: 'investimento', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto investe por mês em anúncios?', ops: ['Não invisto', 'Até R$500', 'R$500 a R$2 mil', 'R$2 mil a R$5 mil', 'Acima de R$5 mil'] },
+    { b: 'produto', id: 'acos', tipo: 'uma', obrigatoria: false, rotulo: 'Você acompanha ACOS/TACOS ou o retorno dos seus anúncios?', ops: ['Sim, acompanho', 'Às vezes', 'Não sei o que é'] },
+    // 4. Objetivo na mentoria
+    { b: 'objetivo', id: 'gargalo', tipo: 'multi', outro: true, obrigatoria: true, rotulo: 'Qual é hoje o seu maior gargalo?', ops: ['Vendas travadas', 'Margem apertada', 'Anúncios que não convertem', 'Reputação', 'Estoque/logística', 'Gestão/falta de tempo'] },
+    { b: 'objetivo', id: 'meta', tipo: 'longo', obrigatoria: true, rotulo: 'Qual sua meta concreta para os próximos 3 meses?', dica: 'Ex.: sair de R$20 mil para R$35 mil/mês, entrar na Shopee, melhorar a margem.' },
+    { b: 'objetivo', id: 'pergunta', tipo: 'longo', obrigatoria: true, rotulo: 'Qual pergunta você mais quer que o Leonardo responda durante a mentoria?' },
+    { b: 'objetivo', id: 'tentou', tipo: 'longo', obrigatoria: false, rotulo: 'Você já tentou resolver esse problema antes? O que fez?' },
+    { b: 'objetivo', id: 'ao_vivo', tipo: 'uma', obrigatoria: true, rotulo: 'Topa ter sua loja analisada ao vivo com o grupo?', ops: ['Sim, topo', 'Prefiro não'], soGrupo: true },
+    { b: 'objetivo', id: 'dedicacao', tipo: 'uma', obrigatoria: true, rotulo: 'Quanto tempo por semana consegue dedicar para aplicar o que for passado?', ops: ['Até 2 horas', '2 a 5 horas', '5 a 10 horas', 'Mais de 10 horas'] },
   ];
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -129,36 +175,76 @@
     method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey }, body: JSON.stringify(corpo),
   });
   const mostrar = id => ['carregando', 'invalido', 'formulario', 'pronto'].forEach(x => { $(x).hidden = x !== id; });
+  let perguntas = PERGUNTAS;
+
+  function valor(fd, p) {
+    if (p.tipo !== 'multi') return String(fd.get(p.id) || '').trim();
+    const marcadas = fd.getAll(p.id).filter(v => v !== '__outro');
+    const outro = fd.getAll(p.id).includes('__outro') ? String(fd.get(`${p.id}__txt`) || '').trim() : '';
+    return [...marcadas, ...(outro ? [`Outro: ${outro}`] : [])].join(', ');
+  }
+
+  function progresso() {
+    const fd = new FormData($('form'));
+    const obrig = perguntas.filter(p => p.obrigatoria);
+    const feitas = obrig.filter(p => valor(fd, p)).length;
+    const pct = obrig.length ? Math.round((feitas / obrig.length) * 100) : 0;
+    $('prog-txt').textContent = `${pct}%`;
+    $('prog-barra').style.width = `${pct}%`;
+  }
 
   function montar() {
-    $('form').innerHTML = PERGUNTAS.map((p, i) => {
-      const n = `<span class="n">${String(i + 1).padStart(2, '0')}</span>`;
-      const dica = p.dica ? `<p class="dica">${esc(p.dica)}</p>` : '';
-      const erro = `<p class="msg-erro">${p.tipo === 'multi' ? 'Marca pelo menos uma opção.' : p.tipo === 'uma' ? 'Escolhe uma opção.' : 'Essa resposta é importante.'}</p>`;
-      if (p.tipo === 'uma' || p.tipo === 'multi') {
-        const tipo = p.tipo === 'uma' ? 'radio' : 'checkbox';
-        return `<fieldset class="q" data-q="${p.id}"><legend>${n}<span>${esc(p.rotulo)}</span></legend>${dica}
-          <div class="ops">${p.ops.map(o => `<label><input type="${tipo}" name="${p.id}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div>${erro}</fieldset>`;
-      }
-      const campo = p.tipo === 'longo'
-        ? `<textarea id="f-${p.id}" name="${p.id}" maxlength="2000" placeholder="${esc(p.ph || '')}"></textarea>`
-        : `<input id="f-${p.id}" name="${p.id}" type="${p.tipo === 'url' ? 'url' : 'text'}" maxlength="300" placeholder="${esc(p.ph || '')}" ${p.tipo === 'url' ? 'inputmode="url" autocapitalize="off"' : ''}>`;
-      return `<div class="q" data-q="${p.id}"><label for="f-${p.id}">${n}<span>${esc(p.rotulo)}</span></label>${dica}${campo}${erro}</div>`;
-    }).join('') + `<div class="acoes"><button class="btn" type="submit" id="enviar">Enviar diagnóstico →</button><p>Só o Léo e a equipe veem suas respostas.</p></div>`;
+    let n = 0;
+    $('form').innerHTML = BLOCOS.map((b, bi) => {
+      const qs = perguntas.filter(p => p.b === b.id);
+      return `<div class="bloco" id="bloco-${b.id}" data-bloco="${bi + 1}. ${esc(b.titulo)}"><span class="num">${bi + 1}</span><div><h2>${esc(b.titulo)}<span class="dot">.</span></h2><p>${esc(b.sub)}</p></div></div>` +
+        qs.map(p => {
+          n++;
+          const num = `<span class="n">${String(n).padStart(2, '0')}</span>`;
+          const opc = p.obrigatoria ? '' : '<span class="opc">opcional</span>';
+          const dica = p.dica ? `<p class="dica">${esc(p.dica)}</p>` : '';
+          const erro = `<p class="msg-erro">${p.tipo === 'multi' ? 'Marca pelo menos uma opção.' : p.tipo === 'uma' ? 'Escolhe uma opção.' : p.tipo === 'email' ? 'Confere o e-mail.' : 'Essa resposta é importante.'}</p>`;
+          if (p.tipo === 'uma' || p.tipo === 'multi') {
+            const tipo = p.tipo === 'uma' ? 'radio' : 'checkbox';
+            const outro = p.outro ? `<label><input type="checkbox" name="${p.id}" value="__outro" data-outro="${p.id}"><span>Outro</span></label>` : '';
+            const txt = p.outro ? `<input type="text" class="outro-txt" name="${p.id}__txt" maxlength="200" placeholder="Qual?" hidden>` : '';
+            return `<fieldset class="q" data-q="${p.id}"><legend>${num}<span>${esc(p.rotulo)}${opc}</span></legend>${dica}
+              <div class="ops">${p.ops.map(o => `<label><input type="${tipo}" name="${p.id}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}${outro}</div>${txt}${erro}</fieldset>`;
+          }
+          const tipoInput = p.tipo === 'email' ? 'email' : p.tipo === 'tel' ? 'tel' : 'text';
+          const campo = p.tipo === 'longo'
+            ? `<textarea id="f-${p.id}" name="${p.id}" maxlength="2000" placeholder="${esc(p.ph || '')}"></textarea>`
+            : `<input id="f-${p.id}" name="${p.id}" type="${tipoInput}" maxlength="300" placeholder="${esc(p.ph || '')}"${p.auto ? ` autocomplete="${p.auto}"` : ''}${p.tipo === 'email' ? ' inputmode="email" autocapitalize="off"' : ''}${p.tipo === 'tel' ? ' inputmode="tel"' : ''}>`;
+          return `<div class="q" data-q="${p.id}"><label for="f-${p.id}">${num}<span>${esc(p.rotulo)}${opc}</span></label>${dica}${campo}${erro}</div>`;
+        }).join('');
+    }).join('') + `<div class="acoes"><button class="btn" type="submit" id="enviar">Enviar diagnóstico →</button><p>Só o Leonardo e a equipe veem suas respostas.</p></div>`;
 
-    $('form').addEventListener('input', e => e.target.closest('.q')?.classList.remove('erro'));
+    $('form').addEventListener('input', e => {
+      e.target.closest('.q')?.classList.remove('erro');
+      if (e.target.dataset.outro) {
+        const t = $('form').querySelector(`[name="${e.target.dataset.outro}__txt"]`);
+        t.hidden = !e.target.checked;
+        if (e.target.checked) t.focus();
+      }
+      progresso();
+    });
+    // bloco atual no topo
+    const blocos = [...$('form').querySelectorAll('.bloco')];
+    const obs = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) $('prog-bloco').textContent = x.target.dataset.bloco; }), { rootMargin: '-10% 0px -80% 0px' });
+    blocos.forEach(b => obs.observe(b));
+
     $('form').addEventListener('submit', async e => {
       e.preventDefault();
       const fd = new FormData($('form'));
       const respostas = [];
       let primeiro = null;
-      for (const p of PERGUNTAS) {
-        const v = p.tipo === 'multi' ? fd.getAll(p.id).join(', ') : String(fd.get(p.id) || '').trim();
+      for (const p of perguntas) {
+        const v = valor(fd, p);
         const bloco = $('form').querySelector(`[data-q="${p.id}"]`);
-        const falta = p.obrigatoria && !v;
+        const falta = (p.obrigatoria && !v) || (p.tipo === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
         bloco.classList.toggle('erro', falta);
         if (falta && !primeiro) primeiro = bloco;
-        if (v) respostas.push({ pergunta: p.rotulo, resposta: v.slice(0, 2000) });
+        if (v) respostas.push({ secao: BLOCOS.find(b => b.id === p.b).titulo, chave: p.id, pergunta: p.rotulo, resposta: v.slice(0, 2000) });
       }
       if (primeiro) return primeiro.scrollIntoView({ behavior: 'smooth', block: 'center' });
       const btn = $('enviar');
@@ -175,6 +261,7 @@
         alert('Não consegui enviar agora. Confere a internet e tenta de novo.');
       }
     });
+    progresso();
   }
 
   (async () => {
@@ -183,9 +270,11 @@
       const r = await rpc('mentoria_diagnostico_info', { p_aluno: aluno });
       const info = r.ok ? await r.json() : null;
       if (!info) return mostrar('invalido');
-      if (info.nome) $('titulo').innerHTML = `${esc(info.nome)}, bora começar com <span class="laranja">o pé direito</span><span class="dot">.</span>`;
-      if (info.produto === 'individual') $('kicker').textContent = 'Mentoria Individual · Diagnóstico do aluno';
-      else if (info.turma) $('kicker').textContent = `Mentoria em Grupo · ${info.turma}`;
+      if (info.nome) $('titulo').innerHTML = `${esc(info.nome)}, seja bem-vindo(a) <span class="laranja">à mentoria</span><span class="dot">.</span>`;
+      if (info.produto === 'individual') {
+        $('kicker').textContent = 'Mentoria Individual · Diagnóstico do aluno';
+        perguntas = PERGUNTAS.filter(p => !p.soGrupo); // análise ao vivo com o grupo não se aplica
+      } else if (info.turma) $('kicker').textContent = `Mentoria em Grupo · ${info.turma}`;
       $('ja').hidden = !info.preenchido;
       montar();
       mostrar('formulario');
