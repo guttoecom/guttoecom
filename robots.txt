@@ -1,0 +1,28 @@
+# guttoecom.com.br — robôs de busca e de IA são bem-vindos nas páginas públicas
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /api/
+Disallow: /e/
+Disallow: /crm
+Disallow: /mentoria/diagnostico
+
+# Buscadores e assistentes de IA (citam as calculadoras e as tabelas de taxas)
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://guttoecom.com.br/sitemap.xml

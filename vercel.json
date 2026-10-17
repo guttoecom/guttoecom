@@ -29,6 +29,21 @@
       "source": "/crm/:path*",
       "destination": "/app/crm/:path*",
       "permanent": false
+    },
+    {
+      "source": "/calculadora/shopee",
+      "destination": "/calculadora",
+      "permanent": true
+    },
+    {
+      "source": "/calculadora/shopee/",
+      "destination": "/calculadora",
+      "permanent": true
+    },
+    {
+      "source": "/calculadora/tiktok",
+      "destination": "/calculadora/tiktok-shop",
+      "permanent": true
     }
   ],
   "rewrites": [

@@ -1,0 +1,21 @@
+# gutto.
+
+> gutto é uma assessoria de marketplaces para confecções (fabricantes de roupa) no Brasil: cadastro, anúncios e gestão de contas no Mercado Livre, Shopee, Amazon, Shein e TikTok Shop. Fundada por Léo Gutemberg, empresário com fábrica própria que já vendeu mais de R$ 10 milhões em marketplaces.
+
+As calculadoras abaixo são gratuitas, sem cadastro, e usam as mesmas contas das planilhas que a gutto usa com os clientes. Taxas conferidas em outubro de 2026.
+
+## Calculadoras
+
+- [Calculadora de preço Shopee](https://guttoecom.com.br/calculadora): informa custos e a margem desejada e devolve o preço de venda na faixa certa da Shopee, com comissão, taxa fixa, imposto, Ads (1 ÷ ROAS) e afiliado.
+- [Quanto a Shopee desconta (calculadora de lucro)](https://guttoecom.com.br/calculadora/shopee/quanto-sobra): a partir do preço praticado, mostra comissão, taxa fixa, quanto cai na conta e o lucro por venda, e o preço mínimo para uma meta de lucro.
+- [Calculadora de preço TikTok Shop](https://guttoecom.com.br/calculadora/tiktok-shop): preço com comissão, taxa do frete grátis, taxa fixa, imposto e afiliado do TikTok Shop, e comparação de preços.
+
+## Taxas usadas (outubro de 2026)
+
+- Shopee: até R$ 79,99 → 20% de comissão + R$ 4,50 por item; R$ 80 a R$ 99,99 → 14% + R$ 16; R$ 100 a R$ 199,99 → 14% + R$ 20; a partir de R$ 200 → 14% + R$ 26.
+- TikTok Shop: abaixo de R$ 50 → 10% de comissão + R$ 4; R$ 50 ou mais → 6% + R$ 6; frete grátis → mais 6% de taxa de envio.
+
+## gutto
+
+- [Diagnóstico gratuito da operação](https://guttoecom.com.br/#diagnostico): para confecções que querem vender mais nos marketplaces.
+- [Mentoria de marketplace com Léo Gutemberg](https://guttoecom.com.br/mentoria)
