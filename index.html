@@ -281,7 +281,7 @@
   .req { color: var(--orange-strong); }
   .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  input[type="text"], input[type="tel"], textarea {
+  input[type="text"], input[type="email"], input[type="tel"], textarea {
     width: 100%;
     font-family: var(--font);
     font-size: 16px;
@@ -528,6 +528,12 @@
             </div>
           </div>
 
+          <div class="field" data-field="email">
+            <label for="email">Seu melhor e-mail <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="seunome@email.com" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" maxlength="254" required>
+            <span class="error-msg">Informe um e-mail válido.</span>
+          </div>
+
           <div class="field" data-field="confeccao">
             <label for="confeccao">Nome da confecção <span class="req">*</span></label>
             <input type="text" id="confeccao" name="confeccao" placeholder="Digite o nome da sua empresa" autocomplete="organization" required>
@@ -695,6 +701,7 @@
   const rules = {
     nome: () => form.nome.value.trim().length > 1,
     whatsapp: () => phone.value.replace(/\D/g, '').length >= 10,
+    email: () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim()),
     confeccao: () => form.confeccao.value.trim().length > 1,
     fabrica: () => !!form.querySelector('input[name="fabrica"]:checked'),
     vende: () => !!form.querySelector('input[name="vende"]:checked'),
@@ -728,6 +735,7 @@
     const data = {
       nome: form.nome.value.trim(),
       whatsapp: phone.value,
+      email: form.email.value.trim().toLowerCase(),
       empresa: form.confeccao.value.trim(),
       fabrica: form.querySelector('input[name="fabrica"]:checked').value,
       vende: form.querySelector('input[name="vende"]:checked').value,
@@ -765,10 +773,10 @@
       }
       card.classList.add('sent');
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // tracking: lead do diagnóstico da assessoria (Pixel + CAPI com WhatsApp e nome)
+      // tracking: lead do diagnóstico da assessoria (Pixel + CAPI com e-mail, WhatsApp e nome; liga o visitante ao lead)
       try {
         const partes = data.nome.split(/\s+/);
-        if (window.trackEvent) trackEvent('Lead', { user_data: { phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto', params: { origem: 'diagnostico', perfil: data.fabrica, faturamento: data.faturamento } });
+        if (window.trackEvent) trackEvent('Lead', { user_data: { email: data.email, phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto', params: { origem: 'diagnostico', perfil: data.fabrica, faturamento: data.faturamento } });
       } catch (e) {}
     } catch (err) {
       console.error(err);
