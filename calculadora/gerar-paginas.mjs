@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { CONTEUDO, PAGINAS, cabecalho } from "./paginas.mjs";
+import { CONTEUDO, CORPO_TAXAS, PAGINAS, TAXAS, cabecalho, cabecalhoTaxas } from "./paginas.mjs";
 
 const raiz = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fonteArq = path.join(raiz, "calculadora/index.html");
@@ -36,5 +36,40 @@ for (const id of Object.keys(PAGINAS)) {
   fs.mkdirSync(path.dirname(arq), { recursive: true });
   fs.writeFileSync(arq, pagina(id));
   console.log("gerada", PAGINAS[id].caminho);
+}
+
+// página de taxas: mesmo <head> e visual da calculadora, sem a calculadora (só o texto, o CTA e o rodapé)
+{
+  let cab = trocarBloco(fonte.slice(0, fonte.indexOf("<body>")), "<!-- SEO:INICIO", "<!-- SEO:FIM -->", cabecalhoTaxas());
+  cab = cab.replace('data-nome="Calculadora" data-categoria="ferramenta"', 'data-nome="Taxas Shopee" data-categoria="conteudo"');
+  const pedaco = (ini, fim) => {
+    const a = fonte.indexOf(ini);
+    const b = fonte.indexOf(fim, a);
+    if (a < 0 || b < 0) throw new Error(`trecho não encontrado: ${ini}`);
+    return fonte.slice(a, b + fim.length);
+  };
+  const utm = (h) => h.replace(/utm_content=[a-z_]+/g, (m) => m.replace(/_shopee_preco$/, "_taxas_shopee"));
+  const cta = utm(pedaco('<section class="cta"', "</section>"));
+  const rodape = utm(pedaco("<footer>", "</footer>"));
+  const html = `${cab}<body>
+
+<header class="top" id="topo">
+  <a class="logo" href="/?utm_source=calculadora&amp;utm_medium=site&amp;utm_campaign=calculadora&amp;utm_content=logo_taxas_shopee" aria-label="gutto. — página inicial">gutto<span class="dot">.</span></a>
+  <a class="btn-sec" href="/calculadora">Abrir a calculadora</a>
+</header>
+
+<main>${CORPO_TAXAS}
+
+  ${cta}
+</main>
+
+${rodape}
+</body>
+</html>
+`;
+  const arq = path.join(raiz, TAXAS.arquivo);
+  fs.mkdirSync(path.dirname(arq), { recursive: true });
+  fs.writeFileSync(arq, html);
+  console.log("gerada", TAXAS.caminho);
 }
 console.log("ok");
