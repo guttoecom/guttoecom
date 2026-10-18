@@ -31,6 +31,16 @@
       "permanent": false
     },
     {
+      "source": "/email",
+      "destination": "/app/email",
+      "permanent": false
+    },
+    {
+      "source": "/email/:path*",
+      "destination": "/app/email/:path*",
+      "permanent": false
+    },
+    {
       "source": "/calculadora/shopee",
       "destination": "/calculadora",
       "permanent": true
