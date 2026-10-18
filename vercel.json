@@ -58,6 +58,14 @@
   ],
   "rewrites": [
     {
+      "source": "/e/l/:t",
+      "destination": "https://guttoapp.vercel.app/app/api/email/l/:t"
+    },
+    {
+      "source": "/e/d/:t",
+      "destination": "https://guttoapp.vercel.app/app/api/email/d/:t"
+    },
+    {
       "source": "/e/:k",
       "destination": "https://aedxvttmnjheussswyht.supabase.co/functions/v1/crm-rastreio/:k"
     },
