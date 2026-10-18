@@ -66,6 +66,14 @@
       "destination": "https://guttoapp.vercel.app/app/api/email/d/:t"
     },
     {
+      "source": "/e/p/:t",
+      "destination": "https://guttoapp.vercel.app/app/api/email/p/:t"
+    },
+    {
+      "source": "/e/k/:t",
+      "destination": "https://guttoapp.vercel.app/app/api/email/k/:t"
+    },
+    {
       "source": "/e/:k",
       "destination": "https://aedxvttmnjheussswyht.supabase.co/functions/v1/crm-rastreio/:k"
     },

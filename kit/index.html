@@ -248,6 +248,8 @@
     margin-top: 18px;
   }
   .hint { font-size: 13px; color: var(--gray); }
+  .consent { display: flex; gap: 10px; align-items: flex-start; margin: 18px 0 0; font-size: 14px; line-height: 1.45; color: var(--gray); cursor: pointer; max-width: 520px; }
+  .consent input { margin-top: 2px; width: 18px; height: 18px; flex: none; accent-color: var(--orange, #FF5A1F); }
   .hint b { font-weight: 700; color: var(--body); }
   @media (hover: none) { .hint { display: none; } }
 
@@ -581,6 +583,7 @@
       <label class="q" for="f-email">Qual seu melhor e-mail?</label>
       <input class="field" id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" placeholder="seunome@email.com">
       <p class="err" role="alert"></p>
+      <label class="consent"><input type="checkbox" id="f-aceita"> <span>Quero receber e-mails da gutto com conteúdos e ofertas. Dá para sair quando quiser.</span></label>
       <div class="actions"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
     </div>
   </section>
@@ -909,6 +912,7 @@
       vende_marketplace: answers.vende,
       faturamento_mensal: answers.vende === 'nao' ? 'nao_vende' : answers.faturamento,
       tipo_ajuda: answers.vende === 'nao' ? null : answers.ajuda,
+      aceita_email: document.getElementById('f-aceita').checked,
       ...origin,
     };
     if (current !== 'loading') history.push('loading');
