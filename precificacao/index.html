@@ -126,18 +126,43 @@
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   /* ---------- seções ---------- */
-  section.bloco { padding: 84px 0; }
-  .titulo { font-size: clamp(32px, 5vw, 52px); }
-  .sub { margin-top: 14px; max-width: 620px; color: var(--gray); font-size: 18px; }
+  section.bloco { padding: 96px 0; }
+  .titulo { font-size: clamp(34px, 5vw, 56px); }
+  .titulo em { font-style: normal; color: var(--orange); }
+  .sub { margin-top: 16px; max-width: 600px; color: #55524C; font-size: 18px; }
+  .pill { display: inline-flex; padding: 7px 12px; border-radius: 999px; background: var(--orange-tint); color: var(--orange-strong); }
+  .cabeca { max-width: 720px; }
+  .cabeca .titulo { margin-top: 18px; }
 
-  .custos { display: grid; gap: 40px; }
-  .lista-custos { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-  .lista-custos li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; padding: 18px; background: var(--white); border: 1px solid var(--line); border-radius: 18px; }
-  .lista-custos .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--orange-tint); color: var(--orange-strong); display: grid; place-items: center; }
-  .lista-custos .ic svg { width: 22px; height: 22px; }
-  .lista-custos b { display: block; font-size: 18px; letter-spacing: -0.02em; }
-  .lista-custos span { color: var(--gray); font-size: 15.5px; }
-  @media (min-width: 900px) { .custos { grid-template-columns: .9fr 1.1fr; align-items: center; } }
+  /* anatomia do preço: para onde vai cada real de R$ 79,90 */
+  .anatomia { background: var(--paper); }
+  .anat-grid { display: grid; gap: 44px; }
+  .recibo2 { background: var(--white); border: 1px solid var(--line); border-radius: 26px; padding: 26px 22px; box-shadow: 0 30px 60px -36px rgba(18,18,18,.35); }
+  .r2-topo { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .r2-topo span { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray); }
+  .r2-topo b { font-size: clamp(34px, 4vw, 44px); font-weight: 800; letter-spacing: -0.05em; }
+  .barra { margin-top: 18px; display: flex; gap: 3px; height: 54px; border-radius: 14px; overflow: hidden; }
+  .barra i { display: block; height: 100%; width: 0; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+  .in .barra i { width: var(--w); }
+  .barra i:nth-child(2) { transition-delay: .1s; } .barra i:nth-child(3) { transition-delay: .2s; } .barra i:nth-child(4) { transition-delay: .3s; } .barra i:nth-child(5) { transition-delay: .45s; }
+  .c-custo { background: var(--ink); } .c-com { background: #6B6862; } .c-taxa { background: #A3A09A; } .c-imp { background: #CFCAC0; }
+  .c-sobra { background: var(--orange); position: relative; }
+  .legenda { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 2px; }
+  .legenda li { display: grid; grid-template-columns: 14px 1fr auto auto; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px dashed var(--line); font-variant-numeric: tabular-nums; }
+  .legenda li::before { content: ""; width: 14px; height: 14px; border-radius: 4px; background: var(--cor); }
+  .legenda span { color: #55524C; }
+  .legenda em { font-style: normal; font-size: 13px; color: var(--gray); }
+  .legenda b { min-width: 78px; text-align: right; }
+  .legenda li.sobra { border-bottom: 0; padding-top: 14px; }
+  .legenda li.sobra span { color: var(--ink); font-weight: 800; }
+  .legenda li.sobra b, .legenda li.sobra em { color: var(--orange-strong); font-weight: 800; font-size: 20px; }
+  .legenda li.sobra em { font-size: 14px; }
+  .r2-nota { margin-top: 10px; font-size: 12.5px; color: var(--gray); }
+  .pontos { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
+  .pontos li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; color: #3A3833; font-size: 16.5px; }
+  .pontos li::before { content: ""; width: 26px; height: 26px; border-radius: 8px; background: var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 10.5l3 3 7-7.5'/%3E%3C/svg%3E") center / 15px no-repeat; }
+  .pontos b { color: var(--ink); }
+  @media (min-width: 900px) { .anat-grid { grid-template-columns: 1fr 520px; gap: 72px; align-items: center; } .recibo2 { padding: 34px 32px; } }
 
   /* ---------- formulário: fundo branco, cartão escuro (contraste), passos em linha do tempo ---------- */
   .form-bloco {
@@ -205,57 +230,81 @@
   .pronto a { display: inline-block; margin-top: 16px; font-weight: 800; color: var(--orange); }
   @media (min-width: 900px) { .form-grid { grid-template-columns: 1fr 470px; gap: 64px; align-items: center; } .card-form { padding: 38px 34px 30px; } }
 
-  /* ---------- frase ---------- */
-  .frase { padding: 96px 0; text-align: center; }
-  .frase blockquote { margin: 0 auto; max-width: 900px; font-size: clamp(28px, 4.6vw, 50px); font-weight: 800; letter-spacing: -0.045em; line-height: 1.08; }
-  .frase blockquote::before { content: "“"; display: block; color: var(--orange); font-size: 1.6em; line-height: .6; }
-  .frase cite { display: block; margin-top: 22px; font-style: normal; font-weight: 700; color: var(--gray); }
+  /* ---------- frase (faixa escura) ---------- */
+  .frase { position: relative; overflow: hidden; padding: 170px 0 110px; background: var(--ink); color: var(--paper); }
+  .frase::before { content: "“"; position: absolute; left: 50%; top: 10px; transform: translateX(-50%); font-size: 260px; opacity: .22; line-height: 1; font-weight: 800; color: var(--orange); pointer-events: none; }
+  .frase blockquote { position: relative; margin: 0 auto; max-width: 980px; text-align: center; font-size: clamp(30px, 4.8vw, 58px); font-weight: 800; letter-spacing: -0.045em; line-height: 1.06; }
+  .frase blockquote em { font-style: normal; color: var(--orange); }
+  .frase cite { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 30px; font-style: normal; font-weight: 700; color: var(--gray-dark); }
+  .frase cite img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: top; background: var(--orange); }
 
-  /* ---------- tipos de negócio ---------- */
-  .tipos { margin-top: 36px; display: grid; gap: 14px; }
-  .tipo { position: relative; padding: 26px 22px; border-radius: 20px; background: var(--white); border: 1px solid var(--line); transition: transform .25s, box-shadow .25s, border-color .25s; }
-  .tipo:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 20px 40px -24px rgba(18,18,18,.35); }
-  .tipo .num { font-size: 13px; font-weight: 800; letter-spacing: .1em; color: var(--orange); }
-  .tipo h3 { margin-top: 14px; font-size: 24px; }
-  .tipo p { margin-top: 8px; color: var(--gray); font-size: 15.5px; }
-  .tipo .chips { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .tipo .chips span { font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: var(--paper); }
-  @media (min-width: 760px) { .tipos { grid-template-columns: repeat(3, 1fr); } }
+  /* ---------- tipos de operação ---------- */
+  .tipos-bloco { background: var(--white); }
+  .tipos { margin-top: 44px; display: grid; gap: 16px; }
+  .tipo { position: relative; overflow: hidden; padding: 30px 26px 28px; border-radius: 24px; background: var(--paper); border: 1px solid var(--line); transition: transform .3s, box-shadow .3s, background .3s, color .3s; }
+  .tipo .num { position: absolute; right: 18px; top: 4px; font-size: 96px; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px #D9D4CA; transition: -webkit-text-stroke-color .3s; }
+  .tipo .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--ink); color: var(--orange); transition: background .3s, color .3s; }
+  .tipo .ic svg { width: 26px; height: 26px; }
+  .tipo h3 { margin-top: 22px; font-size: 26px; }
+  .tipo p { margin-top: 10px; color: #55524C; font-size: 15.5px; transition: color .3s; }
+  .tipo .chips { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tipo .chips span { font-size: 12.5px; font-weight: 700; padding: 6px 11px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); transition: background .3s, border-color .3s, color .3s; }
+  .tipo:hover { transform: translateY(-6px); background: var(--ink); color: var(--paper); box-shadow: 0 30px 50px -28px rgba(18,18,18,.6); }
+  .tipo:hover .num { -webkit-text-stroke-color: rgba(255, 90, 31, .55); }
+  .tipo:hover .ic { background: var(--orange); color: var(--white); }
+  .tipo:hover p { color: var(--gray-dark); }
+  .tipo:hover .chips span { background: transparent; border-color: var(--line-dark); color: var(--paper); }
+  @media (min-width: 820px) { .tipos { grid-template-columns: repeat(3, 1fr); } }
 
-  /* ---------- autoridade ---------- */
-  .autor { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
-  .autor-grid { display: grid; gap: 10px; align-items: end; }
-  .autor-foto { width: min(80%, 340px); margin: 0 auto; }
-  .autor-txt { padding: 0 0 72px; }
-  .autor-txt p.bio { margin-top: 18px; font-size: 18px; color: var(--gray); max-width: 560px; }
-  .autor-txt p.bio b { color: var(--ink); }
-  .canais { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .canais span { font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--line); }
-  .numero { margin-top: 26px; display: flex; align-items: baseline; gap: 12px; }
-  .numero b { font-size: clamp(40px, 6vw, 60px); font-weight: 800; letter-spacing: -0.05em; color: var(--orange); line-height: 1; }
-  .numero span { color: var(--gray); font-weight: 600; max-width: 220px; line-height: 1.3; }
+  /* ---------- quem criou ---------- */
+  .autor { background: var(--paper); padding: 96px 0; overflow: hidden; }
+  .autor-grid { display: grid; gap: 48px; align-items: center; }
+  .palco2 { position: relative; width: min(100%, 460px); aspect-ratio: 600 / 660; justify-self: center; }
+  .palco2 svg { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; filter: drop-shadow(0 30px 50px rgba(18,18,18,.3)); }
+  .palco2 picture { position: absolute; z-index: 2; left: 50%; bottom: 0; height: 97%; transform: translateX(-50%); }
+  .palco2 picture img { height: 100%; width: auto; max-width: none; }
+  .autor-txt .bio { margin-top: 18px; font-size: 18px; color: #55524C; max-width: 560px; }
+  .autor-txt .bio b { color: var(--ink); }
+  .stats { margin-top: 30px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .stats div { padding: 18px 16px; border-radius: 18px; background: var(--white); border: 1px solid var(--line); }
+  .stats b { display: block; white-space: nowrap; font-size: clamp(22px, 2.4vw, 30px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--orange); }
+  .stats span { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.3; color: #55524C; }
+  .canais { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .canais span { font-size: 13px; font-weight: 800; padding: 8px 13px; border-radius: 999px; background: var(--ink); color: var(--paper); }
   .autor-txt .btn { margin-top: 30px; }
-  @media (min-width: 900px) { .autor-grid { grid-template-columns: 420px 1fr; gap: 56px; } .autor-foto { width: 100%; } .autor-txt { padding: 84px 0; align-self: center; } }
-  @media (max-width: 899px) { .autor-grid { padding-top: 56px; } .autor-txt { order: -1; padding-bottom: 8px; } }
+  @media (min-width: 900px) { .autor-grid { grid-template-columns: 460px 1fr; gap: 72px; } }
 
   /* ---------- FAQ ---------- */
-  .faq { margin-top: 32px; display: grid; gap: 10px; max-width: 860px; }
-  .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 0 20px; }
-  .faq summary { list-style: none; cursor: pointer; padding: 20px 34px 20px 0; position: relative; font-weight: 800; font-size: 17.5px; letter-spacing: -0.02em; }
+  .faq-bloco { background: var(--white); }
+  .faq-grid { display: grid; gap: 36px; }
+  .faq-grid .cabeca p { margin-top: 16px; color: #55524C; }
+  .faq-grid .cabeca a { color: var(--orange-strong); font-weight: 800; }
+  .faq { display: grid; gap: 10px; counter-reset: q; }
+  .faq details { counter-increment: q; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 0 22px; transition: background .25s, border-color .25s; }
+  .faq details[open] { background: var(--white); border-color: var(--ink); box-shadow: 0 20px 40px -30px rgba(18,18,18,.5); }
+  .faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 34px 1fr 28px; gap: 10px; align-items: center; padding: 20px 0; font-weight: 800; font-size: 17.5px; letter-spacing: -0.02em; }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: "+"; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 26px; font-weight: 600; color: var(--orange); transition: transform .2s; }
-  .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .faq summary::before { content: counter(q, decimal-leading-zero); font-size: 13px; font-weight: 800; color: var(--orange); }
+  .faq summary::after { content: "+"; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--white); font-size: 18px; font-weight: 600; transition: transform .25s, background .25s; }
+  .faq details[open] summary::after { transform: rotate(45deg); background: var(--orange); }
   .faq summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 6px; }
-  .faq details p { padding: 0 0 20px; color: var(--gray); }
+  .faq details p { padding: 0 0 22px 44px; color: #55524C; }
+  @media (min-width: 900px) { .faq-grid { grid-template-columns: 380px 1fr; gap: 64px; align-items: start; } .faq-grid .cabeca { position: sticky; top: 40px; } }
 
   /* ---------- fechamento ---------- */
-  .final { background: var(--orange); color: var(--white); text-align: center; padding: 84px 0; }
-  .final h2 { font-size: clamp(34px, 6vw, 64px); }
-  .final p { margin: 14px auto 0; max-width: 540px; font-size: 18px; color: rgba(255,255,255,.88); }
-  .final .btn { margin-top: 28px; background: var(--ink); box-shadow: none; }
+  .final { position: relative; overflow: hidden; background: var(--orange); color: var(--white); text-align: center; padding: 104px 0; }
+  .final::before, .final::after { content: ""; position: absolute; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.22); pointer-events: none; }
+  .final::before { width: 560px; height: 560px; left: -180px; top: -260px; }
+  .final::after { width: 420px; height: 420px; right: -140px; bottom: -220px; }
+  .final .wrap { position: relative; }
+  .final h2 { font-size: clamp(38px, 6.4vw, 76px); }
+  .final p { margin: 16px auto 0; max-width: 560px; font-size: 18px; color: rgba(255,255,255,.9); }
+  .final .btn { margin-top: 32px; background: var(--ink); box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); min-height: 62px; padding: 0 34px; font-size: 18px; }
   .final .btn:hover { background: #000; }
-  footer { background: var(--ink); color: var(--gray-dark); font-size: 13.5px; padding: 28px 0; }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+  .final small { display: block; margin-top: 14px; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.85); }
+  footer { background: var(--ink); color: var(--gray-dark); font-size: 13.5px; padding: 30px 0; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; align-items: center; }
+  footer .logo { color: var(--paper); font-size: 22px; }
   footer a { color: var(--gray-dark); }
 
   /* entrada suave ao rolar */
@@ -377,65 +426,91 @@
     </div>
   </section>
 
-  <section class="bloco">
-    <div class="wrap custos">
+  <section class="bloco anatomia">
+    <div class="wrap anat-grid">
       <div class="rev">
-        <p class="kicker">O que entra na conta</p>
-        <h2 class="titulo" style="margin-top:14px">Nenhuma taxa fica de fora.</h2>
-        <p class="sub">A maioria calcula preço pela metade e só percebe o que faltou quando o dinheiro não sobra no fim do mês. Aqui, cada desconto da venda entra na conta.</p>
+        <p class="kicker pill">O que entra na conta</p>
+        <h2 class="titulo" style="margin-top:18px">Nenhuma taxa <em>fica de fora</em>.</h2>
+        <p class="sub">A maioria calcula o preço pela metade e só percebe o que faltou quando o dinheiro não sobra no fim do mês. Aqui, cada desconto da venda entra na conta.</p>
+        <ul class="pontos">
+          <li><span><b>Comissão e taxa fixa da faixa certa.</b> Na Shopee, 20% + R$ 4,50 até R$ 79,99 e 14% + R$ 16 a R$ 26 acima disso. A calculadora testa cada faixa por você.</span></li>
+          <li><span><b>Imposto, Ads e afiliado</b> no percentual que você usa de verdade.</span></li>
+          <li><span><b>O preço exato para a margem que você quer</b> e quanto sobra em cada venda, em reais e em porcentagem.</span></li>
+        </ul>
       </div>
-      <ul class="lista-custos rev">
-        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div><b>Comissão e taxa fixa da faixa certa</b><span>Na Shopee, 20% + R$ 4,50 até R$ 79,99 e 14% + R$ 16 a R$ 26 acima disso. A calculadora testa cada faixa por você.</span></div></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span><div><b>Imposto, Ads e afiliado</b><span>O que sai de cima de cada venda, no percentual que você usa de verdade.</span></div></li>
-        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><div><b>O preço exato para a margem que você quer</b><span>E quanto sobra no seu bolso em cada venda, em reais e em porcentagem.</span></div></li>
-      </ul>
+      <div class="recibo2 rev" role="img" aria-label="Exemplo: de um produto a R$ 79,90 na Shopee, R$ 35,00 são custo, R$ 15,98 comissão, R$ 4,50 taxa fixa, R$ 4,79 imposto e sobram R$ 19,63">
+        <div class="r2-topo"><span>Para onde vão os R$ 79,90</span><b>R$ 79,90</b></div>
+        <div class="barra" aria-hidden="true"><i class="c-custo" style="--w:43.8%"></i><i class="c-com" style="--w:20%"></i><i class="c-taxa" style="--w:5.6%"></i><i class="c-imp" style="--w:6%"></i><i class="c-sobra" style="--w:24.6%"></i></div>
+        <ul class="legenda" aria-hidden="true">
+          <li style="--cor:var(--ink)"><span>Custo da peça</span><em>43,8%</em><b>R$ 35,00</b></li>
+          <li style="--cor:#6B6862"><span>Comissão da Shopee</span><em>20%</em><b>R$ 15,98</b></li>
+          <li style="--cor:#A3A09A"><span>Taxa fixa por item</span><em>5,6%</em><b>R$ 4,50</b></li>
+          <li style="--cor:#CFCAC0"><span>Imposto</span><em>6%</em><b>R$ 4,79</b></li>
+          <li class="sobra" style="--cor:var(--orange)"><span>Sobra no seu bolso</span><em>24,6%</em><b>R$ 19,63</b></li>
+        </ul>
+        <p class="r2-nota">Exemplo. Na calculadora entram os seus números.</p>
+      </div>
     </div>
   </section>
 
   <section class="frase">
     <div class="wrap rev">
-      <blockquote>Na Shopee, vender mais pode ser exatamente o que está fazendo você ganhar menos dinheiro.</blockquote>
-      <cite>Leo Gutemberg</cite>
+      <blockquote>Na Shopee, vender mais pode ser exatamente o que está fazendo você <em>ganhar menos dinheiro</em>.</blockquote>
+      <cite><img src="/precificacao/leo.webp" alt="" width="44" height="44" loading="lazy">Leo Gutemberg</cite>
     </div>
   </section>
 
-  <section class="bloco" style="padding-top:0">
+  <section class="bloco tipos-bloco">
     <div class="wrap">
-      <div class="rev">
-        <p class="kicker">Para o seu tipo de operação</p>
-        <h2 class="titulo" style="margin-top:14px">O cálculo certo pra quem vende produto físico.</h2>
+      <div class="cabeca rev">
+        <p class="kicker pill">Para o seu tipo de operação</p>
+        <h2 class="titulo">O cálculo certo pra quem vende <em>produto físico</em>.</h2>
         <p class="sub">O que muda é o que entra no custo. A conta das taxas é a mesma.</p>
       </div>
       <div class="tipos">
-        <article class="tipo rev"><p class="num">01</p><h3>Fabricante</h3><p>Produção própria ou terceirizada: o custo é o que a peça sai pronta para enviar.</p><div class="chips"><span>Tecido e aviamentos</span><span>Mão de obra / facção</span><span>Embalagem</span></div></article>
-        <article class="tipo rev"><p class="num">02</p><h3>Revenda</h3><p>O custo é o que você paga no fornecedor mais o frete até você.</p><div class="chips"><span>Preço de compra</span><span>Frete do fornecedor</span><span>Embalagem</span></div></article>
-        <article class="tipo rev"><p class="num">03</p><h3>Kits</h3><p>A taxa fixa da Shopee é cobrada por item. Compare a peça avulsa com o kit e veja qual dá mais margem.</p><div class="chips"><span>Custo do kit</span><span>Taxa por item</span><span>Preço por faixa</span></div></article>
+        <article class="tipo rev"><span class="num" aria-hidden="true">01</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V9l6 4V9l6 4V5h6v16z"/><path d="M7 17h2M12 17h2M17 17h1"/></svg></span><h3>Fabricante</h3><p>Produção própria ou terceirizada: o custo é o que a peça sai pronta para enviar.</p><div class="chips"><span>Tecido e aviamentos</span><span>Mão de obra / facção</span><span>Embalagem</span></div></article>
+        <article class="tipo rev"><span class="num" aria-hidden="true">02</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><h3>Revenda</h3><p>O custo é o que você paga no fornecedor mais o frete até você.</p><div class="chips"><span>Preço de compra</span><span>Frete do fornecedor</span><span>Embalagem</span></div></article>
+        <article class="tipo rev"><span class="num" aria-hidden="true">03</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><h3>Kits</h3><p>A taxa fixa da Shopee é cobrada por item. Compare a peça avulsa com o kit e veja qual dá mais margem.</p><div class="chips"><span>Custo do kit</span><span>Taxa por item</span><span>Preço por faixa</span></div></article>
       </div>
     </div>
   </section>
 
   <section class="autor">
     <div class="wrap autor-grid">
-      <div class="autor-foto rev"><picture><source srcset="/precificacao/leo.webp" type="image/webp"><img src="/precificacao/leo.png" alt="Leo Gutemberg" width="701" height="1102" loading="lazy"></picture></div>
+      <div class="palco2 rev">
+        <svg viewBox="0 0 600 540" aria-hidden="true">
+          <g clip-path="url(#pn-c)">
+            <rect width="600" height="540" fill="#121212"/>
+            <path d="M230 0H330L120 540H20Z" fill="#FF5A1F" opacity=".9"/>
+            <path d="M370 0H420L210 540H160Z" fill="#FF5A1F" opacity=".35"/>
+          </g>
+        </svg>
+        <picture><source srcset="/precificacao/leo.webp" type="image/webp"><img src="/precificacao/leo.png" alt="Leo Gutemberg" width="701" height="1102" loading="lazy"></picture>
+      </div>
       <div class="autor-txt rev">
-        <p class="kicker">Quem criou</p>
-        <h2 class="titulo" style="margin-top:14px">Feita por quem vende todo dia.</h2>
+        <p class="kicker pill">Quem criou</p>
+        <h2 class="titulo" style="margin-top:18px">Feita por quem <em>vende todo dia</em>.</h2>
         <p class="bio"><b>Leo Gutemberg</b> é fabricante de moda e vendedor de marketplaces. Não estuda o mercado de fora: ainda está na operação, com estoque, anúncio e margem para fechar no fim do mês.</p>
-        <div class="numero"><b>+R$ 10 mi</b><span>em vendas nos marketplaces ao longo da trajetória</span></div>
+        <div class="stats">
+          <div><b>+R$ 10 mi</b><span>em vendas nos marketplaces</span></div>
+          <div><b>5</b><span>marketplaces na trajetória</span></div>
+          <div><b>Todo dia</b><span>na própria operação</span></div>
+        </div>
         <div class="canais" aria-label="Canais em que vende"><span>Shopee</span><span>Mercado Livre</span><span>TikTok Shop</span><span>Amazon</span><span>Shein</span></div>
         <a class="btn" href="#formulario">Acessar agora <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       </div>
     </div>
   </section>
 
-  <section class="bloco">
-    <div class="wrap">
-      <div class="rev">
-        <p class="kicker">Perguntas frequentes</p>
-        <h2 class="titulo" style="margin-top:14px">Tire suas dúvidas.</h2>
+  <section class="bloco faq-bloco">
+    <div class="wrap faq-grid">
+      <div class="cabeca rev">
+        <p class="kicker pill">Perguntas frequentes</p>
+        <h2 class="titulo">Tire suas <em>dúvidas</em>.</h2>
+        <p>Ficou alguma? <a href="#formulario">Acesse a calculadora</a> e teste com os seus números.</p>
       </div>
       <div class="faq rev">
-        <details><summary>Por que o preço certo importa tanto no marketplace?</summary><p>Porque vender muito não é o mesmo que lucrar. Na Shopee, comissão, taxa fixa por item, imposto, Ads e afiliado saem de cima de cada venda. Se o preço não cobre tudo isso, quanto mais você vende, mais dinheiro some do caixa.</p></details>
+        <details open><summary>Por que o preço certo importa tanto no marketplace?</summary><p>Porque vender muito não é o mesmo que lucrar. Na Shopee, comissão, taxa fixa por item, imposto, Ads e afiliado saem de cima de cada venda. Se o preço não cobre tudo isso, quanto mais você vende, mais dinheiro some do caixa.</p></details>
         <details><summary>Como descobrir o preço de venda ideal na Shopee?</summary><p>Some o custo do produto (peça, embalagem, etiqueta) e a taxa fixa da faixa de preço. Divida por 1 menos a comissão, o imposto, o Ads, o afiliado e a margem que você quer. Como a comissão e a taxa fixa mudam por faixa (até R$ 79,99, de R$ 80 a R$ 99,99, de R$ 100 a R$ 199,99 e acima de R$ 200), a calculadora testa cada faixa e entrega o preço que fecha a sua margem.</p></details>
         <details><summary>Qual a diferença entre margem e markup?</summary><p>Markup é o quanto você multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Somar 30% ao custo não dá 30% de margem: comissão, taxa, imposto e Ads são cobrados sobre o preço de venda, então a sobra real fica bem menor.</p></details>
         <details><summary>A calculadora é grátis?</summary><p>Sim. Você preenche nome, e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar.</p></details>
@@ -447,13 +522,15 @@
     <div class="wrap rev">
       <h2>Pare de precificar no chute.</h2>
       <p>Coloque seus custos e veja em segundos o preço certo e quanto sobra em cada venda.</p>
-      <a class="btn" href="#formulario">Calcular grátis agora</a>
+      <a class="btn" href="#formulario">Calcular grátis agora <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <small>Grátis · libera em menos de 1 minuto</small>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
+    <a class="logo" href="/" aria-label="gutto, página inicial">gutto<span>.</span></a>
     <span>© 2026 gutto. Assessoria de marketplace · CNPJ 69.391.079/0001-25</span>
     <a href="/privacidade">Política de Privacidade</a>
   </div>
