@@ -139,45 +139,71 @@
   .lista-custos span { color: var(--gray); font-size: 15.5px; }
   @media (min-width: 900px) { .custos { grid-template-columns: .9fr 1.1fr; align-items: center; } }
 
-  /* ---------- formulário ---------- */
-  .form-bloco { background: var(--white); color: var(--ink); padding: 84px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 0; }
-  .form-grid { display: grid; gap: 36px; }
-  .form-grid .sub { color: var(--gray); }
-  .passos { margin-top: 28px; display: grid; gap: 14px; counter-reset: p; list-style: none; padding: 0; }
-  .passos li { counter-increment: p; display: flex; gap: 14px; align-items: center; color: var(--ink); font-weight: 600; }
-  .passos li::before { content: counter(p); flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--paper); display: grid; place-items: center; font-size: 14px; font-weight: 800; color: var(--orange); }
-  .card-form { background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 24px; padding: 26px 22px; box-shadow: 0 30px 70px -34px rgba(18,18,18,.35); }
-  .card-form h3 { font-size: 26px; }
-  .card-form .card-sub { margin-top: 6px; color: var(--gray); font-size: 15.5px; }
-  .campo { margin-top: 18px; }
-  .campo label.rot { display: block; font-size: 14px; font-weight: 800; margin-bottom: 7px; }
-  .campo input:not([type=checkbox]), .campo select {
-    width: 100%; min-height: 54px; padding: 0 16px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--white);
-    font: 600 17px var(--font); color: var(--ink); outline: none; transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; appearance: none;
+  /* ---------- formulário: fundo branco, cartão escuro (contraste), passos em linha do tempo ---------- */
+  .form-bloco {
+    position: relative; overflow: hidden; padding: 96px 0; color: var(--ink);
+    background:
+      radial-gradient(520px 420px at 82% 50%, rgba(255, 90, 31, .16), transparent 70%),
+      radial-gradient(circle, rgba(18,18,18,.07) 1px, transparent 1.3px) 0 0 / 22px 22px,
+      var(--white);
   }
-  .campo select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%236B6862' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; }
-  .campo select:invalid { color: #9C978F; }
-  .campo input::placeholder { color: #B9B4AB; font-weight: 500; }
-  .campo input:not([type=checkbox]):focus, .campo select:focus { border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
-  .campo.erro input, .campo.erro select { border-color: var(--error); }
-  .campo .msg { min-height: 0; margin-top: 6px; font-size: 13px; font-weight: 700; color: var(--error); }
+  .form-grid { position: relative; display: grid; gap: 44px; }
+  .form-intro .kicker { padding: 7px 12px; border-radius: 999px; background: var(--orange-tint); color: var(--orange-strong); }
+  .form-intro .titulo { margin-top: 18px; font-size: clamp(36px, 5.2vw, 60px); }
+  .form-intro .titulo em { font-style: normal; color: var(--orange); }
+  .form-intro .sub { color: #55524C; }
+  .passos { position: relative; margin: 34px 0 0; padding: 0; list-style: none; display: grid; gap: 22px; counter-reset: p; }
+  .passos::before { content: ""; position: absolute; left: 21px; top: 22px; bottom: 22px; width: 2px; background: repeating-linear-gradient(var(--orange) 0 6px, transparent 6px 12px); opacity: .55; }
+  .passos li { position: relative; counter-increment: p; display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: center; }
+  .passos li::before {
+    content: counter(p); width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center;
+    background: var(--orange); color: var(--white); font-size: 17px; font-weight: 800;
+    box-shadow: 0 10px 20px -8px rgba(255, 90, 31, .8), 0 0 0 5px var(--white);
+  }
+  .passos b { display: block; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); }
+  .passos span { display: block; font-size: 15px; color: #55524C; }
+
+  .card-form {
+    position: relative; background: var(--ink); color: var(--paper); border-radius: 26px; padding: 30px 22px 26px;
+    box-shadow: 0 40px 80px -30px rgba(18,18,18,.55), 0 0 0 1px rgba(18,18,18,.9);
+  }
+  .card-form::before { content: ""; position: absolute; left: 26px; right: 26px; top: 0; height: 4px; border-radius: 0 0 6px 6px; background: var(--orange); }
+  .card-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .card-form h3 { font-size: 27px; color: var(--paper); }
+  .card-topo .gratis { flex: none; font-size: 11.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; background: var(--orange); color: var(--white); }
+  .card-form .card-sub { margin-top: 6px; color: var(--gray-dark); font-size: 15px; }
+  .campo { margin-top: 18px; }
+  .campo label.rot { display: block; font-size: 13.5px; font-weight: 800; margin-bottom: 8px; color: var(--paper); }
+  .campo input:not([type=checkbox]), .campo select {
+    width: 100%; min-height: 54px; padding: 0 16px; border: 1.5px solid #34322E; border-radius: 14px; background: #1E1D1B;
+    font: 600 17px var(--font); color: var(--paper); outline: none; transition: border-color .2s, box-shadow .2s, background .2s; -webkit-appearance: none; appearance: none;
+  }
+  .campo input:not([type=checkbox]):hover, .campo select:hover { border-color: #4A4741; }
+  .campo select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FF5A1F' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; }
+  .campo select:invalid { color: #8E8A83; }
+  .campo select option { color: var(--ink); background: var(--white); }
+  .campo input::placeholder { color: #77736C; font-weight: 500; }
+  .campo input:not([type=checkbox]):focus, .campo select:focus { border-color: var(--orange); background: #22201D; box-shadow: 0 0 0 4px rgba(255, 90, 31, .22); }
+  .campo.erro input, .campo.erro select { border-color: #FF7A5C; }
+  .campo .msg { margin-top: 7px; font-size: 13px; font-weight: 700; color: #FF8A6E; }
   .campo .msg:empty { display: none; }
-  .aceite { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; font-size: 13.5px; color: var(--gray); cursor: pointer; }
-  .aceite input { margin: 3px 0 0; width: 17px; height: 17px; accent-color: var(--orange); flex: none; }
-  .card-form .btn { width: 100%; margin-top: 22px; }
+  .aceite { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; font-size: 13px; line-height: 1.45; color: var(--gray-dark); cursor: pointer; }
+  .aceite input { margin: 2px 0 0; width: 17px; height: 17px; accent-color: var(--orange); flex: none; }
+  .card-form .btn { width: 100%; margin-top: 24px; min-height: 60px; font-size: 18px; box-shadow: 0 14px 30px -12px rgba(255, 90, 31, .9); }
   .card-form .btn[disabled] { opacity: .7; cursor: progress; }
-  .priv { margin-top: 12px; font-size: 12.5px; color: var(--gray); text-align: center; }
-  .erro-envio { margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: #FDECE7; color: var(--error); font-size: 14px; font-weight: 700; }
+  .priv { margin-top: 14px; font-size: 12.5px; color: #8E8A83; text-align: center; }
+  .priv a { color: var(--paper); }
+  .erro-envio { margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 122, 92, .14); color: #FF8A6E; font-size: 14px; font-weight: 700; }
   .erro-envio[hidden] { display: none; }
-  .pronto { text-align: center; padding: 24px 6px; }
+  .pronto { text-align: center; padding: 30px 6px; }
   .pronto[hidden] { display: none; }
-  .pronto .ok { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; background: var(--orange); color: var(--white); display: grid; place-items: center; animation: pop .5s cubic-bezier(.2,1.6,.4,1); }
+  .pronto .ok { width: 68px; height: 68px; margin: 0 auto 16px; border-radius: 50%; background: var(--orange); color: var(--white); display: grid; place-items: center; animation: pop .5s cubic-bezier(.2,1.6,.4,1); box-shadow: 0 0 0 10px rgba(255, 90, 31, .16); }
   .pronto .ok svg { width: 30px; height: 30px; }
   @keyframes pop { from { transform: scale(.4); opacity: 0; } }
-  .pronto h3 { font-size: 30px; }
-  .pronto p { margin-top: 8px; color: var(--gray); }
-  .pronto a { display: inline-block; margin-top: 16px; font-weight: 800; color: var(--orange-strong); }
-  @media (min-width: 900px) { .form-grid { grid-template-columns: 1fr 460px; align-items: center; } .card-form { padding: 34px 32px; } }
+  .pronto h3 { font-size: 32px; }
+  .pronto p { margin-top: 8px; color: var(--gray-dark); }
+  .pronto a { display: inline-block; margin-top: 16px; font-weight: 800; color: var(--orange); }
+  @media (min-width: 900px) { .form-grid { grid-template-columns: 1fr 470px; gap: 64px; align-items: center; } .card-form { padding: 38px 34px 30px; } }
 
   /* ---------- frase ---------- */
   .frase { padding: 96px 0; text-align: center; }
@@ -275,20 +301,20 @@
 <main>
   <section class="form-bloco" id="formulario">
     <div class="wrap form-grid">
-      <div class="rev">
-        <p class="kicker">Grátis</p>
-        <h2 class="titulo" style="margin-top:14px">O preço pronto na hora, sem planilha.</h2>
+      <div class="form-intro rev">
+        <p class="kicker">100% grátis</p>
+        <h2 class="titulo">O preço <em>pronto na hora</em>, sem planilha.</h2>
         <p class="sub">Preencha seus dados e a calculadora abre na mesma hora.</p>
         <ol class="passos">
-          <li>Preencha seus dados</li>
-          <li>A calculadora abre na hora (e o link vai pro seu e-mail)</li>
-          <li>Coloque seus custos e veja o preço certo</li>
+          <li><div><b>Preencha seus dados</b><span>Leva menos de 1 minuto.</span></div></li>
+          <li><div><b>A calculadora abre na hora</b><span>E o link vai pro seu e-mail, para usar sempre.</span></div></li>
+          <li><div><b>Coloque seus custos</b><span>Veja o preço certo e quanto sobra em cada venda.</span></div></li>
         </ol>
       </div>
       <div class="card-form rev">
         <form id="form" novalidate>
-          <h3>Acessar a calculadora</h3>
-          <p class="card-sub">Leva menos de 1 minuto.</p>
+          <div class="card-topo"><h3>Acessar a calculadora</h3><span class="gratis">Grátis</span></div>
+          <p class="card-sub">Preencha e a calculadora abre na hora.</p>
 
           <div class="campo" data-campo="nome">
             <label class="rot" for="f-nome">Seu nome</label>
