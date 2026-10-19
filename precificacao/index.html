@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- Google Analytics 4 (mesma propriedade do curso; page_view sai pelo /trk.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVNCL9MHPG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LVNCL9MHPG', { send_page_view: false, linker: { domains: ['umleogutemberg.com.br', 'pay.kiwify.com.br'] } });
+</script>
+<!-- Microsoft Clarity · mapas de calor e gravações (mesmo projeto do curso) -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yxze0ojjac");
+    clarity("set", "pagina", "precificacao");
+</script>
+<!-- Tracking first-party do site gutto: Pixel + CAPI (mesmo event_id) + GA4 -->
+<script src="/trk.js" data-nome="Calculadora de Precificação (cadastro)" data-categoria="formulario" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculadora de Precificação para marketplace · por Leo Gutemberg | gutto.</title>
+<meta name="description" content="Descubra o preço certo para vender com lucro na Shopee e no TikTok Shop: comissão, taxa fixa, imposto, Ads e afiliado já na conta. Calculadora grátis criada por Leo Gutemberg.">
+<link rel="canonical" href="https://guttoecom.com.br/precificacao">
+<meta property="og:title" content="Calculadora de Precificação · por Leo Gutemberg">
+<meta property="og:description" content="Pare de precificar no chute. Coloque seus custos e veja na hora o preço certo e quanto sobra em cada venda.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://guttoecom.com.br/precificacao">
+<meta property="og:image" content="https://guttoecom.com.br/og/calculadora-shopee.png">
+<link rel="icon" href="/og/favicon.png">
+<meta name="theme-color" content="#121212">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Por que o preço certo importa tanto no marketplace?", "acceptedAnswer": { "@type": "Answer", "text": "Porque vender muito não é o mesmo que lucrar. Na Shopee, comissão, taxa fixa por item, imposto, Ads e afiliado saem de cima de cada venda. Se o preço não cobre tudo isso, quanto mais você vende, mais dinheiro some do caixa." } },
+    { "@type": "Question", "name": "Como descobrir o preço de venda ideal na Shopee?", "acceptedAnswer": { "@type": "Answer", "text": "Some o custo do produto (peça, embalagem, etiqueta) e a taxa fixa da faixa de preço. Divida por 1 menos a comissão, o imposto, o Ads, o afiliado e a margem que você quer. Como a comissão e a taxa fixa mudam por faixa (até R$ 79,99, de R$ 80 a R$ 99,99, de R$ 100 a R$ 199,99 e acima de R$ 200), a calculadora testa cada faixa e entrega o preço que fecha a sua margem." } },
+    { "@type": "Question", "name": "Qual a diferença entre margem e markup?", "acceptedAnswer": { "@type": "Answer", "text": "Markup é o quanto você multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Somar 30% ao custo não dá 30% de margem: comissão, taxa, imposto e Ads são cobrados sobre o preço de venda, então a sobra real fica bem menor." } },
+    { "@type": "Question", "name": "A calculadora é grátis?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Você preenche e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar." } }
+  ]
+}
+</script>
+<style>
+  :root {
+    --ink: #121212;
+    --ink-2: #1D1C1A;
+    --paper: #F4F2EE;
+    --white: #FFFFFF;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --orange-tint: rgba(255, 90, 31, .14);
+    --gray: #6B6862;
+    --gray-dark: #A3A09A;
+    --line: #E2DED6;
+    --line-dark: #2E2C29;
+    --good: #1F8A4C;
+    --error: #D23B1B;
+    --font: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --wrap: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+  p { margin: 0; }
+  .kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); }
+  .kicker::before { content: ""; width: 22px; height: 2px; background: currentColor; }
+  .laranja { color: var(--orange); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 56px; padding: 0 28px; border: 0; border-radius: 999px;
+    background: var(--orange); color: var(--white); font: 800 17px/1 var(--font); letter-spacing: -0.01em;
+    text-decoration: none; cursor: pointer; transition: background .2s, transform .2s, box-shadow .2s;
+    box-shadow: 0 10px 30px -10px rgba(255, 90, 31, .7);
+  }
+  .btn:hover { background: var(--orange-strong); transform: translateY(-1px); }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn svg { width: 18px; height: 18px; transition: transform .2s; }
+  .btn:hover svg { transform: translateX(3px); }
+
+  /* ---------- topo + hero (escuro) ---------- */
+  .hero { background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(60% 70% at 78% 60%, rgba(255, 90, 31, .28), transparent 70%),
+                linear-gradient(transparent 0 calc(100% - 1px), rgba(255,255,255,.04) 0) 0 0 / 100% 48px;
+  }
+  .topo { position: relative; display: flex; align-items: center; justify-content: space-between; padding-top: 22px; padding-bottom: 22px; }
+  .logo { font-weight: 800; font-size: 26px; letter-spacing: -0.06em; text-decoration: none; }
+  .logo span { color: var(--orange); }
+  .topo a.mini { font-size: 14px; font-weight: 700; color: var(--gray-dark); text-decoration: none; }
+  .topo a.mini:hover { color: var(--paper); }
+  .hero-grid { position: relative; display: grid; gap: 28px; padding-top: 28px; }
+  .hero h1 { font-size: clamp(40px, 7.4vw, 78px); margin-top: 18px; text-transform: none; }
+  .hero-txt { margin-top: 22px; max-width: 540px; color: #D6D2CB; font-size: clamp(17px, 2vw, 19px); }
+  .hero-txt b { color: var(--paper); }
+  .hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+  .hero-cta small { color: var(--gray-dark); font-size: 14px; font-weight: 600; }
+  .hero-foto { position: relative; align-self: end; justify-self: center; width: min(100%, 420px); }
+  .hero-foto picture img { width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0,0,0,.45)); }
+  .hero-foto::after { content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 90px; background: linear-gradient(transparent, var(--ink)); }
+
+  /* cartão "resultado da calculadora" flutuando ao lado do Leo */
+  .recibo {
+    position: absolute; z-index: 2; left: -8%; bottom: 13%; width: 252px;
+    background: var(--white); color: var(--ink); border-radius: 18px; padding: 16px 16px 14px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); transform: rotate(-3deg);
+    animation: flutua 6s ease-in-out infinite;
+  }
+  @keyframes flutua { 50% { transform: rotate(-3deg) translateY(-8px); } }
+  .recibo .r-tit { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); }
+  .recibo .r-preco { margin-top: 2px; font-size: 30px; font-weight: 800; letter-spacing: -0.04em; }
+  .recibo ul { list-style: none; margin: 10px 0 0; padding: 10px 0 0; border-top: 1px dashed var(--line); font-size: 13px; display: grid; gap: 4px; font-variant-numeric: tabular-nums; }
+  .recibo li { display: flex; justify-content: space-between; gap: 8px; color: var(--gray); }
+  .recibo li b { color: var(--ink); font-weight: 700; }
+  .recibo .r-sobra { margin-top: 10px; padding: 9px 11px; border-radius: 10px; background: var(--orange-tint); display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; color: var(--orange-strong); }
+  .recibo .r-sobra span { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+  .recibo .r-nota { margin-top: 8px; font-size: 10.5px; color: var(--gray); }
+
+  @media (min-width: 900px) {
+    .hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: end; padding-top: 30px; }
+    .hero-copy { padding-bottom: 96px; }
+    .recibo { left: auto; right: -10%; bottom: 16%; }
+  }
+  @media (max-width: 899px) {
+    .hero-foto { width: min(78%, 360px); margin-left: 18%; }
+    .recibo { left: -26%; bottom: 10%; width: 214px; padding: 13px; }
+    .recibo .r-preco { font-size: 25px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .recibo { animation: none; } html { scroll-behavior: auto; } }
+
+  /* ---------- seções ---------- */
+  section.bloco { padding: 84px 0; }
+  .titulo { font-size: clamp(32px, 5vw, 52px); }
+  .sub { margin-top: 14px; max-width: 620px; color: var(--gray); font-size: 18px; }
+
+  .custos { display: grid; gap: 40px; }
+  .lista-custos { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .lista-custos li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; padding: 18px; background: var(--white); border: 1px solid var(--line); border-radius: 18px; }
+  .lista-custos .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--orange-tint); color: var(--orange-strong); display: grid; place-items: center; }
+  .lista-custos .ic svg { width: 22px; height: 22px; }
+  .lista-custos b { display: block; font-size: 18px; letter-spacing: -0.02em; }
+  .lista-custos span { color: var(--gray); font-size: 15.5px; }
+  @media (min-width: 900px) { .custos { grid-template-columns: .9fr 1.1fr; align-items: center; } }
+
+  /* ---------- formulário ---------- */
+  .form-bloco { background: var(--ink); color: var(--paper); padding: 84px 0; scroll-margin-top: 0; }
+  .form-grid { display: grid; gap: 36px; }
+  .form-grid .sub { color: var(--gray-dark); }
+  .passos { margin-top: 28px; display: grid; gap: 14px; counter-reset: p; list-style: none; padding: 0; }
+  .passos li { counter-increment: p; display: flex; gap: 14px; align-items: center; color: #D6D2CB; font-weight: 600; }
+  .passos li::before { content: counter(p); flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line-dark); display: grid; place-items: center; font-size: 14px; font-weight: 800; color: var(--orange); }
+  .card-form { background: var(--white); color: var(--ink); border-radius: 24px; padding: 26px 22px; box-shadow: 0 30px 80px -30px rgba(0,0,0,.7); }
+  .card-form h3 { font-size: 26px; }
+  .card-form .card-sub { margin-top: 6px; color: var(--gray); font-size: 15.5px; }
+  .campo { margin-top: 18px; }
+  .campo label.rot { display: block; font-size: 14px; font-weight: 800; margin-bottom: 7px; }
+  .campo input:not([type=checkbox]), .campo select {
+    width: 100%; min-height: 54px; padding: 0 16px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--white);
+    font: 600 17px var(--font); color: var(--ink); outline: none; transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; appearance: none;
+  }
+  .campo select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%236B6862' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; }
+  .campo select:invalid { color: #9C978F; }
+  .campo input::placeholder { color: #B9B4AB; font-weight: 500; }
+  .campo input:not([type=checkbox]):focus, .campo select:focus { border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
+  .campo.erro input, .campo.erro select { border-color: var(--error); }
+  .campo .msg { min-height: 0; margin-top: 6px; font-size: 13px; font-weight: 700; color: var(--error); }
+  .campo .msg:empty { display: none; }
+  .aceite { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; font-size: 13.5px; color: var(--gray); cursor: pointer; }
+  .aceite input { margin: 3px 0 0; width: 17px; height: 17px; accent-color: var(--orange); flex: none; }
+  .card-form .btn { width: 100%; margin-top: 22px; }
+  .card-form .btn[disabled] { opacity: .7; cursor: progress; }
+  .priv { margin-top: 12px; font-size: 12.5px; color: var(--gray); text-align: center; }
+  .erro-envio { margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: #FDECE7; color: var(--error); font-size: 14px; font-weight: 700; }
+  .erro-envio[hidden] { display: none; }
+  .pronto { text-align: center; padding: 24px 6px; }
+  .pronto[hidden] { display: none; }
+  .pronto .ok { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; background: var(--orange); color: var(--white); display: grid; place-items: center; animation: pop .5s cubic-bezier(.2,1.6,.4,1); }
+  .pronto .ok svg { width: 30px; height: 30px; }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } }
+  .pronto h3 { font-size: 30px; }
+  .pronto p { margin-top: 8px; color: var(--gray); }
+  .pronto a { display: inline-block; margin-top: 16px; font-weight: 800; color: var(--orange-strong); }
+  @media (min-width: 900px) { .form-grid { grid-template-columns: 1fr 460px; align-items: center; } .card-form { padding: 34px 32px; } }
+
+  /* ---------- frase ---------- */
+  .frase { padding: 96px 0; text-align: center; }
+  .frase blockquote { margin: 0 auto; max-width: 900px; font-size: clamp(28px, 4.6vw, 50px); font-weight: 800; letter-spacing: -0.045em; line-height: 1.08; }
+  .frase blockquote::before { content: "“"; display: block; color: var(--orange); font-size: 1.6em; line-height: .6; }
+  .frase cite { display: block; margin-top: 22px; font-style: normal; font-weight: 700; color: var(--gray); }
+
+  /* ---------- tipos de negócio ---------- */
+  .tipos { margin-top: 36px; display: grid; gap: 14px; }
+  .tipo { position: relative; padding: 26px 22px; border-radius: 20px; background: var(--white); border: 1px solid var(--line); transition: transform .25s, box-shadow .25s, border-color .25s; }
+  .tipo:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 20px 40px -24px rgba(18,18,18,.35); }
+  .tipo .num { font-size: 13px; font-weight: 800; letter-spacing: .1em; color: var(--orange); }
+  .tipo h3 { margin-top: 14px; font-size: 24px; }
+  .tipo p { margin-top: 8px; color: var(--gray); font-size: 15.5px; }
+  .tipo .chips { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tipo .chips span { font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: var(--paper); }
+  @media (min-width: 760px) { .tipos { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ---------- autoridade ---------- */
+  .autor { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .autor-grid { display: grid; gap: 10px; align-items: end; }
+  .autor-foto { width: min(80%, 340px); margin: 0 auto; }
+  .autor-txt { padding: 0 0 72px; }
+  .autor-txt p.bio { margin-top: 18px; font-size: 18px; color: var(--gray); max-width: 560px; }
+  .autor-txt p.bio b { color: var(--ink); }
+  .canais { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .canais span { font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--line); }
+  .numero { margin-top: 26px; display: flex; align-items: baseline; gap: 12px; }
+  .numero b { font-size: clamp(40px, 6vw, 60px); font-weight: 800; letter-spacing: -0.05em; color: var(--orange); line-height: 1; }
+  .numero span { color: var(--gray); font-weight: 600; max-width: 220px; line-height: 1.3; }
+  .autor-txt .btn { margin-top: 30px; }
+  @media (min-width: 900px) { .autor-grid { grid-template-columns: 420px 1fr; gap: 56px; } .autor-foto { width: 100%; } .autor-txt { padding: 84px 0; align-self: center; } }
+  @media (max-width: 899px) { .autor-grid { padding-top: 56px; } .autor-txt { order: -1; padding-bottom: 8px; } }
+
+  /* ---------- FAQ ---------- */
+  .faq { margin-top: 32px; display: grid; gap: 10px; max-width: 860px; }
+  .faq details { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 0 20px; }
+  .faq summary { list-style: none; cursor: pointer; padding: 20px 34px 20px 0; position: relative; font-weight: 800; font-size: 17.5px; letter-spacing: -0.02em; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 26px; font-weight: 600; color: var(--orange); transition: transform .2s; }
+  .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .faq summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 6px; }
+  .faq details p { padding: 0 0 20px; color: var(--gray); }
+
+  /* ---------- fechamento ---------- */
+  .final { background: var(--orange); color: var(--white); text-align: center; padding: 84px 0; }
+  .final h2 { font-size: clamp(34px, 6vw, 64px); }
+  .final p { margin: 14px auto 0; max-width: 540px; font-size: 18px; color: rgba(255,255,255,.88); }
+  .final .btn { margin-top: 28px; background: var(--ink); box-shadow: none; }
+  .final .btn:hover { background: #000; }
+  footer { background: var(--ink); color: var(--gray-dark); font-size: 13.5px; padding: 28px 0; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+  footer a { color: var(--gray-dark); }
+
+  /* entrada suave ao rolar */
+  .rev { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .rev.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .rev { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap topo">
+    <a class="logo" href="/" aria-label="gutto, página inicial">gutto<span>.</span></a>
+    <a class="mini" href="#formulario">Acessar calculadora →</a>
+  </div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="kicker">Calculadora de precificação · por Leo Gutemberg</p>
+      <h1>Descubra o preço certo pra vender <span class="laranja">com lucro</span> no marketplace.</h1>
+      <p class="hero-txt">Pare de definir preço no chute. Na calculadora criada por <b>Leo Gutemberg</b>, você coloca seus custos e vê na hora por quanto vender na Shopee e no TikTok Shop, já com <b>comissão, taxa fixa, imposto, Ads e afiliado</b>, e quanto sobra em cada venda.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#formulario">Calcular grátis <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <small>Grátis · libera em menos de 1 minuto</small>
+      </div>
+    </div>
+    <div class="hero-foto">
+      <picture><source srcset="leo.webp" type="image/webp"><img src="leo.png" alt="Leo Gutemberg, fabricante de moda e vendedor de marketplaces" width="654" height="1081" fetchpriority="high"></picture>
+      <div class="recibo" aria-label="Exemplo de resultado da calculadora">
+        <p class="r-tit">Preço na Shopee</p>
+        <p class="r-preco">R$ 79,90</p>
+        <ul>
+          <li>Custo da peça <b>− R$ 35,00</b></li>
+          <li>Comissão 20% <b>− R$ 15,98</b></li>
+          <li>Taxa fixa <b>− R$ 4,50</b></li>
+          <li>Imposto 6% <b>− R$ 4,79</b></li>
+        </ul>
+        <p class="r-sobra"><span>Sobra</span> R$ 19,63</p>
+        <p class="r-nota">Exemplo. Na calculadora entram os seus números.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="bloco">
+    <div class="wrap custos">
+      <div class="rev">
+        <p class="kicker">O que entra na conta</p>
+        <h2 class="titulo" style="margin-top:14px">Nenhuma taxa fica de fora.</h2>
+        <p class="sub">A maioria calcula preço pela metade e só percebe o que faltou quando o dinheiro não sobra no fim do mês. Aqui, cada desconto da venda entra na conta.</p>
+      </div>
+      <ul class="lista-custos rev">
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div><b>Comissão e taxa fixa da faixa certa</b><span>Na Shopee, 20% + R$ 4,50 até R$ 79,99 e 14% + R$ 16 a R$ 26 acima disso. A calculadora testa cada faixa por você.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span><div><b>Imposto, Ads e afiliado</b><span>O que sai de cima de cada venda, no percentual que você usa de verdade.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><div><b>O preço exato para a margem que você quer</b><span>E quanto sobra no seu bolso em cada venda, em reais e em porcentagem.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="form-bloco" id="formulario">
+    <div class="wrap form-grid">
+      <div class="rev">
+        <p class="kicker">Grátis</p>
+        <h2 class="titulo" style="margin-top:14px">O preço pronto na hora, sem planilha.</h2>
+        <p class="sub">Preencha seus dados e a calculadora abre na mesma hora.</p>
+        <ol class="passos">
+          <li>Preencha os 4 campos</li>
+          <li>A calculadora abre na hora (e o link vai pro seu e-mail)</li>
+          <li>Coloque seus custos e veja o preço certo</li>
+        </ol>
+      </div>
+      <div class="card-form rev">
+        <form id="form" novalidate>
+          <h3>Acessar a calculadora</h3>
+          <p class="card-sub">Leva menos de 1 minuto.</p>
+
+          <div class="campo" data-campo="email">
+            <label class="rot" for="f-email">Seu melhor e-mail</label>
+            <input id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="voce@email.com" required>
+            <p class="msg" role="alert"></p>
+            <label class="aceite"><input type="checkbox" id="f-aceita"> <span>Aceito receber e-mails da gutto com conteúdo e ofertas. Dá para sair a qualquer momento.</span></label>
+          </div>
+
+          <div class="campo" data-campo="whatsapp">
+            <label class="rot" for="f-whatsapp">WhatsApp com DDD</label>
+            <input id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999" required>
+            <p class="msg" role="alert"></p>
+            <label class="aceite"><input type="checkbox" id="f-aceita-wa"> <span>Aceito receber mensagens da gutto no WhatsApp. Para sair, é só responder SAIR.</span></label>
+          </div>
+
+          <div class="campo" data-campo="faturamento">
+            <label class="rot" for="f-faturamento">Quanto você fatura por mês no marketplace?</label>
+            <select id="f-faturamento" required>
+              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="nao_vende">Ainda não vendo em marketplace</option>
+              <option value="ate_5k">Até R$ 5 mil</option>
+              <option value="5k_20k">De R$ 5 mil a R$ 20 mil</option>
+              <option value="20k_50k">De R$ 20 mil a R$ 50 mil</option>
+              <option value="50k_100k">De R$ 50 mil a R$ 100 mil</option>
+              <option value="100k_250k">De R$ 100 mil a R$ 250 mil</option>
+              <option value="250k_500k">De R$ 250 mil a R$ 500 mil</option>
+              <option value="acima_500k">Acima de R$ 500 mil</option>
+            </select>
+            <p class="msg" role="alert"></p>
+          </div>
+
+          <div class="campo" data-campo="perfil">
+            <label class="rot" for="f-perfil">Você fabrica ou revende?</label>
+            <select id="f-perfil" required>
+              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="fabrica">Fabrico (produção própria ou terceirizada)</option>
+              <option value="revende">Revendo produtos de outras marcas</option>
+              <option value="nao_comecou">Ainda não comecei</option>
+            </select>
+            <p class="msg" role="alert"></p>
+          </div>
+
+          <button class="btn" type="submit" id="enviar">Acessar calculadora <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+          <p class="erro-envio" id="erro-envio" role="alert" hidden>Não deu para liberar agora, deve ter sido a conexão. Tenta de novo?</p>
+          <p class="priv">Ao continuar, você concorda com a nossa <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
+        </form>
+        <div class="pronto" id="pronto" hidden role="status" aria-live="polite">
+          <div class="ok" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg></div>
+          <h3>Pronto!</h3>
+          <p>Abrindo a calculadora… Também mandamos o link no seu e-mail.</p>
+          <a id="abrir-calc" href="/calculadora">Abrir agora →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frase">
+    <div class="wrap rev">
+      <blockquote>Na Shopee, vender mais pode ser exatamente o que está fazendo você ganhar menos dinheiro.</blockquote>
+      <cite>Leo Gutemberg</cite>
+    </div>
+  </section>
+
+  <section class="bloco" style="padding-top:0">
+    <div class="wrap">
+      <div class="rev">
+        <p class="kicker">Para o seu tipo de operação</p>
+        <h2 class="titulo" style="margin-top:14px">O cálculo certo pra quem vende produto físico.</h2>
+        <p class="sub">O que muda é o que entra no custo. A conta das taxas é a mesma.</p>
+      </div>
+      <div class="tipos">
+        <article class="tipo rev"><p class="num">01</p><h3>Fabricante</h3><p>Produção própria ou terceirizada: o custo é o que a peça sai pronta para enviar.</p><div class="chips"><span>Tecido e aviamentos</span><span>Mão de obra / facção</span><span>Embalagem</span></div></article>
+        <article class="tipo rev"><p class="num">02</p><h3>Revenda</h3><p>O custo é o que você paga no fornecedor mais o frete até você.</p><div class="chips"><span>Preço de compra</span><span>Frete do fornecedor</span><span>Embalagem</span></div></article>
+        <article class="tipo rev"><p class="num">03</p><h3>Kits</h3><p>A taxa fixa da Shopee é cobrada por item. Compare a peça avulsa com o kit e veja qual dá mais margem.</p><div class="chips"><span>Custo do kit</span><span>Taxa por item</span><span>Preço por faixa</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="autor">
+    <div class="wrap autor-grid">
+      <div class="autor-foto rev"><picture><source srcset="leo.webp" type="image/webp"><img src="leo.png" alt="Leo Gutemberg" width="654" height="1081" loading="lazy"></picture></div>
+      <div class="autor-txt rev">
+        <p class="kicker">Quem criou</p>
+        <h2 class="titulo" style="margin-top:14px">Feita por quem vende todo dia.</h2>
+        <p class="bio"><b>Leo Gutemberg</b> é fabricante de moda e vendedor de marketplaces. Não estuda o mercado de fora: ainda está na operação, com estoque, anúncio e margem para fechar no fim do mês.</p>
+        <div class="numero"><b>+R$ 10 mi</b><span>em vendas nos marketplaces ao longo da trajetória</span></div>
+        <div class="canais" aria-label="Canais em que vende"><span>Shopee</span><span>Mercado Livre</span><span>TikTok Shop</span><span>Amazon</span><span>Shein</span></div>
+        <a class="btn" href="#formulario">Acessar agora <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <div class="wrap">
+      <div class="rev">
+        <p class="kicker">Perguntas frequentes</p>
+        <h2 class="titulo" style="margin-top:14px">Tire suas dúvidas.</h2>
+      </div>
+      <div class="faq rev">
+        <details><summary>Por que o preço certo importa tanto no marketplace?</summary><p>Porque vender muito não é o mesmo que lucrar. Na Shopee, comissão, taxa fixa por item, imposto, Ads e afiliado saem de cima de cada venda. Se o preço não cobre tudo isso, quanto mais você vende, mais dinheiro some do caixa.</p></details>
+        <details><summary>Como descobrir o preço de venda ideal na Shopee?</summary><p>Some o custo do produto (peça, embalagem, etiqueta) e a taxa fixa da faixa de preço. Divida por 1 menos a comissão, o imposto, o Ads, o afiliado e a margem que você quer. Como a comissão e a taxa fixa mudam por faixa (até R$ 79,99, de R$ 80 a R$ 99,99, de R$ 100 a R$ 199,99 e acima de R$ 200), a calculadora testa cada faixa e entrega o preço que fecha a sua margem.</p></details>
+        <details><summary>Qual a diferença entre margem e markup?</summary><p>Markup é o quanto você multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Somar 30% ao custo não dá 30% de margem: comissão, taxa, imposto e Ads são cobrados sobre o preço de venda, então a sobra real fica bem menor.</p></details>
+        <details><summary>A calculadora é grátis?</summary><p>Sim. Você preenche e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap rev">
+      <h2>Pare de precificar no chute.</h2>
+      <p>Coloque seus custos e veja em segundos o preço certo e quanto sobra em cada venda.</p>
+      <a class="btn" href="#formulario">Calcular grátis agora</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 gutto. Assessoria de marketplace · CNPJ 69.391.079/0001-25</span>
+    <a href="/privacidade">Política de Privacidade</a>
+  </div>
+</footer>
+
+<script src="/kit/config.js"></script>
+<script>
+(() => {
+  const CFG = window.KIT_CONFIG || {};
+  const DESTINO = 'https://guttoecom.com.br/calculadora?utm_source=precificacao&utm_medium=formulario&utm_campaign=calculadora_precificacao';
+  const $ = (s, r = document) => r.querySelector(s);
+  const onlyDigits = s => s.replace(/\D/g, '');
+
+  // ---------- origem (ManyChat, Instagram, UTMs): guardada na sessão, igual ao /kit ----------
+  const params = new URLSearchParams(location.search);
+  const origin = {};
+  const ler = k => { try { return sessionStorage.getItem('prec_' + k) || ''; } catch (e) { return ''; } };
+  const gravar = (k, v) => { try { sessionStorage.setItem('prec_' + k, v); } catch (e) {} };
+  [['mc', 'manychat_id'], ['ig', 'instagram'], ['utm_source', 'utm_source'], ['utm_medium', 'utm_medium'], ['utm_campaign', 'utm_campaign']]
+    .forEach(([param, col]) => {
+      let v = (params.get(param) || '').trim();
+      if (param === 'mc') v = /^[0-9]{1,30}$/.test(v) ? v : '';
+      if (param === 'ig') v = v.replace(/^@/, '');
+      if (v) gravar(param, v.slice(0, 200)); else v = ler(param);
+      if (v) origin[col] = v.slice(0, 200);
+    });
+
+  // ---------- máscara e validação ----------
+  const tel = $('#f-whatsapp');
+  tel.addEventListener('input', () => {
+    const d = onlyDigits(tel.value).slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    tel.value = out;
+  });
+
+  const regras = {
+    email: () => { const v = $('#f-email').value.trim(); return !v ? 'Escreve seu e-mail pra gente liberar a calculadora.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Hmm, esse e-mail parece incompleto. Confere?'; },
+    whatsapp: () => { const d = onlyDigits(tel.value); return !d ? 'Coloca seu WhatsApp com DDD.' : d.length !== 11 || !/^[1-9]{2}9/.test(d) ? 'Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.' : ''; },
+    faturamento: () => $('#f-faturamento').value ? '' : 'Escolhe uma opção.',
+    perfil: () => $('#f-perfil').value ? '' : 'Escolhe uma opção.',
+  };
+  function checar(nome) {
+    const box = document.querySelector(`[data-campo="${nome}"]`);
+    const msg = regras[nome]();
+    $('.msg', box).textContent = msg;
+    box.classList.toggle('erro', !!msg);
+    return !msg;
+  }
+  Object.keys(regras).forEach(n => {
+    const el = $('input, select', document.querySelector(`[data-campo="${n}"]`));
+    el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'blur', () => { if (el.value) checar(n); });
+    el.addEventListener('input', () => el.closest('.campo').classList.remove('erro'));
+  });
+
+  async function gravarLead(row) {
+    const res = await fetch(`${CFG.supabaseUrl}/rest/v1/leads_kit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseAnonKey, Authorization: `Bearer ${CFG.supabaseAnonKey}`, Prefer: 'return=minimal' },
+      body: JSON.stringify(row),
+    });
+    if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+  }
+
+  const semIr = params.has('semir'); // para conferir a tela final sem sair dela
+  $('#abrir-calc').href = DESTINO;
+  const form = $('#form');
+  const botao = $('#enviar');
+  let enviando = false;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (enviando) return;
+    const erros = Object.keys(regras).filter(n => !checar(n));
+    if (erros.length) { $('input, select', document.querySelector(`[data-campo="${erros[0]}"]`)).focus(); return; }
+    const fat = $('#f-faturamento').value;
+    const row = {
+      pagina: 'precificacao',
+      email: $('#f-email').value.trim().toLowerCase(),
+      whatsapp: onlyDigits(tel.value),
+      fabrica_ou_revende: $('#f-perfil').value,
+      vende_marketplace: fat === 'nao_vende' ? 'nao' : 'sim',
+      faturamento_mensal: fat,
+      aceita_email: $('#f-aceita').checked,
+      aceita_whatsapp: $('#f-aceita-wa').checked,
+      ...origin,
+    };
+    enviando = true;
+    botao.disabled = true;
+    botao.firstChild.textContent = 'Liberando… ';
+    $('#erro-envio').hidden = true;
+    try {
+      await gravarLead(row);
+      try { if (window.trackEvent) trackEvent('Lead', { user_data: { email: row.email, phone: row.whatsapp }, content_name: 'Calculadora de Precificação', params: { origem: 'precificacao', perfil: row.fabrica_ou_revende, faturamento: row.faturamento_mensal } }); } catch (err) {}
+      form.hidden = true;
+      $('#pronto').hidden = false;
+      if (!semIr) setTimeout(() => location.assign(DESTINO), 2200);
+    } catch (err) {
+      console.error(err);
+      $('#erro-envio').hidden = false;
+      botao.disabled = false;
+      botao.firstChild.textContent = 'Acessar calculadora ';
+      enviando = false;
+    }
+  });
+
+  // ---------- entrada suave das seções ----------
+  const els = document.querySelectorAll('.rev');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => io.observe(el));
+  } else els.forEach(el => el.classList.add('in'));
+})();
+</script>
+</body>
+</html>
