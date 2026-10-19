@@ -595,6 +595,7 @@
       <label class="q" for="f-whatsapp">E seu WhatsApp?</label>
       <input class="field" id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" enterkeyhint="next" maxlength="15" placeholder="(11) 99999-9999">
       <p class="err" role="alert"></p>
+      <label class="consent"><input type="checkbox" id="f-aceita-wa"> <span>Aceito receber mensagens da gutto no WhatsApp. Para sair, é só responder SAIR.</span></label>
       <div class="actions"><button class="btn" type="button" data-action="next">OK ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
     </div>
   </section>
@@ -913,6 +914,7 @@
       faturamento_mensal: answers.vende === 'nao' ? 'nao_vende' : answers.faturamento,
       tipo_ajuda: answers.vende === 'nao' ? null : answers.ajuda,
       aceita_email: document.getElementById('f-aceita').checked,
+      aceita_whatsapp: document.getElementById('f-aceita-wa').checked,
       ...origin,
     };
     if (current !== 'loading') history.push('loading');
