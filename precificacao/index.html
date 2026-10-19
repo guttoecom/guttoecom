@@ -107,72 +107,44 @@
   .hero-txt b { color: var(--paper); }
   .hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
   .hero-cta small { color: var(--gray-dark); font-size: 14px; font-weight: 600; }
-  /* ---------- palco do Leo: disco laranja, cupom do preço atrás do ombro ---------- */
-  .palco { position: relative; align-self: end; justify-self: center; width: min(100%, 580px); aspect-ratio: 580 / 640; isolation: isolate; }
-  .palco .disco {
-    position: absolute; z-index: 0; left: 50%; bottom: 10%; width: 86%; aspect-ratio: 1; transform: translateX(-46%);
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 32% 28%, rgba(255,255,255,.28), transparent 42%),
-      radial-gradient(circle at 50% 50%, #FF6A33 0%, var(--orange) 55%, #C93E0C 100%);
-    box-shadow: 0 0 120px 10px rgba(255, 90, 31, .35);
-  }
-  /* anel fino girando em volta do disco */
-  .palco .anel { position: absolute; z-index: 0; left: 50%; bottom: 4%; width: 100%; aspect-ratio: 1; transform: translateX(-47%); border-radius: 50%; border: 1px dashed rgba(244, 242, 238, .18); animation: gira 60s linear infinite; }
-  @keyframes gira { to { transform: translateX(-47%) rotate(360deg); } }
-  .palco .chao { position: absolute; z-index: 3; left: -30%; right: -30%; bottom: 0; height: 22%; background: linear-gradient(transparent, var(--ink) 78%); pointer-events: none; }
-  .palco picture { position: absolute; z-index: 2; left: 50%; bottom: 0; height: 100%; transform: translateX(-30%); }
-  .palco picture img { height: 100%; width: auto; filter: drop-shadow(-18px 24px 30px rgba(0,0,0,.45)); }
+  /* ---------- palco do Leo: painel laranja recortado, Leo saindo por cima, adesivo GRÁTIS ---------- */
+  .palco { position: relative; align-self: end; justify-self: center; width: min(100%, 560px); aspect-ratio: 600 / 660; }
+  .painel { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 50px rgba(0,0,0,.45)); }
+  .palco picture { position: absolute; z-index: 2; left: 50%; bottom: 0; height: 97%; transform: translateX(-50%); }
+  .palco picture img { height: 100%; width: auto; max-width: none; filter: drop-shadow(0 18px 26px rgba(0,0,0,.35)); }
 
-  /* cupom do preço (papel com borda serrilhada), atrás do ombro do Leo */
-  .cupom {
-    position: absolute; z-index: 4; left: -4%; top: 14%; width: 226px;
-    padding: 16px 18px 26px; color: var(--ink); background: #FFFDF9;
-    transform: rotate(-6deg); transform-origin: 80% 100%;
-    filter: drop-shadow(0 22px 34px rgba(0,0,0,.5));
-    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
-            mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
-    animation: entra .9s cubic-bezier(.2, .9, .3, 1.2) .25s both;
+  .adesivo {
+    position: absolute; z-index: 3; left: 4%; top: 36%; width: 132px; aspect-ratio: 1; border-radius: 50%;
+    display: grid; place-items: center; background: var(--paper); color: var(--ink);
+    font-size: 22px; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase;
+    box-shadow: 0 16px 30px -10px rgba(0,0,0,.55); transform: rotate(-16deg);
+    /* mordida no canto, como na referência */
+    -webkit-mask: radial-gradient(circle 22px at 84% 10%, #0000 98%, #000);
+            mask: radial-gradient(circle 22px at 84% 10%, #0000 98%, #000);
+    animation: cola .7s cubic-bezier(.2, .9, .3, 1.4) .3s both;
   }
-  @keyframes entra { from { opacity: 0; transform: rotate(-14deg) translate(40px, 30px); } }
-  .cupom .c-top { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray); }
-  .cupom .c-top i { font-style: normal; color: var(--orange); }
-  .cupom .c-preco { margin-top: 6px; font-size: 34px; font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
-  .cupom .c-preco small { font-size: .5em; letter-spacing: 0; margin-right: 3px; color: var(--gray); }
-  .cupom dl { margin: 12px 0 0; padding: 10px 0 0; border-top: 1.5px dashed #D9D4CA; display: grid; grid-template-columns: 1fr auto; gap: 5px 10px; font-size: 13px; font-variant-numeric: tabular-nums; }
-  .cupom dt { color: var(--gray); }
-  .cupom dd { margin: 0; font-weight: 700; text-align: right; }
-  .cupom .c-sobra { margin-top: 12px; padding-top: 10px; border-top: 1.5px solid var(--ink); display: flex; justify-content: space-between; align-items: baseline; }
-  .cupom .c-sobra span { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-  .cupom .c-sobra b { font-size: 24px; font-weight: 800; letter-spacing: -0.04em; color: var(--orange-strong); }
-  .cupom .c-nota { margin-top: 8px; font-size: 10px; color: var(--gray); }
-
-  /* selo da margem, do outro lado da cabeça */
-  .selo {
-    position: absolute; z-index: 4; right: 0; top: 22%; width: 108px; aspect-ratio: 1; border-radius: 50%;
-    display: grid; place-content: center; text-align: center; gap: 2px;
-    background: var(--ink); color: var(--paper); border: 1.5px solid rgba(244,242,238,.16);
-    box-shadow: 0 18px 40px -12px rgba(0,0,0,.7); transform: rotate(8deg);
-    animation: entra-selo .8s cubic-bezier(.2, .9, .3, 1.3) .55s both;
+  .adesivo span { white-space: nowrap; }
+  .adesivo span::before, .adesivo span::after { content: "•"; color: var(--orange); margin: 0 4px; }
+  @keyframes cola { from { opacity: 0; transform: rotate(-40deg) scale(.4); } }
+  .marca {
+    position: absolute; z-index: 3; right: -1%; top: 59.7%; width: 56px; aspect-ratio: 1; border-radius: 50%; translate: 0 -50%;
+    display: flex; align-items: center; justify-content: center; line-height: 1; background: var(--ink); color: var(--paper);
+    font-size: 24px; font-weight: 800; letter-spacing: -0.06em; border: 3px solid var(--ink);
+    box-shadow: 0 0 0 2px rgba(244,242,238,.14);
   }
-  @keyframes entra-selo { from { opacity: 0; transform: rotate(-20deg) scale(.5); } }
-  .selo b { font-size: 26px; font-weight: 800; letter-spacing: -0.05em; color: var(--orange); line-height: 1; }
-  .selo span { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gray-dark); }
+  .marca i { font-style: normal; color: var(--orange); }
 
   @media (min-width: 900px) {
     .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; padding-top: 10px; }
     .hero-copy { padding-bottom: 96px; }
+    .palco { margin-bottom: 40px; }
   }
   @media (max-width: 899px) {
-    .palco { width: min(100%, 460px); margin-top: 8px; }
-    .cupom { width: 178px; padding: 12px 13px 20px; left: 1%; top: 10%; }
-    .cupom .c-preco { font-size: 28px; }
-    .cupom dl { font-size: 12px; }
-    .cupom .c-sobra b { font-size: 20px; }
-    .selo { width: 88px; right: -2%; top: 18%; }
-    .selo b { font-size: 21px; }
+    .palco { width: min(100%, 460px); margin: 20px auto 36px; }
+    .adesivo { width: 100px; font-size: 16px; left: 2%; }
+    .marca { width: 46px; font-size: 20px; }
   }
-  @media (prefers-reduced-motion: reduce) { .cupom, .selo, .palco .anel { animation: none; } html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) { .adesivo { animation: none; } html { scroll-behavior: auto; } }
 
   /* ---------- seções ---------- */
   section.bloco { padding: 84px 0; }
@@ -305,23 +277,21 @@
       </div>
     </div>
     <div class="palco">
-      <span class="anel" aria-hidden="true"></span>
-      <span class="disco" aria-hidden="true"></span>
-      <div class="cupom" role="img" aria-label="Exemplo de resultado da calculadora: produto a R$ 79,90 na Shopee, sobram R$ 19,63">
-        <p class="c-top">Preço na Shopee <i>●</i></p>
-        <p class="c-preco"><small>R$</small>79,90</p>
-        <dl>
-          <dt>Custo da peça</dt><dd>− 35,00</dd>
-          <dt>Comissão 20%</dt><dd>− 15,98</dd>
-          <dt>Taxa fixa</dt><dd>− 4,50</dd>
-          <dt>Imposto 6%</dt><dd>− 4,79</dd>
-        </dl>
-        <p class="c-sobra"><span>Sobra</span><b>R$ 19,63</b></p>
-        <p class="c-nota">Exemplo. Na calculadora entram os seus números.</p>
-      </div>
+      <svg class="painel" viewBox="0 0 600 540" aria-hidden="true">
+        <defs>
+          <linearGradient id="pn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A45"/><stop offset=".55" stop-color="#FF5A1F"/><stop offset="1" stop-color="#D9440F"/></linearGradient>
+          <clipPath id="pn-c"><path id="pn-p" d="M44 0H556Q600 0 600 44V196Q600 214 586 226L540 262Q526 274 540 286L586 322Q600 334 600 352V496Q600 540 556 540H44Q0 540 0 496V448Q0 430 14 418L60 382Q74 370 60 358L14 322Q0 310 0 292V44Q0 0 44 0Z"/></clipPath>
+        </defs>
+        <g clip-path="url(#pn-c)">
+          <rect width="600" height="540" fill="url(#pn-g)"/>
+          <path d="M230 0H330L120 540H20Z" fill="#fff" opacity=".10"/>
+          <path d="M370 0H420L210 540H160Z" fill="#fff" opacity=".07"/>
+          <path d="M520 0H600V40L470 540H310Z" fill="#000" opacity=".06"/>
+        </g>
+      </svg>
       <picture><source srcset="/precificacao/leo.webp" type="image/webp"><img src="/precificacao/leo.png" alt="Leo Gutemberg, fabricante de moda e vendedor de marketplaces" width="701" height="1102" fetchpriority="high"></picture>
-      <p class="selo" aria-hidden="true"><b>24,6%</b><span>de margem</span></p>
-      <span class="chao" aria-hidden="true"></span>
+      <p class="adesivo"><span>Grátis</span></p>
+      <p class="marca" aria-hidden="true">g<i>.</i></p>
     </div>
   </div>
 </header>
