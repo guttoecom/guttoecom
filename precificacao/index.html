@@ -107,44 +107,24 @@
   .hero-txt b { color: var(--paper); }
   .hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
   .hero-cta small { color: var(--gray-dark); font-size: 14px; font-weight: 600; }
-  /* ---------- palco do Leo: painel laranja recortado, Leo saindo por cima, adesivo GRÁTIS ---------- */
-  .palco { position: relative; align-self: end; justify-self: center; width: min(100%, 560px); aspect-ratio: 600 / 660; }
+  /* ---------- palco do Leo: painel laranja recortado, Leo saindo por cima ---------- */
+  .palco { position: relative; justify-self: center; width: min(100%, 520px, calc((100svh - 150px) * 600 / 660)); aspect-ratio: 600 / 660; }
   .painel { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 50px rgba(0,0,0,.45)); }
   .palco picture { position: absolute; z-index: 2; left: 50%; bottom: 0; height: 97%; transform: translateX(-50%); }
   .palco picture img { height: 100%; width: auto; max-width: none; filter: drop-shadow(0 18px 26px rgba(0,0,0,.35)); }
 
-  .adesivo {
-    position: absolute; z-index: 3; left: 4%; top: 36%; width: 132px; aspect-ratio: 1; border-radius: 50%;
-    display: grid; place-items: center; background: var(--paper); color: var(--ink);
-    font-size: 22px; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase;
-    box-shadow: 0 16px 30px -10px rgba(0,0,0,.55); transform: rotate(-16deg);
-    /* mordida no canto, como na referência */
-    -webkit-mask: radial-gradient(circle 22px at 84% 10%, #0000 98%, #000);
-            mask: radial-gradient(circle 22px at 84% 10%, #0000 98%, #000);
-    animation: cola .7s cubic-bezier(.2, .9, .3, 1.4) .3s both;
-  }
-  .adesivo span { white-space: nowrap; }
-  .adesivo span::before, .adesivo span::after { content: "•"; color: var(--orange); margin: 0 4px; }
-  @keyframes cola { from { opacity: 0; transform: rotate(-40deg) scale(.4); } }
-  .marca {
-    position: absolute; z-index: 3; right: -1%; top: 59.7%; width: 56px; aspect-ratio: 1; border-radius: 50%; translate: 0 -50%;
-    display: flex; align-items: center; justify-content: center; line-height: 1; background: var(--ink); color: var(--paper);
-    font-size: 24px; font-weight: 800; letter-spacing: -0.06em; border: 3px solid var(--ink);
-    box-shadow: 0 0 0 2px rgba(244,242,238,.14);
-  }
-  .marca i { font-style: normal; color: var(--orange); }
-
   @media (min-width: 900px) {
-    .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; padding-top: 10px; }
-    .hero-copy { padding-bottom: 96px; }
-    .palco { margin-bottom: 40px; }
+    .hero { min-height: 100svh; display: flex; flex-direction: column; }
+    .hero-grid { flex: 1; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; padding-top: 0; padding-bottom: 56px; }
+    .palco { width: min(100%, 520px, calc((100svh - 150px) * 600 / 660)); }
+    .hero h1 { font-size: clamp(40px, min(5.4vw, 8.2svh), 76px); margin-top: 14px; }
+    .hero-txt { margin-top: 18px; font-size: clamp(16px, 2.2svh, 19px); }
+    .hero-cta { margin-top: 26px; }
   }
   @media (max-width: 899px) {
     .palco { width: min(100%, 460px); margin: 20px auto 36px; }
-    .adesivo { width: 100px; font-size: 16px; left: 2%; }
-    .marca { width: 46px; font-size: 20px; }
   }
-  @media (prefers-reduced-motion: reduce) { .adesivo { animation: none; } html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   /* ---------- seções ---------- */
   section.bloco { padding: 84px 0; }
@@ -290,8 +270,6 @@
         </g>
       </svg>
       <picture><source srcset="/precificacao/leo.webp" type="image/webp"><img src="/precificacao/leo.png" alt="Leo Gutemberg, fabricante de moda e vendedor de marketplaces" width="701" height="1102" fetchpriority="high"></picture>
-      <p class="adesivo"><span>Grátis</span></p>
-      <p class="marca" aria-hidden="true">g<i>.</i></p>
     </div>
   </div>
 </header>
