@@ -40,93 +40,15 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@graph": [
-  {
-   "@type": "WebPage",
-   "name": "Calculadora de Preço de Venda grátis",
-   "url": "https://guttoecom.com.br/calculadora-de-preco-de-venda",
-   "description": "Calculadora de preço de venda grátis para Shopee e marketplace: preço ideal com comissão, taxa fixa, imposto, Ads, afiliado e margem de lucro.",
-   "publisher": {
-    "@type": "Organization",
-    "name": "gutto",
-    "url": "https://guttoecom.com.br"
-   }
-  },
-  {
-   "@type": "FAQPage",
-   "mainEntity": [
-    {
-     "@type": "Question",
-     "name": "Como calcular o preço de venda de um produto?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Some o custo do produto (peça, embalagem, etiqueta) e as taxas fixas por venda. Depois divida por 1 menos todos os percentuais que saem do preço: comissão do marketplace, imposto, Ads, afiliado e a margem de lucro que você quer. O resultado é o preço que cobre tudo e ainda deixa a sua margem."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Qual a fórmula do preço de venda?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Preço = (custos + taxa fixa) ÷ (1 − comissão − imposto − Ads − afiliado − margem desejada). Todos os percentuais entram em decimal: 20% vira 0,20. Exemplo: custo de R$ 35, taxa fixa de R$ 4,50, comissão de 20%, imposto de 6% e margem de 20% dão (35 + 4,50) ÷ (1 − 0,20 − 0,06 − 0,20) = R$ 73,15."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Qual a diferença entre margem e markup?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Markup é o número que multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Um markup de 2 (dobrar o custo) não dá 100% de margem: num produto de R$ 35 vendido a R$ 70 na Shopee, depois de comissão, taxa fixa e imposto de 6% sobram R$ 12,30, uma margem de 17,6%."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Quanto a Shopee cobra por venda em 2026?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Até R$ 79,99, a Shopee cobra 20% de comissão mais R$ 4,50 por item. De R$ 80 a R$ 99,99, 14% mais R$ 16. De R$ 100 a R$ 199,99, 14% mais R$ 20. A partir de R$ 200, 14% mais R$ 26. A taxa fixa é por item, não por pedido."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "A calculadora de preço de venda é grátis?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Sim. Você preenche nome, e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Serve para outros marketplaces além da Shopee?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "A calculadora tem as taxas da Shopee e do TikTok Shop. A fórmula do preço de venda é a mesma para qualquer canal: muda só a comissão e a taxa fixa que você coloca na conta."
-     }
-    }
-   ]
-  },
-  {
-   "@type": "HowTo",
-   "name": "Como calcular o preço de venda",
-   "step": [
-    {
-     "@type": "HowToStep",
-     "name": "Some os custos",
-     "text": "Custo do produto, embalagem e a taxa fixa por item do marketplace."
-    },
-    {
-     "@type": "HowToStep",
-     "name": "Some os percentuais",
-     "text": "Comissão, imposto, Ads, afiliado e a margem de lucro desejada."
-    },
-    {
-     "@type": "HowToStep",
-     "name": "Divida",
-     "text": "Preço = custos ÷ (1 − soma dos percentuais)."
-    }
-   ]
-  }
- ]
+ "@type": "WebPage",
+ "name": "Calculadora de Preço de Venda grátis",
+ "url": "https://guttoecom.com.br/calculadora-de-preco-de-venda",
+ "description": "Calculadora de preço de venda grátis para Shopee e marketplace: preço ideal com comissão, taxa fixa, imposto, Ads, afiliado e margem de lucro.",
+ "publisher": {
+  "@type": "Organization",
+  "name": "gutto",
+  "url": "https://guttoecom.com.br"
+ }
 }
 </script>
 <style>
@@ -487,6 +409,27 @@
   .erros li { counter-increment: e; display: grid; grid-template-columns: 36px 1fr; gap: 12px; padding: 16px 18px; border-radius: 16px; background: var(--white); border: 1px solid var(--line); color: #3A3833; }
   .erros li::before { content: counter(e); width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--orange-tint); color: var(--orange-strong); font-weight: 800; }
   .erros b { color: var(--ink); }
+
+  .tela { position: relative; justify-self: center; width: 100%; max-width: 600px; border-radius: 18px; overflow: hidden; background: #F4F2EE;
+    box-shadow: 0 50px 90px -30px rgba(0,0,0,.75), 0 0 0 1px rgba(244,242,238,.12), 0 0 120px -20px rgba(255,90,31,.45); }
+  .tela-barra { display: flex; align-items: center; gap: 6px; padding: 11px 14px; background: #E9E6E0; border-bottom: 1px solid #DAD6CE; }
+  .tela-barra i { width: 10px; height: 10px; border-radius: 50%; background: #CFCAC0; }
+  .tela-barra i:first-child { background: var(--orange); }
+  .tela-barra span { margin-left: 10px; flex: 1; padding: 5px 12px; border-radius: 8px; background: var(--white); font-size: 12px; font-weight: 600; color: var(--gray); }
+  .tela-img { position: relative; }
+  .tela-img img { display: block; width: 100%; height: auto; }
+  .tela-img::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%; background: linear-gradient(transparent, rgba(244,242,238,.92) 70%); pointer-events: none; }
+  .tela-trava { position: absolute; z-index: 2; left: 50%; bottom: 22px; transform: translateX(-50%); text-decoration: none; }
+  .tela-trava span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; padding: 12px 20px; border-radius: 999px; background: var(--ink); color: var(--white); font-size: 15px; font-weight: 800; box-shadow: 0 14px 30px -10px rgba(0,0,0,.6); transition: background .2s, transform .2s; }
+  .tela-trava span svg { width: 17px; height: 17px; color: var(--orange); }
+  .tela-trava:hover span { background: var(--orange); transform: translateY(-2px); }
+  .tela-trava:hover span svg { color: var(--white); }
+  @media (max-width: 899px) { .tela { margin: 28px 0 8px; } .tela-trava span { font-size: 13.5px; padding: 10px 16px; } }
+  .itens-cta { margin-top: 36px; display: grid; gap: 18px; align-items: center; padding: 28px; border-radius: 24px; background: var(--ink); color: var(--paper); }
+  .itens-cta p { color: var(--gray-dark); font-size: 17px; max-width: 620px; }
+  .itens-cta b { color: var(--paper); }
+  @media (min-width: 900px) { .itens-cta { grid-template-columns: 1fr auto; padding: 32px 36px; } }
+  footer { margin-top: 0; }
 </style>
 </head>
 <body>
@@ -506,32 +449,11 @@
       </div>
       <p class="provas"><span>Taxas da Shopee 2026</span><span>Preço pela margem</span><span>Quanto sobra por venda</span></p>
     </div>
-    <div class="palco-calc">
-      <svg class="painel" viewBox="0 0 600 600" aria-hidden="true">
-        <defs>
-          <linearGradient id="pc-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A45"/><stop offset=".55" stop-color="#FF5A1F"/><stop offset="1" stop-color="#D9440F"/></linearGradient>
-          <clipPath id="pc-c"><path d="M44 0H556Q600 0 600 44V216Q600 234 586 246L540 282Q526 294 540 306L586 342Q600 354 600 372V556Q600 600 556 600H44Q0 600 0 556V488Q0 470 14 458L60 422Q74 410 60 398L14 362Q0 350 0 332V44Q0 0 44 0Z"/></clipPath>
-        </defs>
-        <g clip-path="url(#pc-c)">
-          <rect width="600" height="600" fill="url(#pc-g)"/>
-          <path d="M230 0H330L120 600H20Z" fill="#fff" opacity=".10"/>
-          <path d="M370 0H420L210 600H160Z" fill="#fff" opacity=".07"/>
-          <path d="M520 0H600V40L470 600H310Z" fill="#000" opacity=".06"/>
-        </g>
-      </svg>
-      <div class="calc-mock" aria-hidden="true">
-        <div class="cm-topo"><b>Quanto cobrar</b><p class="cm-tabs"><span>Shopee</span><span>TikTok Shop</span></p></div>
-        <div class="cm-campos">
-          <div class="cm-campo"><small>Custo do produto</small><b>R$ 35,00</b></div>
-          <div class="cm-campo"><small>Embalagem</small><b>R$ 0,50</b></div>
-          <div class="cm-campo"><small>Imposto</small><b>6%</b></div>
-          <div class="cm-campo"><small>Margem desejada</small><b>20%</b></div>
-        </div>
-        <div class="cm-res">
-          <small>Preço de venda ideal</small>
-          <div class="borrado"><b>R$ 74,07</b><span>sobram R$ 14,81 por venda</span></div>
-          <a class="cm-trava" href="#formulario" tabindex="-1"><span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg> Liberar grátis</span></a>
-        </div>
+    <div class="tela rev in">
+      <div class="tela-barra" aria-hidden="true"><i></i><i></i><i></i><span>guttoecom.com.br/calculadora</span></div>
+      <div class="tela-img">
+        <img src="/calculadora-de-preco-de-venda/calculadora.webp" alt="Calculadora de preço de venda da gutto: custos, imposto e margem à esquerda; preço sugerido, para onde vai o preço e lucro líquido à direita" width="1088" height="760" fetchpriority="high">
+        <a class="tela-trava" href="#formulario"><span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg>Libera grátis com o cadastro</span></a>
       </div>
     </div>
   </div>
@@ -650,84 +572,13 @@
         <div class="item rev"><p class="tipo-i">Venda</p><b>Afiliado</b><span>A comissão de quem divulga o seu produto.</span></div>
         <div class="item rev"><p class="tipo-i">Lucro</p><b>Margem de lucro</b><span>O quanto você quer que sobre em cada venda.</span></div>
       </div>
-    </div>
-  </section>
-
-  <section class="bloco artigo-cpv">
-    <div class="wrap">
-      <article class="art rev">
-        <h2>Como calcular o preço de venda</h2>
-        <p>O preço de venda certo cobre <b>tudo o que sai de cada venda</b> e ainda deixa a margem que você quer. No marketplace, boa parte desses descontos é cobrada sobre o próprio preço (comissão, imposto, Ads e afiliado), por isso não basta somar uma porcentagem em cima do custo.</p>
-        <div class="formula">Preço = (custos + taxa fixa) ÷ (1 − comissão − imposto − Ads − afiliado − <em>margem</em>)<small>Os percentuais entram em decimal: 20% vira 0,20. No Ads, use 1 ÷ ROAS (ROAS 10 = 10% do preço).</small></div>
-
-        <h3>Exemplo: produto de R$ 35 na Shopee</h3>
-        <p>Custo de R$ 35, taxa fixa de R$ 4,50, comissão de 20%, imposto de 6% e margem desejada de 20%:</p>
-        <div class="conta">
-          <div><span>Custos + taxa fixa</span><b>R$ 35,00 + R$ 4,50 = R$ 39,50</b></div>
-          <div><span>Percentuais que saem do preço</span><b>20% + 6% + 20% = 46%</b></div>
-          <div><span>Conta</span><b>R$ 39,50 ÷ 0,54</b></div>
-          <div><span>Preço de venda ideal</span><b>R$ 73,15</b></div>
-        </div>
-        <p>A R$ 73,15, a Shopee fica com R$ 14,63 de comissão e R$ 4,50 de taxa fixa, o imposto leva R$ 4,39 e sobram <b>R$ 14,63 no seu bolso: exatamente 20% do preço</b>.</p>
-
-        <h2>Margem não é markup</h2>
-        <p>Markup é o número que multiplica o custo. Margem é a parte do preço que sobra depois de todos os descontos. Dobrar o custo parece dar 100% de lucro, mas no marketplace a conta é outra:</p>
-        <div class="comparar">
-          <div><small>Markup 2 (dobrar o custo)</small><b>R$ 70,00</b><span>Sobram R$ 12,30: margem de 17,6%.</span></div>
-          <div class="bom"><small>Pela margem de 20%</small><b>R$ 73,15</b><span>Sobram R$ 14,63: margem de 20%, como planejado.</span></div>
-        </div>
-        <p class="nota">Exemplos com custo de R$ 35, comissão de 20%, taxa fixa de R$ 4,50 e imposto de 6%, sem Ads e sem afiliado.</p>
-
-        <h2>Taxas da Shopee usadas na calculadora</h2>
-        <p>A comissão e a taxa fixa mudam conforme a faixa de preço. Por isso o preço ideal depende da faixa, e a calculadora testa todas para você.</p>
-        <div class="tabela-wrap"><table>
-          <thead><tr><th>Preço do produto</th><th>Comissão</th><th>Taxa fixa por item</th></tr></thead>
-          <tbody>
-            <tr><td>Até R$ 79,99</td><td>20%</td><td>R$ 4,50</td></tr>
-            <tr><td>R$ 80 a R$ 99,99</td><td>14%</td><td>R$ 16</td></tr>
-            <tr><td>R$ 100 a R$ 199,99</td><td>14%</td><td>R$ 20</td></tr>
-            <tr><td>A partir de R$ 200</td><td>14%</td><td>R$ 26</td></tr>
-          </tbody>
-        </table></div>
-        <p class="nota">Taxas de outubro de 2026. Veja os detalhes e as pegadinhas de cada faixa em <a href="/calculadora/shopee/taxas">Taxas da Shopee 2026</a>.</p>
-
-        <h2>Erros comuns na hora de precificar</h2>
-        <ol class="erros">
-          <li><span><b>Copiar o preço do concorrente.</b> O custo e as taxas dele não são os seus: o mesmo preço pode dar lucro para ele e prejuízo para você.</span></li>
-          <li><span><b>Esquecer a taxa fixa por item.</b> Em produto barato ela pesa muito: em R$ 29,90, os R$ 4,50 da Shopee são 15% do preço.</span></li>
-          <li><span><b>Somar porcentagem em cima do custo.</b> Comissão, imposto e Ads saem do preço de venda, não do custo.</span></li>
-          <li><span><b>Ignorar o Ads.</b> Se você anuncia, o gasto com anúncio sai de cada venda e precisa estar no preço.</span></li>
-        </ol>
-      </article>
-    </div>
-  </section>
-
-  <section class="bloco faq-bloco">
-    <div class="wrap faq-grid">
-      <div class="cabeca rev">
-        <p class="kicker pill">Perguntas frequentes</p>
-        <h2 class="titulo">Dúvidas sobre <em>preço de venda</em>.</h2>
-        <p>Quer testar com os seus números? <a href="#formulario">Acesse a calculadora grátis</a>.</p>
-      </div>
-      <div class="faq rev">
-        <details open><summary>Como calcular o preço de venda de um produto?</summary><p>Some o custo do produto (peça, embalagem, etiqueta) e as taxas fixas por venda. Depois divida por 1 menos todos os percentuais que saem do preço: comissão do marketplace, imposto, Ads, afiliado e a margem de lucro que você quer. O resultado é o preço que cobre tudo e ainda deixa a sua margem.</p></details>
-        <details><summary>Qual a fórmula do preço de venda?</summary><p>Preço = (custos + taxa fixa) ÷ (1 − comissão − imposto − Ads − afiliado − margem desejada). Todos os percentuais entram em decimal: 20% vira 0,20. Exemplo: custo de R$ 35, taxa fixa de R$ 4,50, comissão de 20%, imposto de 6% e margem de 20% dão (35 + 4,50) ÷ (1 − 0,20 − 0,06 − 0,20) = R$ 73,15.</p></details>
-        <details><summary>Qual a diferença entre margem e markup?</summary><p>Markup é o número que multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Um markup de 2 (dobrar o custo) não dá 100% de margem: num produto de R$ 35 vendido a R$ 70 na Shopee, depois de comissão, taxa fixa e imposto de 6% sobram R$ 12,30, uma margem de 17,6%.</p></details>
-        <details><summary>Quanto a Shopee cobra por venda em 2026?</summary><p>Até R$ 79,99, a Shopee cobra 20% de comissão mais R$ 4,50 por item. De R$ 80 a R$ 99,99, 14% mais R$ 16. De R$ 100 a R$ 199,99, 14% mais R$ 20. A partir de R$ 200, 14% mais R$ 26. A taxa fixa é por item, não por pedido.</p></details>
-        <details><summary>A calculadora de preço de venda é grátis?</summary><p>Sim. Você preenche nome, e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar.</p></details>
-        <details><summary>Serve para outros marketplaces além da Shopee?</summary><p>A calculadora tem as taxas da Shopee e do TikTok Shop. A fórmula do preço de venda é a mesma para qualquer canal: muda só a comissão e a taxa fixa que você coloca na conta.</p></details>
+      <div class="itens-cta rev">
+        <p><b>Garanta a sua calculadora de preço de venda grátis.</b> Cadastre-se e veja em segundos o preço ideal e quanto sobra em cada venda.</p>
+        <a class="btn" href="#formulario">Acessar a calculadora <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       </div>
     </div>
   </section>
 
-  <section class="final">
-    <div class="wrap rev">
-      <h2>Descubra o seu preço de venda agora.</h2>
-      <p>Cadastre-se grátis e veja em segundos o preço ideal e quanto sobra em cada venda.</p>
-      <a class="btn" href="#formulario">Acessar a calculadora <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-      <small>Grátis · libera em menos de 1 minuto</small>
-    </div>
-  </section>
 </main>
 
 <footer>
