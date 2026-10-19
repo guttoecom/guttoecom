@@ -12,6 +12,7 @@ As calculadoras abaixo são gratuitas, sem cadastro, e usam as mesmas contas das
 
 ## Taxas usadas (outubro de 2026)
 
+- [Calculadora de Preço de Venda](https://guttoecom.com.br/calculadora-de-preco-de-venda): como calcular o preço de venda no marketplace, com a fórmula (preço = (custos + taxa fixa) ÷ (1 − comissão − imposto − Ads − afiliado − margem)), exemplo na Shopee (custo R$ 35, margem 20% → R$ 73,15) e a diferença entre margem e markup; acesso grátis à calculadora com cadastro.
 - [Taxas da Shopee 2026, explicadas](https://guttoecom.com.br/calculadora/shopee/taxas): tabela de quanto a Shopee desconta em cada preço e as faixas em que subir o preço faz o vendedor receber menos (ex.: a R$ 79,90 caem R$ 59,42 na conta; a R$ 80, R$ 52,80; só volta a compensar a partir de R$ 87,79).
 - Shopee: até R$ 79,99 → 20% de comissão + R$ 4,50 por item; R$ 80 a R$ 99,99 → 14% + R$ 16; R$ 100 a R$ 199,99 → 14% + R$ 20; a partir de R$ 200 → 14% + R$ 26.
 - TikTok Shop: abaixo de R$ 50 → 10% de comissão + R$ 4; R$ 50 ou mais → 6% + R$ 6; frete grátis → mais 6% de taxa de envio.
