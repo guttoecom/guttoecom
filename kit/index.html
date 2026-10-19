@@ -470,6 +470,7 @@
     transition: border-color .2s, box-shadow .2s;
   }
   .field:focus { border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
+  textarea.field { resize: none; min-height: 132px; line-height: 1.35; font-size: clamp(18px, 2.6vw, 22px); font-weight: 600; }
   .invalid .field { border-color: var(--error); }
   .choice { border-radius: 14px; border-color: var(--border); }
   .key { border-radius: 9px; }
@@ -675,6 +676,18 @@
     </div>
   </section>
 
+  <!-- 8. maior dificuldade (todos; opcional) -->
+  <section class="screen" data-step="dificuldade" data-type="text">
+    <div class="inner">
+      <p class="qnum"><span class="qnum-n">08</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+      <label class="q" for="f-dificuldade">Qual é a sua maior dificuldade hoje para vender mais?</label>
+      <p class="q-help">Opcional, mas ajuda muito: escreve do seu jeito.</p>
+      <textarea class="field" id="f-dificuldade" rows="3" maxlength="500" enterkeyhint="done" placeholder="Ex.: meus anúncios não aparecem, não sei se estou tendo lucro..."></textarea>
+      <p class="err" role="alert"></p>
+      <div class="actions"><button class="btn" type="button" data-action="next">Liberar calculadora ✓</button><span class="hint">ou aperte <b>Enter ↵</b></span></div>
+    </div>
+  </section>
+
   <!-- salvando -->
   <section class="screen status" data-step="loading">
     <div class="inner center" role="status" aria-live="polite">
@@ -715,8 +728,8 @@
 <script>
 (() => {
   const CFG = window.KIT_CONFIG;
-  const QUESTIONS = ['email', 'whatsapp', 'empresa', 'fabrica', 'vende', 'faturamento', 'ajuda'];
-  // quem ainda não vende pula as duas últimas (faturamento e tipo de ajuda)
+  const QUESTIONS = ['email', 'whatsapp', 'empresa', 'fabrica', 'vende', 'faturamento', 'ajuda', 'dificuldade'];
+  // quem ainda não vende pula faturamento e tipo de ajuda (vai direto para a maior dificuldade)
   const SO_QUEM_VENDE = 2;
   const ADVANCE_DELAY = 400;
   const SLIDE = 'translateY(9vh)';
@@ -763,6 +776,7 @@
       return '';
     },
     empresa: v => v ? '' : 'Qual o nome da sua marca? Pode ser o do Instagram.',
+    dificuldade: () => '',
     choice: v => v ? '' : 'Escolhe uma opção pra continuar.',
   };
 
@@ -796,7 +810,8 @@
   function setProgress(step) {
     const total = answers.vende === 'nao' ? QUESTIONS.length - SO_QUEM_VENDE : QUESTIONS.length;
     let pct = 0;
-    if (QUESTIONS.includes(step)) pct = (QUESTIONS.indexOf(step) / total) * 100;
+    const pulou = answers.vende === 'nao' && step === 'dificuldade' ? SO_QUEM_VENDE : 0;
+    if (QUESTIONS.includes(step)) pct = ((QUESTIONS.indexOf(step) - pulou) / total) * 100;
     if (['loading', 'error', 'done'].includes(step)) pct = 100;
     fill.style.width = pct + '%';
     progress.setAttribute('aria-valuenow', Math.round(pct));
@@ -820,6 +835,7 @@
     from.style.transform = dir > 0 ? SLIDE_UP : SLIDE;
 
     current = step;
+    if (step === 'dificuldade') $('.qnum-n', to).textContent = answers.vende === 'nao' ? '06' : '08';
     setProgress(step);
     backBtn.classList.toggle('show', QUESTIONS.includes(step) || step === 'error');
 
@@ -833,7 +849,7 @@
   }
 
   function nextStep(step) {
-    if (step === 'vende' && answers.vende === 'nao') return null;
+    if (step === 'vende' && answers.vende === 'nao') return 'dificuldade';
     const i = QUESTIONS.indexOf(step);
     return QUESTIONS[i + 1] || null;
   }
@@ -913,6 +929,7 @@
       vende_marketplace: answers.vende,
       faturamento_mensal: answers.vende === 'nao' ? 'nao_vende' : answers.faturamento,
       tipo_ajuda: answers.vende === 'nao' ? null : answers.ajuda,
+      dificuldade: (answers.dificuldade || '').slice(0, 500) || null,
       aceita_email: document.getElementById('f-aceita').checked,
       aceita_whatsapp: document.getElementById('f-aceita-wa').checked,
       ...origin,
@@ -954,6 +971,7 @@
     if (e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
     const el = screens[current];
     if (e.key === 'Enter') {
+      if (e.shiftKey && e.target.tagName === 'TEXTAREA') return;
       if (e.target.closest && e.target.closest('a, .back')) return;
       if (e.target.classList && e.target.classList.contains('choice')) { e.preventDefault(); return choose(e.target); }
       if (current === 'welcome' || QUESTIONS.includes(current)) { e.preventDefault(); advance(); }
