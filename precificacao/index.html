@@ -43,7 +43,7 @@
     { "@type": "Question", "name": "Por que o preço certo importa tanto no marketplace?", "acceptedAnswer": { "@type": "Answer", "text": "Porque vender muito não é o mesmo que lucrar. Na Shopee, comissão, taxa fixa por item, imposto, Ads e afiliado saem de cima de cada venda. Se o preço não cobre tudo isso, quanto mais você vende, mais dinheiro some do caixa." } },
     { "@type": "Question", "name": "Como descobrir o preço de venda ideal na Shopee?", "acceptedAnswer": { "@type": "Answer", "text": "Some o custo do produto (peça, embalagem, etiqueta) e a taxa fixa da faixa de preço. Divida por 1 menos a comissão, o imposto, o Ads, o afiliado e a margem que você quer. Como a comissão e a taxa fixa mudam por faixa (até R$ 79,99, de R$ 80 a R$ 99,99, de R$ 100 a R$ 199,99 e acima de R$ 200), a calculadora testa cada faixa e entrega o preço que fecha a sua margem." } },
     { "@type": "Question", "name": "Qual a diferença entre margem e markup?", "acceptedAnswer": { "@type": "Answer", "text": "Markup é o quanto você multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Somar 30% ao custo não dá 30% de margem: comissão, taxa, imposto e Ads são cobrados sobre o preço de venda, então a sobra real fica bem menor." } },
-    { "@type": "Question", "name": "A calculadora é grátis?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Você preenche e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar." } }
+    { "@type": "Question", "name": "A calculadora é grátis?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Você preenche nome, e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar." } }
   ]
 }
 </script>
@@ -271,7 +271,7 @@
       </div>
     </div>
     <div class="hero-foto">
-      <picture><source srcset="leo.webp" type="image/webp"><img src="leo.png" alt="Leo Gutemberg, fabricante de moda e vendedor de marketplaces" width="654" height="1081" fetchpriority="high"></picture>
+      <picture><source srcset="leo.webp" type="image/webp"><img src="leo.png" alt="Leo Gutemberg, fabricante de moda e vendedor de marketplaces" width="701" height="1102" fetchpriority="high"></picture>
       <div class="recibo" aria-label="Exemplo de resultado da calculadora">
         <p class="r-tit">Preço na Shopee</p>
         <p class="r-preco">R$ 79,90</p>
@@ -311,7 +311,7 @@
         <h2 class="titulo" style="margin-top:14px">O preço pronto na hora, sem planilha.</h2>
         <p class="sub">Preencha seus dados e a calculadora abre na mesma hora.</p>
         <ol class="passos">
-          <li>Preencha os 4 campos</li>
+          <li>Preencha seus dados</li>
           <li>A calculadora abre na hora (e o link vai pro seu e-mail)</li>
           <li>Coloque seus custos e veja o preço certo</li>
         </ol>
@@ -320,6 +320,12 @@
         <form id="form" novalidate>
           <h3>Acessar a calculadora</h3>
           <p class="card-sub">Leva menos de 1 minuto.</p>
+
+          <div class="campo" data-campo="nome">
+            <label class="rot" for="f-nome">Seu nome</label>
+            <input id="f-nome" type="text" autocomplete="name" autocapitalize="words" maxlength="120" placeholder="Nome e sobrenome" required>
+            <p class="msg" role="alert"></p>
+          </div>
 
           <div class="campo" data-campo="email">
             <label class="rot" for="f-email">Seu melhor e-mail</label>
@@ -400,7 +406,7 @@
 
   <section class="autor">
     <div class="wrap autor-grid">
-      <div class="autor-foto rev"><picture><source srcset="leo.webp" type="image/webp"><img src="leo.png" alt="Leo Gutemberg" width="654" height="1081" loading="lazy"></picture></div>
+      <div class="autor-foto rev"><picture><source srcset="leo.webp" type="image/webp"><img src="leo.png" alt="Leo Gutemberg" width="701" height="1102" loading="lazy"></picture></div>
       <div class="autor-txt rev">
         <p class="kicker">Quem criou</p>
         <h2 class="titulo" style="margin-top:14px">Feita por quem vende todo dia.</h2>
@@ -422,7 +428,7 @@
         <details><summary>Por que o preço certo importa tanto no marketplace?</summary><p>Porque vender muito não é o mesmo que lucrar. Na Shopee, comissão, taxa fixa por item, imposto, Ads e afiliado saem de cima de cada venda. Se o preço não cobre tudo isso, quanto mais você vende, mais dinheiro some do caixa.</p></details>
         <details><summary>Como descobrir o preço de venda ideal na Shopee?</summary><p>Some o custo do produto (peça, embalagem, etiqueta) e a taxa fixa da faixa de preço. Divida por 1 menos a comissão, o imposto, o Ads, o afiliado e a margem que você quer. Como a comissão e a taxa fixa mudam por faixa (até R$ 79,99, de R$ 80 a R$ 99,99, de R$ 100 a R$ 199,99 e acima de R$ 200), a calculadora testa cada faixa e entrega o preço que fecha a sua margem.</p></details>
         <details><summary>Qual a diferença entre margem e markup?</summary><p>Markup é o quanto você multiplica o custo. Margem é a parte do preço de venda que sobra no seu bolso. Somar 30% ao custo não dá 30% de margem: comissão, taxa, imposto e Ads são cobrados sobre o preço de venda, então a sobra real fica bem menor.</p></details>
-        <details><summary>A calculadora é grátis?</summary><p>Sim. Você preenche e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar.</p></details>
+        <details><summary>A calculadora é grátis?</summary><p>Sim. Você preenche nome, e-mail, WhatsApp, faturamento e se fabrica ou revende, e a calculadora abre na hora. Também mandamos o link no seu e-mail para você usar sempre que for precificar.</p></details>
       </div>
     </div>
   </section>
@@ -476,6 +482,7 @@
   });
 
   const regras = {
+    nome: () => $('#f-nome').value.trim().length < 2 ? 'Escreve seu nome.' : '',
     email: () => { const v = $('#f-email').value.trim(); return !v ? 'Escreve seu e-mail pra gente liberar a calculadora.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Hmm, esse e-mail parece incompleto. Confere?'; },
     whatsapp: () => { const d = onlyDigits(tel.value); return !d ? 'Coloca seu WhatsApp com DDD.' : d.length !== 11 || !/^[1-9]{2}9/.test(d) ? 'Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.' : ''; },
     faturamento: () => $('#f-faturamento').value ? '' : 'Escolhe uma opção.',
@@ -516,6 +523,7 @@
     const fat = $('#f-faturamento').value;
     const row = {
       pagina: 'precificacao',
+      nome: $('#f-nome').value.trim().replace(/\s+/g, ' ').slice(0, 120),
       email: $('#f-email').value.trim().toLowerCase(),
       whatsapp: onlyDigits(tel.value),
       fabrica_ou_revende: $('#f-perfil').value,
