@@ -140,13 +140,13 @@
   @media (min-width: 900px) { .custos { grid-template-columns: .9fr 1.1fr; align-items: center; } }
 
   /* ---------- formulário ---------- */
-  .form-bloco { background: var(--ink); color: var(--paper); padding: 84px 0; scroll-margin-top: 0; }
+  .form-bloco { background: var(--white); color: var(--ink); padding: 84px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 0; }
   .form-grid { display: grid; gap: 36px; }
-  .form-grid .sub { color: var(--gray-dark); }
+  .form-grid .sub { color: var(--gray); }
   .passos { margin-top: 28px; display: grid; gap: 14px; counter-reset: p; list-style: none; padding: 0; }
-  .passos li { counter-increment: p; display: flex; gap: 14px; align-items: center; color: #D6D2CB; font-weight: 600; }
-  .passos li::before { content: counter(p); flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line-dark); display: grid; place-items: center; font-size: 14px; font-weight: 800; color: var(--orange); }
-  .card-form { background: var(--white); color: var(--ink); border-radius: 24px; padding: 26px 22px; box-shadow: 0 30px 80px -30px rgba(0,0,0,.7); }
+  .passos li { counter-increment: p; display: flex; gap: 14px; align-items: center; color: var(--ink); font-weight: 600; }
+  .passos li::before { content: counter(p); flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--paper); display: grid; place-items: center; font-size: 14px; font-weight: 800; color: var(--orange); }
+  .card-form { background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: 24px; padding: 26px 22px; box-shadow: 0 30px 70px -34px rgba(18,18,18,.35); }
   .card-form h3 { font-size: 26px; }
   .card-form .card-sub { margin-top: 6px; color: var(--gray); font-size: 15.5px; }
   .campo { margin-top: 18px; }
