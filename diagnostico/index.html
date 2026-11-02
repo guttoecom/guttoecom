@@ -295,6 +295,90 @@
   .micro { margin: 20px 0 0; max-width: 480px; font-size: 14px; color: var(--on-dark-3); }
   .micro strong { color: var(--on-dark-2); font-weight: 700; }
 
+  /* ---------- segunda parte: escolher o horário ---------- */
+  .agenda {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px var(--gutter) 64px;
+  }
+  .agenda[hidden] { display: none; }
+  .agenda .miolo { animation: entraBaixo .5s var(--ease) both; }
+  .agenda-sub { margin: 0; font-size: 16px; color: var(--on-dark-2); }
+  .dias {
+    display: flex;
+    gap: 8px;
+    margin: 24px calc(var(--gutter) * -1) 0;
+    padding: 2px var(--gutter) 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+  .dias::-webkit-scrollbar { display: none; }
+  .dia {
+    flex: none;
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    width: 68px;
+    padding: 10px 0;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--off-white);
+    font: inherit;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: background .15s, border-color .15s;
+  }
+  .dia small { font-size: 12px; font-weight: 700; color: var(--on-dark-3); text-transform: lowercase; }
+  .dia b { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .dia[aria-pressed="true"] { border-color: var(--orange); background: var(--orange); color: var(--black); }
+  .dia[aria-pressed="true"] small { color: var(--black); }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; margin-top: 8px; min-height: 104px; align-content: start; }
+  .slot {
+    min-height: 48px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--off-white);
+    font: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  @media (hover: hover) {
+    .dia:hover { border-color: #5A5650; }
+    .dia[aria-pressed="true"]:hover { border-color: var(--orange); }
+    .slot:hover { border-color: var(--orange); }
+  }
+  .slot[aria-pressed="true"] { border-color: var(--orange); background: var(--orange); color: var(--black); }
+  .dia:focus-visible, .slot:focus-visible, .pular:focus-visible { outline: 2px solid var(--off-white); outline-offset: 2px; }
+  .agenda .erro { display: block; }
+  .agenda .erro:empty { display: none; }
+  .pular {
+    display: block;
+    margin-top: 20px;
+    padding: 6px 0;
+    border: 0;
+    background: none;
+    color: var(--on-dark-2);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .espera { position: fixed; inset: 0; z-index: 2; display: grid; place-items: center; margin: 0; padding: var(--gutter); color: var(--on-dark-2); font-weight: 600; text-align: center; }
+  .espera[hidden] { display: none; }
+
   /* ---------- fim: o ponto tomou a tela ---------- */
   .fim {
     position: fixed;
@@ -319,12 +403,12 @@
   .fim-msg strong { display: block; margin-bottom: 8px; font-size: clamp(26px, 3.6vw, 40px); font-weight: 800; letter-spacing: -0.035em; line-height: 1.1; }
   .fim-msg p { margin: 0; font-size: clamp(17px, 2vw, 20px); font-weight: 600; line-height: 1.45; }
   .fim-msg b { font-weight: 800; white-space: nowrap; }
-  /* a palavra ocupa a largura toda da tela (5,25 = largura de "recebemos." em em) */
+  /* a palavra ocupa a largura toda da tela (--largura-em = largura dela em em) */
   .fim h1 {
     display: flex;
     align-items: baseline;
     margin: 0;
-    font-size: min(calc((100vw - 2 * var(--gutter)) / 5.25), 40vh);
+    font-size: min(calc((100vw - 2 * var(--gutter)) / var(--largura-em, 5.25)), 40vh);
     font-weight: 800;
     letter-spacing: -0.05em;
     line-height: .9;
@@ -464,6 +548,20 @@
     </div>
   </section>
 </form>
+
+<p class="espera" role="status" hidden>Só um instante…</p>
+
+<section class="agenda" hidden>
+  <div class="miolo">
+    <h1 class="pergunta" tabindex="-1"><span data-agenda-nome></span>vamos marcar sua conversa<span class="q">?</span></h1>
+    <p class="agenda-sub"><span data-agenda-duracao></span> por Google Meet com o Bruno, da gutto. Horário de Brasília.</p>
+    <div class="dias" role="group" aria-label="Escolha o dia"></div>
+    <div class="slots" role="group" aria-label="Escolha o horário"></div>
+    <p class="erro" role="alert"></p>
+    <div class="acoes"><button type="button" class="btn" data-confirmar disabled>Escolha um horário</button></div>
+    <button type="button" class="pular">Prefiro que a equipe me chame no WhatsApp</button>
+  </div>
+</section>
 
 <div class="fim">
   <div class="fim-conteudo" role="status" aria-live="polite">
@@ -633,7 +731,7 @@
 
   document.addEventListener('keydown', e => {
     usouSeta = e.key.startsWith('Arrow');
-    if (document.body.classList.contains('enviado') || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (document.body.classList.contains('enviado') || form.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
     const alvo = e.target;
     const escrevendo = alvo.matches?.('input.resposta, textarea');
     if (e.key === 'Enter') {
@@ -653,31 +751,158 @@
 
   addEventListener('resize', () => { if (!document.body.classList.contains('enviado')) atualizarChrome(); });
 
-  // "recebemos." letra a letra; o ponto final é separado porque cai por cima
+  // a palavra final letra a letra; o ponto é separado porque cai por cima
   const titulo = $('.fim h1');
-  [...'recebemos'].forEach((c, i) => {
-    const letra = document.createElement('span');
-    letra.className = 'letra';
-    letra.setAttribute('aria-hidden', 'true');
-    letra.innerHTML = `<i style="--i:${i}">${c}</i>`;
-    titulo.append(letra);
-  });
-  const fimPonto = document.createElement('span');
-  fimPonto.className = 'fim-ponto';
-  fimPonto.setAttribute('aria-hidden', 'true');
-  fimPonto.textContent = '.';
-  titulo.append(fimPonto);
+  function montarPalavra(palavra, largura) {
+    titulo.setAttribute('aria-label', `${palavra}.`);
+    titulo.style.setProperty('--largura-em', largura);
+    titulo.innerHTML = [...palavra].map((c, i) => `<span class="letra" aria-hidden="true"><i style="--i:${i}">${c}</i></span>`).join('') + '<span class="fim-ponto" aria-hidden="true">.</span>';
+  }
 
-  function concluir() {
+  function concluir({ palavra = 'recebemos', largura = 5.25, chamada, mensagem } = {}) {
     const primeiro = form.nome.value.trim().split(/\s+/)[0];
-    $('[data-fim-titulo]').textContent = `Obrigado, ${primeiro}.`;
-    $('[data-fim-zap]').textContent = phone.value;
+    montarPalavra(palavra, largura);
+    $('[data-fim-titulo]').textContent = chamada || `Obrigado, ${primeiro}.`;
+    if (mensagem) mensagem($('.fim-msg p'));
+    else $('[data-fim-zap]').textContent = phone.value;
     // o ponto cresce até cobrir a tela; a tela final, da mesma cor, entra por cima
     ponto.style.setProperty('--escala', (Math.hypot(innerWidth, innerHeight) / 50 * 1.05).toFixed(2));
     document.body.classList.add('enviado');
     form.hidden = true;
+    agenda.hidden = true;
+    espera.hidden = true;
     titulo.focus({ preventScroll: true });
   }
+
+  // ---------- segunda parte: quem qualifica escolhe um horário (o servidor decide; lista vazia vai para a tela de recebemos)
+  const agenda = $('.agenda');
+  const espera = $('.espera');
+  const diasBox = $('.dias');
+  const slotsBox = $('.slots');
+  const confirmar = $('[data-confirmar]');
+  const erroAgenda = $('.erro', agenda);
+  const API_AGENDA = '/app/api/agenda';
+  const fmt = opcoes => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', ...opcoes });
+  const diaChave = fmt({ year: 'numeric', month: '2-digit', day: '2-digit' });
+  const hora = fmt({ hour: '2-digit', minute: '2-digit' });
+  const semana = fmt({ weekday: 'short' });
+  const diaMes = fmt({ day: '2-digit', month: '2-digit' });
+  const longo = fmt({ weekday: 'long', day: 'numeric', month: 'long' });
+  let tokenAgenda = null;
+  let diaAtivo = null;
+  let horarioEscolhido = null;
+
+  function rotuloConfirmar() {
+    confirmar.disabled = !horarioEscolhido;
+    if (!horarioEscolhido) { confirmar.textContent = 'Escolha um horário'; return; }
+    const d = new Date(horarioEscolhido);
+    confirmar.innerHTML = `Confirmar ${semana.format(d).replace('.', '')}, ${diaMes.format(d)} às ${hora.format(d)} <span class="seta" aria-hidden="true">→</span>`;
+  }
+
+  function desenharAgenda(horarios) {
+    const porDia = new Map();
+    horarios.forEach(h => {
+      const k = diaChave.format(new Date(h));
+      if (!porDia.has(k)) porDia.set(k, []);
+      porDia.get(k).push(h);
+    });
+    if (!porDia.has(diaAtivo)) diaAtivo = porDia.keys().next().value;
+    diasBox.innerHTML = '';
+    porDia.forEach((lista, k) => {
+      const d = new Date(lista[0]);
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'dia';
+      b.setAttribute('aria-pressed', String(k === diaAtivo));
+      b.setAttribute('aria-label', longo.format(d));
+      b.innerHTML = `<small>${semana.format(d).replace('.', '')}</small><b>${diaMes.format(d).slice(0, 2)}</b>`;
+      b.addEventListener('click', () => { diaAtivo = k; horarioEscolhido = null; desenharAgenda(horarios); rotuloConfirmar(); });
+      diasBox.append(b);
+    });
+    slotsBox.innerHTML = '';
+    (porDia.get(diaAtivo) || []).forEach(h => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'slot';
+      b.textContent = hora.format(new Date(h));
+      b.setAttribute('aria-pressed', String(h === horarioEscolhido));
+      b.addEventListener('click', () => {
+        horarioEscolhido = h;
+        erroAgenda.textContent = '';
+        $$('.slot', slotsBox).forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+        rotuloConfirmar();
+      });
+      slotsBox.append(b);
+    });
+  }
+
+  async function abrirAgendaOuConcluir() {
+    form.hidden = true;
+    $('.topo-dir').style.visibility = 'hidden';
+    espera.hidden = false;
+    let horarios = [];
+    let duracao = 0;
+    try {
+      // a agenda nunca segura o lead: se demorar ou falhar, ele vê a tela de recebemos
+      const r = await fetch(`${API_AGENDA}/horarios?token=${tokenAgenda}`, { signal: AbortSignal.timeout(8000) });
+      if (r.ok) ({ horarios, duracao_min: duracao } = await r.json());
+    } catch (e) { console.error(e); }
+    espera.hidden = true;
+    if (!horarios.length) { concluir(); return; }
+    $('[data-agenda-nome]').textContent = `${form.nome.value.trim().split(/\s+/)[0]}, `;
+    $('[data-agenda-duracao]').textContent = `${duracao} minutos`;
+    desenharAgenda(horarios);
+    agenda.hidden = false;
+    $('.pergunta', agenda).focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+    if (window.gtag) gtag('event', 'diagnostico_agenda_aberta', { versao: 'b' });
+  }
+
+  confirmar.addEventListener('click', async () => {
+    if (!horarioEscolhido) return;
+    confirmar.disabled = true;
+    erroAgenda.textContent = '';
+    try {
+      const r = await fetch(`${API_AGENDA}/marcar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: tokenAgenda, inicio: horarioEscolhido }),
+      });
+      const j = await r.json();
+      if (j.ok) {
+        const d = new Date(j.inicio);
+        const email = form.email.value.trim().toLowerCase();
+        concluir({
+          palavra: 'marcado',
+          largura: 4.3,
+          chamada: `${longo.format(d).replace(/^./, c => c.toUpperCase())}, às ${hora.format(d)}.`,
+          mensagem: p => {
+            const b = document.createElement('b');
+            b.textContent = email;
+            p.replaceChildren('O convite com o link do Google Meet foi para ', b, '. Se não encontrar, olhe no spam.');
+          },
+        });
+        try { if (window.trackEvent) trackEvent('ReuniaoMarcada', { content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b' } }); } catch (e) {}
+        return;
+      }
+      if (j.erro === 'ocupado' && j.horarios?.length) {
+        horarioEscolhido = null;
+        desenharAgenda(j.horarios);
+        rotuloConfirmar();
+        erroAgenda.textContent = 'Esse horário acabou de ser ocupado. Escolha outro.';
+        return;
+      }
+      throw new Error(j.erro);
+    } catch (e) {
+      console.error(e);
+      rotuloConfirmar();
+      erroAgenda.textContent = 'Não foi possível marcar agora. Tente de novo ou peça para a equipe chamar você no WhatsApp.';
+    }
+  });
+  $('.pular').addEventListener('click', () => {
+    if (window.gtag) gtag('event', 'diagnostico_agenda_pulou', { versao: 'b' });
+    concluir();
+  });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -702,6 +927,7 @@
       faturamento: ainda ? 'Ainda não vendo' : marcado('faturamento').value,
       dificuldade: form.dificuldade.value.trim(),
       pagina: location.href.slice(0, 500),
+      agenda_token: crypto.randomUUID(),
     };
     const utm = new URLSearchParams(location.search);
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => {
@@ -719,12 +945,13 @@
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
-      concluir();
+      tokenAgenda = data.agenda_token;
       // tracking: lead do diagnóstico da assessoria (Pixel + CAPI com e-mail, WhatsApp e nome; liga o visitante ao lead)
       try {
         const partes = data.nome.split(/\s+/);
         if (window.trackEvent) trackEvent('Lead', { user_data: { email: data.email, phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b', perfil: data.fabrica, faturamento: data.faturamento } });
       } catch (e) {}
+      abrirAgendaOuConcluir();
     } catch (err) {
       console.error(err);
       btn.disabled = false;
