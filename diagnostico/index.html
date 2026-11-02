@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- Google Analytics 4 (mesma propriedade do curso; page_view sai pelo /trk.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVNCL9MHPG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LVNCL9MHPG', { send_page_view: false, linker: { domains: ['umleogutemberg.com.br', 'pay.kiwify.com.br'] } });
+</script>
+<!-- Microsoft Clarity · mapas de calor e gravações (mesmo projeto do curso) -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yxze0ojjac");
+    clarity("set", "pagina", "diagnostico-b");
+</script>
+<!-- Tracking first-party do site gutto: Pixel + CAPI (mesmo event_id) + GA4 -->
+<script src="/trk.js" data-nome="Diagnóstico gutto (versão B)" data-categoria="formulario" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diagnóstico gratuito | gutto.</title>
+<meta name="description" content="Responda algumas perguntas rápidas e receba um diagnóstico gratuito da operação da sua confecção nos marketplaces.">
+<!-- versão B do formulário da página principal: é teste, não entra no Google -->
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Diagnóstico gratuito | gutto.">
+<meta property="og:description" content="Você fabrica. A gente faz vender. Responda em menos de 2 minutos.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#121212">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --card: #1C1B1A;
+    --card-hover: #252422;
+    --line: #3A3835;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --orange-tint: rgba(255, 90, 31, .14);
+    --on-dark-2: #C9C5BE;
+    --on-dark-3: #A39F98;
+    --error: #FF8A5C;
+
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --mola: cubic-bezier(.34, 1.56, .64, 1);
+    --gutter: clamp(20px, 5vw, 48px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--off-white);
+    background: var(--black);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--orange); color: var(--black); }
+
+  /* ---------- o ponto da marca é o progresso: cresce a cada resposta e, no fim, toma a tela ---------- */
+  .ponto {
+    position: fixed;
+    right: -50px;
+    bottom: -50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--orange);
+    transform: scale(var(--escala, .7));
+    transition: transform .7s var(--mola);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body.enviado .ponto { transition: transform .8s cubic-bezier(.7, 0, .2, 1); }
+
+  /* ---------- topo ---------- */
+  .topo {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 80px;
+    padding: 20px var(--gutter);
+    padding-top: max(20px, env(safe-area-inset-top));
+    background: linear-gradient(var(--black) 65%, transparent);
+  }
+  .logo {
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--off-white);
+    text-decoration: none;
+  }
+  .dot { color: var(--orange); }
+  .topo-dir { display: flex; align-items: center; gap: 16px; }
+  .voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 0 4px;
+    border: 0;
+    background: transparent;
+    color: var(--on-dark-2);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color .2s;
+  }
+  .voltar:hover { color: var(--off-white); }
+  .voltar[hidden] { display: none; }
+  .contador {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--on-dark-3);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .contador b { color: var(--off-white); font-weight: 800; }
+
+  /* ---------- telas: uma pergunta por vez ---------- */
+  form { margin: 0; }
+  .tela {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px var(--gutter) 64px;
+  }
+  .tela[hidden] { display: none; }
+  .miolo { width: 100%; max-width: 680px; margin: 0 auto; }
+  .tela.entra-baixo .miolo { animation: entraBaixo .5s var(--ease) both; }
+  .tela.entra-cima .miolo { animation: entraCima .5s var(--ease) both; }
+  @keyframes entraBaixo { from { opacity: 0; transform: translateY(32px); } }
+  @keyframes entraCima { from { opacity: 0; transform: translateY(-32px); } }
+
+  .abertura {
+    margin: 0 0 20px;
+    font-size: clamp(42px, 8vw, 76px);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    text-transform: lowercase;
+  }
+  .abertura-sub {
+    margin: 0 0 32px;
+    max-width: 520px;
+    font-size: clamp(17px, 2.2vw, 20px);
+    color: var(--on-dark-2);
+  }
+  .abertura-sub strong { color: var(--orange); font-weight: 700; white-space: nowrap; }
+
+  .pergunta {
+    margin: 0 0 10px;
+    padding: 0;
+    font-size: clamp(27px, 4.6vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+    outline: none;
+  }
+  .pergunta .q { color: var(--orange); }
+  .apoio { margin: 0 0 8px; font-size: 16px; color: var(--on-dark-3); }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+
+  /* ---------- resposta escrita ---------- */
+  .resposta {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 10px 0 12px;
+    border: 0;
+    border-bottom: 2px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    color: var(--off-white);
+    caret-color: var(--orange);
+    font: inherit;
+    font-size: clamp(22px, 3.4vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    outline: none;
+    resize: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .resposta::placeholder { color: #6F6B65; font-weight: 500; }
+  .resposta:focus { border-bottom-color: var(--orange); }
+  textarea.resposta { min-height: 56px; max-height: 40vh; overflow-y: auto; }
+
+  /* ---------- opções com tecla de atalho ---------- */
+  .opcoes { display: grid; gap: 10px; margin-top: 24px; }
+  .opcoes.lado { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .opcao { position: relative; display: block; cursor: pointer; }
+  .opcao input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .opcao-caixa {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 58px;
+    padding: 12px 16px 12px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--card);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    transition: background .15s, border-color .15s, transform .15s var(--ease);
+  }
+  .tecla {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid var(--line);
+    border-radius: 7px;
+    color: var(--on-dark-2);
+    font-size: 13px;
+    font-weight: 800;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .marca { margin-left: auto; width: 20px; height: 20px; opacity: 0; color: var(--orange); transform: scale(.6); transition: opacity .15s, transform .25s var(--mola); }
+  @media (hover: hover) {
+    .opcao:hover .opcao-caixa { background: var(--card-hover); border-color: #5A5650; }
+  }
+  .opcao input:focus-visible + .opcao-caixa { outline: 2px solid var(--off-white); outline-offset: 2px; }
+  .opcao input:active + .opcao-caixa { transform: scale(.985); }
+  .opcao input:checked + .opcao-caixa { border-color: var(--orange); background: #2A1D17; }
+  .opcao input:checked + .opcao-caixa .tecla { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .opcao input:checked + .opcao-caixa .marca { opacity: 1; transform: scale(1); }
+  .opcao.piscando .opcao-caixa { animation: pisca .3s steps(2, jump-none) 1; }
+  @keyframes pisca { 50% { background: var(--orange-tint); } }
+
+  /* ---------- avançar e erro ---------- */
+  .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 24px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 26px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--orange);
+    color: var(--black);
+    font: inherit;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background .2s, transform .2s var(--ease);
+  }
+  @media (hover: hover) { .btn:hover { background: #FF7240; } .btn:hover .seta { transform: translateX(4px); } }
+  .btn:active { transform: scale(.98); }
+  .btn:focus-visible, .voltar:focus-visible, .logo:focus-visible { outline: 2px solid var(--off-white); outline-offset: 3px; }
+  .btn:disabled { opacity: .65; cursor: progress; }
+  .btn .seta { transition: transform .2s var(--ease); }
+  .dica { font-size: 13px; color: var(--on-dark-3); }
+  .dica kbd { font: inherit; font-weight: 800; color: var(--on-dark-2); }
+  @media (hover: none) { .dica { display: none; } }
+
+  .erro {
+    display: none;
+    margin: 14px 0 0;
+    color: var(--error);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .tela.invalida .erro { display: block; }
+  .tela.invalida .miolo { animation: treme .32s var(--ease); }
+  @keyframes treme { 25% { transform: translateX(-6px); } 60% { transform: translateX(5px); } }
+
+  .micro { margin: 20px 0 0; max-width: 480px; font-size: 14px; color: var(--on-dark-3); }
+  .micro strong { color: var(--on-dark-2); font-weight: 700; }
+
+  /* ---------- fim: o ponto tomou a tela ---------- */
+  .fim {
+    position: fixed;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px var(--gutter);
+    background: var(--orange);
+    color: var(--black);
+    visibility: hidden;
+    opacity: 0;
+  }
+  body.enviado .fim { visibility: visible; opacity: 1; transition: opacity .25s linear .7s; }
+  body.enviado .fim .miolo { animation: entraBaixo .6s var(--ease) .8s both; }
+  body.enviado .topo { z-index: 5; background: none; }
+  body.enviado .logo, body.enviado .logo .dot { color: var(--black); transition: color .25s linear .7s; }
+  body.enviado .topo-dir { display: none; }
+  .fim h1 {
+    margin: 0 0 16px;
+    font-size: clamp(56px, 13vw, 128px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: .95;
+    outline: none;
+  }
+  .fim p { margin: 0; max-width: 480px; font-size: clamp(18px, 2.4vw, 22px); font-weight: 600; line-height: 1.4; }
+
+  @media (max-width: 480px) { .btn { padding: 0 20px; font-size: 16px; white-space: nowrap; } }
+
+  .sem-js { padding: 120px var(--gutter); text-align: center; }
+  .sem-js a { color: var(--orange); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="ponto" aria-hidden="true"></div>
+
+<div class="topo">
+  <a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a>
+  <div class="topo-dir">
+    <button type="button" class="voltar" hidden><span aria-hidden="true">←</span> Voltar</button>
+    <span class="contador" role="status" hidden></span>
+  </div>
+</div>
+
+<noscript><p class="sem-js">Para responder aqui, ative o JavaScript ou use o <a href="/#diagnostico">formulário da página principal</a>.</p></noscript>
+
+<form id="lead-form" novalidate>
+  <section class="tela" data-passo="abertura">
+    <div class="miolo">
+      <h1 class="abertura">receba seu diagnóstico gratuito<span class="dot">.</span></h1>
+      <p class="abertura-sub">A experiência de quem já vendeu <strong>mais de R$&nbsp;10&nbsp;milhões</strong> em marketplaces aplicada à sua confecção.</p>
+      <div class="acoes">
+        <button type="button" class="btn" data-avancar>Começar <span class="seta" aria-hidden="true">→</span></button>
+        <span class="dica">leva menos de 2 minutos</span>
+      </div>
+      <p class="micro"><strong>Sem compromisso de contratação.</strong></p>
+    </div>
+  </section>
+
+  <section class="tela" data-passo="nome" hidden>
+    <div class="miolo">
+      <label class="pergunta" for="nome" style="display:block">como você se chama<span class="q">?</span></label>
+      <input class="resposta" type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name" maxlength="120">
+      <p class="erro" role="alert">Informe seu nome.</p>
+      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
+    </div>
+  </section>
+
+  <section class="tela" data-passo="confeccao" hidden>
+    <div class="miolo">
+      <label class="pergunta" for="confeccao" style="display:block"><span data-saudacao></span>qual é o nome da sua confecção<span class="q">?</span></label>
+      <input class="resposta" type="text" id="confeccao" name="confeccao" placeholder="Digite o nome da sua empresa" autocomplete="organization" maxlength="160">
+      <p class="erro" role="alert">Informe o nome da confecção.</p>
+      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
+    </div>
+  </section>
+
+  <section class="tela" data-passo="fabrica" hidden>
+    <fieldset class="miolo">
+      <legend class="pergunta" tabindex="-1">você fabrica suas próprias peças<span class="q">?</span></legend>
+      <div class="opcoes lado" data-opcoes="fabrica" data-tipo="radio" data-valores="Sim|Não"></div>
+      <p class="erro" role="alert">Escolha uma opção.</p>
+    </fieldset>
+  </section>
+
+  <section class="tela" data-passo="vende" hidden>
+    <fieldset class="miolo">
+      <legend class="pergunta" tabindex="-1">você já vende em marketplaces<span class="q">?</span></legend>
+      <div class="opcoes lado" data-opcoes="vende" data-tipo="radio" data-valores="Sim|Ainda não"></div>
+      <p class="erro" role="alert">Escolha uma opção.</p>
+    </fieldset>
+  </section>
+
+  <section class="tela" data-passo="canais" hidden>
+    <fieldset class="miolo">
+      <legend class="pergunta" tabindex="-1">em quais marketplaces você vende hoje<span class="q">?</span></legend>
+      <p class="apoio">Marque todos em que você vende.</p>
+      <div class="opcoes" data-opcoes="canais" data-tipo="checkbox" data-valores="Mercado Livre|Shopee|Amazon|Shein|Magalu|TikTok Shop"></div>
+      <p class="erro" role="alert">Selecione pelo menos uma opção.</p>
+      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
+    </fieldset>
+  </section>
+
+  <section class="tela" data-passo="faturamento" hidden>
+    <fieldset class="miolo">
+      <legend class="pergunta" tabindex="-1">quanto sua operação vende por mês nos marketplaces<span class="q">?</span></legend>
+      <div class="opcoes" data-opcoes="faturamento" data-tipo="radio" data-valores="Até R$ 20 mil|De R$ 20 mil a R$ 50 mil|De R$ 50 mil a R$ 100 mil|Acima de R$ 100 mil"></div>
+      <p class="erro" role="alert">Escolha uma faixa.</p>
+    </fieldset>
+  </section>
+
+  <section class="tela" data-passo="dificuldade" hidden>
+    <div class="miolo">
+      <label class="pergunta" for="dificuldade" style="display:block">qual é sua maior dificuldade hoje<span class="q">?</span></label>
+      <textarea class="resposta" id="dificuldade" name="dificuldade" rows="1" placeholder="Conte brevemente o que mais trava sua operação" maxlength="2000"></textarea>
+      <p class="erro" role="alert">Conte rapidamente sua maior dificuldade.</p>
+      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica"><kbd>Enter ↵</kbd> avança · <kbd>Shift + Enter</kbd> quebra a linha</span></div>
+    </div>
+  </section>
+
+  <section class="tela" data-passo="whatsapp" hidden>
+    <div class="miolo">
+      <label class="pergunta" for="whatsapp" style="display:block">qual é o seu whatsapp<span class="q">?</span></label>
+      <p class="apoio">É por lá que nossa equipe vai falar com você.</p>
+      <input class="resposta" type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="numeric" maxlength="15">
+      <p class="erro" role="alert">Informe um WhatsApp válido.</p>
+      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
+    </div>
+  </section>
+
+  <section class="tela" data-passo="email" hidden>
+    <div class="miolo">
+      <label class="pergunta" for="email" style="display:block">e o seu melhor e-mail<span class="q">?</span></label>
+      <input class="resposta" type="email" id="email" name="email" placeholder="seunome@email.com" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" maxlength="254">
+      <p class="erro" role="alert">Informe um e-mail válido.</p>
+      <div class="acoes"><button type="submit" class="btn">Quero meu diagnóstico gratuito <span class="seta" aria-hidden="true">→</span></button></div>
+      <p class="micro"><strong>Sem compromisso de contratação.</strong> Após o envio, nossa equipe entra em contato para entender sua operação.</p>
+    </div>
+  </section>
+</form>
+
+<div class="fim">
+  <div class="miolo" role="status" aria-live="polite">
+    <h1 tabindex="-1">recebemos.</h1>
+    <p>Obrigado por contar sobre sua confecção. Nossa equipe vai chamar você no WhatsApp para entender sua operação.</p>
+  </div>
+</div>
+
+<script>
+  // Supabase do sistema gutto (gutto-app): URL + chave pública. A tabela leads_diagnostico só aceita INSERT
+  // de quem não está logado; cada envio entra no CRM (funil Assessoria gutto · Novo lead). Mesma tabela da página principal:
+  // a coluna "pagina" guarda a URL e separa o que veio desta versão B.
+  const SUPABASE_URL = 'https://aedxvttmnjheussswyht.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_-yM9bTw9C5-YFUUrIX5wWQ__yRSxR_M';
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const form = $('#lead-form');
+  const telas = Object.fromEntries($$('.tela').map(el => [el.dataset.passo, el]));
+  const ponto = $('.ponto');
+  const contador = $('.contador');
+  const voltar = $('.voltar');
+  const phone = $('#whatsapp');
+  const toque = !window.matchMedia('(hover: hover)').matches;
+  const CHECK = '<svg class="marca" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>';
+
+  // monta as opções: A, B, C… viram teclas de atalho
+  $$('[data-opcoes]').forEach(box => {
+    box.dataset.valores.split('|').forEach((valor, i) => {
+      const label = document.createElement('label');
+      label.className = 'opcao';
+      const input = document.createElement('input');
+      input.type = box.dataset.tipo;
+      input.name = box.dataset.opcoes;
+      input.value = valor;
+      const caixa = document.createElement('span');
+      caixa.className = 'opcao-caixa';
+      caixa.innerHTML = `<span class="tecla" aria-hidden="true">${String.fromCharCode(65 + i)}</span><span class="rotulo"></span>${CHECK}`;
+      $('.rotulo', caixa).textContent = valor;
+      label.append(input, caixa);
+      box.append(label);
+    });
+  });
+
+  const marcado = nome => form.querySelector(`input[name="${nome}"]:checked`);
+  const canais = () => $$('input[name="canais"]:checked').map(c => c.value);
+  const naoVende = () => marcado('vende')?.value === 'Ainda não';
+
+  // quem ainda não vende pula marketplaces e faturamento
+  const passos = () => ['nome', 'confeccao', 'fabrica', 'vende', ...(naoVende() ? [] : ['canais', 'faturamento']), 'dificuldade', 'whatsapp', 'email'];
+
+  const rules = {
+    abertura: () => true,
+    nome: () => form.nome.value.trim().length > 1,
+    confeccao: () => form.confeccao.value.trim().length > 1,
+    fabrica: () => !!marcado('fabrica'),
+    vende: () => !!marcado('vende'),
+    canais: () => canais().length > 0,
+    faturamento: () => !!marcado('faturamento'),
+    dificuldade: () => form.dificuldade.value.trim().length > 2,
+    whatsapp: () => phone.value.replace(/\D/g, '').length >= 10,
+    email: () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim()),
+  };
+
+  let atual = 'abertura';
+
+  function escalaDoPonto(fracao) {
+    const menor = Math.min(innerWidth, innerHeight);
+    const maximo = innerWidth < 640 ? 72 : Math.min(240, menor * .3);
+    ponto.style.setProperty('--escala', ((34 + (maximo - 34) * fracao) / 50).toFixed(3));
+  }
+
+  function atualizarChrome() {
+    const lista = passos();
+    const i = lista.indexOf(atual);
+    voltar.hidden = atual === 'abertura';
+    contador.hidden = i < 0;
+    if (i >= 0) contador.innerHTML = `<b>${i + 1}</b> de ${lista.length}`;
+    escalaDoPonto(Math.max(i, 0) / lista.length);
+  }
+
+  function ir(passo, direcao) {
+    telas[atual].hidden = true;
+    telas[atual].classList.remove('entra-baixo', 'entra-cima', 'invalida');
+    atual = passo;
+    const tela = telas[passo];
+    tela.classList.add(direcao > 0 ? 'entra-baixo' : 'entra-cima');
+    tela.hidden = false;
+    window.scrollTo(0, 0);
+    if (passo === 'confeccao') {
+      const primeiro = form.nome.value.trim().split(/\s+/)[0];
+      $('[data-saudacao]').textContent = primeiro ? `prazer, ${primeiro}. ` : '';
+    }
+    atualizarChrome();
+    // quem lê com leitor de tela e quem usa teclado cai direto na pergunta
+    const campo = $('.resposta', tela);
+    const foco = campo || $('.pergunta', tela);
+    if (foco) foco.focus({ preventScroll: true });
+    if (window.gtag && passo !== 'abertura') gtag('event', 'diagnostico_passo', { versao: 'b', passo, numero: passos().indexOf(passo) + 1 });
+  }
+
+  function avancar() {
+    const tela = telas[atual];
+    tela.classList.remove('invalida');
+    if (!rules[atual]()) {
+      void tela.offsetWidth; // reinicia o tremor
+      tela.classList.add('invalida');
+      const campo = $('.resposta', tela);
+      if (campo) campo.focus({ preventScroll: true });
+      return false;
+    }
+    if (atual === 'abertura') { ir('nome', 1); return true; }
+    const lista = passos();
+    const i = lista.indexOf(atual);
+    if (i === lista.length - 1) { form.requestSubmit(); return true; }
+    ir(lista[i + 1], 1);
+    return true;
+  }
+
+  function recuar() {
+    const lista = passos();
+    const i = lista.indexOf(atual);
+    ir(i <= 0 ? 'abertura' : lista[i - 1], -1);
+  }
+
+  voltar.addEventListener('click', recuar);
+  $$('[data-avancar]').forEach(b => b.addEventListener('click', avancar));
+
+  // máscara (00) 00000-0000
+  phone.addEventListener('input', () => {
+    const d = phone.value.replace(/\D/g, '').slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, d.length === 11 ? 7 : 6)}-${d.slice(d.length === 11 ? 7 : 6)}`;
+    phone.value = out;
+  });
+
+  // a caixa de texto cresce com a resposta
+  const dificuldade = form.dificuldade;
+  dificuldade.addEventListener('input', () => {
+    dificuldade.style.height = 'auto';
+    dificuldade.style.height = `${dificuldade.scrollHeight + 2}px`;
+  });
+
+  form.addEventListener('input', () => telas[atual].classList.remove('invalida'));
+  form.addEventListener('change', () => { telas[atual].classList.remove('invalida'); atualizarChrome(); });
+
+  // escolha única avança sozinha, depois de mostrar o que foi marcado (setas do teclado só movem a seleção)
+  let usouSeta = false;
+  let esperando = null;
+  function escolheu(input) {
+    const label = input.closest('.opcao');
+    label.classList.remove('piscando');
+    void label.offsetWidth;
+    label.classList.add('piscando');
+    if (input.type !== 'radio') return;
+    clearTimeout(esperando);
+    esperando = setTimeout(avancar, 300);
+  }
+  $$('.opcao input').forEach(input => input.addEventListener('click', () => {
+    if (usouSeta) { usouSeta = false; return; }
+    escolheu(input);
+  }));
+
+  document.addEventListener('keydown', e => {
+    usouSeta = e.key.startsWith('Arrow');
+    if (document.body.classList.contains('enviado') || e.ctrlKey || e.metaKey || e.altKey) return;
+    const alvo = e.target;
+    const escrevendo = alvo.matches?.('input.resposta, textarea');
+    if (e.key === 'Enter') {
+      if (alvo.matches?.('button, a')) return;
+      if (alvo.matches?.('textarea') && (e.shiftKey || toque)) return;
+      e.preventDefault();
+      clearTimeout(esperando);
+      avancar();
+      return;
+    }
+    if (escrevendo || e.key.length !== 1 || e.shiftKey) return;
+    // A, B, C… marcam a opção da pergunta na tela
+    const entradas = $$('.opcao input', telas[atual]);
+    const alvoLetra = entradas[e.key.toUpperCase().charCodeAt(0) - 65];
+    if (alvoLetra) { e.preventDefault(); alvoLetra.click(); }
+  });
+
+  addEventListener('resize', () => { if (!document.body.classList.contains('enviado')) atualizarChrome(); });
+
+  function concluir() {
+    // o ponto cresce até cobrir a tela; a tela final, da mesma cor, entra por cima
+    ponto.style.setProperty('--escala', (Math.hypot(innerWidth, innerHeight) / 50 * 1.05).toFixed(2));
+    document.body.classList.add('enviado');
+    form.hidden = true;
+    $('.fim h1').focus({ preventScroll: true });
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    // o Enter no último campo passa por aqui: confere de novo todas as respostas do caminho
+    const faltando = passos().find(p => !rules[p]());
+    if (faltando) {
+      if (faltando !== atual) ir(faltando, -1);
+      void telas[faltando].offsetWidth;
+      telas[faltando].classList.add('invalida');
+      return;
+    }
+
+    const ainda = naoVende();
+    const data = {
+      nome: form.nome.value.trim(),
+      whatsapp: phone.value,
+      email: form.email.value.trim().toLowerCase(),
+      empresa: form.confeccao.value.trim(),
+      fabrica: marcado('fabrica').value,
+      vende: marcado('vende').value,
+      canais: ainda ? ['Ainda não vendo'] : canais(),
+      faturamento: ainda ? 'Ainda não vendo' : marcado('faturamento').value,
+      dificuldade: form.dificuldade.value.trim(),
+      pagina: location.href.slice(0, 500),
+    };
+    const utm = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => {
+      if (utm.get(k)) data[k] = utm.get(k).slice(0, 200);
+    });
+
+    const btn = $('button[type="submit"]', form);
+    const erro = $('.erro', telas.email);
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/leads_diagnostico`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY, Prefer: 'return=minimal' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+      concluir();
+      // tracking: lead do diagnóstico da assessoria (Pixel + CAPI com e-mail, WhatsApp e nome; liga o visitante ao lead)
+      try {
+        const partes = data.nome.split(/\s+/);
+        if (window.trackEvent) trackEvent('Lead', { user_data: { email: data.email, phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b', perfil: data.fabrica, faturamento: data.faturamento } });
+      } catch (e) {}
+    } catch (err) {
+      console.error(err);
+      btn.disabled = false;
+      erro.textContent = 'Não foi possível enviar agora. Suas respostas estão guardadas: tente de novo em instantes.';
+      telas.email.classList.add('invalida');
+      const restaura = () => { erro.textContent = 'Informe um e-mail válido.'; };
+      form.addEventListener('input', restaura, { once: true });
+    }
+  });
+
+  atualizarChrome();
+</script>
+</body>
+</html>
