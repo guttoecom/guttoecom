@@ -509,7 +509,7 @@
   <section class="tela" data-passo="abertura">
     <div class="miolo">
       <h1 class="abertura">receba seu diagnóstico gratuito<span class="dot">.</span></h1>
-      <p class="abertura-sub">A experiência de quem já vendeu <strong>mais de R$&nbsp;10&nbsp;milhões</strong> em marketplaces aplicada ao seu negócio.</p>
+      <p class="abertura-sub">A experiência de quem já vendeu <strong>mais de R$&nbsp;20&nbsp;milhões</strong> em marketplaces aplicada ao seu negócio.</p>
       <div class="acoes">
         <button type="button" class="btn" data-avancar>Começar <span class="seta" aria-hidden="true">→</span></button>
         <span class="dica">leva menos de 2 minutos</span>
@@ -702,6 +702,42 @@
 
   let atual = 'abertura';
 
+  // funil: cada ação vai para o sistema (aba Tracking → Diagnóstico). Nunca manda o que a pessoa digitou: só as opções marcadas e o tempo.
+  // A sessão vira o agenda_token do lead, o que liga o caminho à pessoa só quando ela envia.
+  const sessao = crypto.randomUUID();
+  let seq = 0;
+  let passoDesde = Date.now();
+  let digitou = false;
+  let terminou = false;
+  const noPasso = () => Math.round((Date.now() - passoDesde) / 1000);
+  function funil(evento, passo = null, dados = {}) {
+    try {
+      fetch(`${SUPABASE_URL}/rest/v1/rpc/diag_evento`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+        body: JSON.stringify({ p_sessao: sessao, p_seq: ++seq, p_evento: evento, p_passo: passo, p_dados: dados }),
+        keepalive: true,
+      }).catch(() => {});
+      if (window.clarity) {
+        clarity('event', `diag_${evento}`);
+        if (evento === 'passo_viu') clarity('set', 'diag_passo', passo);
+      }
+    } catch (e) { /* o funil nunca atrapalha o formulário */ }
+  }
+  const respostaDe = passo => (passo === 'canais' ? canais() : ['fabrica', 'vende', 'faturamento'].includes(passo) ? marcado(passo)?.value : undefined);
+  (() => {
+    const u = new URLSearchParams(location.search);
+    const dados = { dispositivo: window.matchMedia('(max-width: 760px)').matches ? 'celular' : 'computador' };
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(k => { if (u.get(k)) dados[k] = u.get(k).slice(0, 100); });
+    try { if (document.referrer) { const h = new URL(document.referrer).hostname; if (h !== location.hostname) dados.referrer = h.slice(0, 100); } } catch (e) {}
+    funil('abriu', null, dados);
+  })();
+  form.addEventListener('input', e => {
+    if (digitou || !e.target.matches('.resposta, textarea')) return;
+    digitou = true;
+    funil('passo_digitou', atual);
+  });
+
   function escalaDoPonto(fracao) {
     const menor = Math.min(innerWidth, innerHeight);
     const maximo = innerWidth < 640 ? 72 : Math.min(240, menor * .3);
@@ -734,6 +770,9 @@
     const campo = $('.resposta', tela);
     const foco = campo || $('.pergunta', tela);
     if (foco) foco.focus({ preventScroll: true });
+    passoDesde = Date.now();
+    digitou = false;
+    funil('passo_viu', passo, direcao > 0 ? { numero: passos().indexOf(passo) + 1, total: passos().length } : { voltou: true });
     if (window.gtag && passo !== 'abertura') gtag('event', 'diagnostico_passo', { versao: 'b', passo, numero: passos().indexOf(passo) + 1 });
   }
 
@@ -745,9 +784,20 @@
       tela.classList.add('invalida');
       const campo = $('.resposta', tela);
       if (campo) campo.focus({ preventScroll: true });
+      funil('passo_erro', atual);
       return false;
     }
-    if (atual === 'abertura') { ir('nome', 1); return true; }
+    if (atual === 'abertura') {
+      funil('iniciou');
+      try { if (window.trackEvent) trackEvent('IniciouDiagnostico', { content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b' } }); } catch (e) {}
+      ir('nome', 1);
+      return true;
+    }
+    // o e-mail é registrado no envio, que também recebe o clique direto no botão
+    if (atual !== 'email') {
+      const resposta = respostaDe(atual);
+      funil('passo_respondeu', atual, { segundos: noPasso(), ...(resposta === undefined ? {} : { resposta }) });
+    }
     const lista = passos();
     const i = lista.indexOf(atual);
     if (i === lista.length - 1) { form.requestSubmit(); return true; }
@@ -831,6 +881,7 @@
   }
 
   function concluir({ palavra = 'recebemos', largura = 5.25, chamada, mensagem } = {}) {
+    terminou = true;
     const primeiro = form.nome.value.trim().split(/\s+/)[0];
     montarPalavra(palavra, largura);
     $('[data-fim-titulo]').textContent = chamada || `Obrigado, ${primeiro}.`;
@@ -892,6 +943,7 @@
         b.setAttribute('aria-pressed', String(k === diaAtivo));
         b.addEventListener('click', () => {
           escolherDia(k);
+          funil('dia_escolhido', 'agenda', { dia: k });
           // no celular os horários ficam abaixo do calendário
           if (innerWidth <= 760) horasBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
@@ -908,6 +960,7 @@
 
   function escolherHorario(h, linha, slot) {
     horarioEscolhido = h;
+    funil('horario_escolhido', 'agenda', { horario: hora.format(new Date(h)) });
     erroAgenda.textContent = '';
     $$('.slot', listaBox).forEach(o => o.setAttribute('aria-pressed', String(o === slot)));
     // reinicia a animação ao trocar de horário
@@ -976,19 +1029,23 @@
     espera.hidden = false;
     let horarios = [];
     let duracao = 0;
+    let falhou = false;
     try {
       // a agenda nunca segura o lead: se demorar ou falhar, ele vê a tela de recebemos
       const r = await fetch(`${API_AGENDA}/horarios?token=${tokenAgenda}`, { signal: AbortSignal.timeout(8000) });
       if (r.ok) ({ horarios, duracao_min: duracao } = await r.json());
-    } catch (e) { console.error(e); }
+      else falhou = true;
+    } catch (e) { console.error(e); falhou = true; }
     espera.hidden = true;
-    if (!horarios.length) { concluir(); return; }
+    if (!horarios.length) { funil('sem_agenda', null, falhou ? { falhou: true } : {}); concluir(); return; }
     $('[data-agenda-nome]').textContent = `${form.nome.value.trim().split(/\s+/)[0]}, `;
     $('[data-agenda-duracao]').textContent = `${duracao} minutos`;
     desenharAgenda(horarios);
     agenda.hidden = false;
     $('.pergunta', agenda).focus({ preventScroll: true });
     window.scrollTo(0, 0);
+    passoDesde = Date.now();
+    funil('agenda_aberta', 'agenda', { horarios: horarios.length });
     if (window.gtag) gtag('event', 'diagnostico_agenda_aberta', { versao: 'b' });
   }
 
@@ -997,6 +1054,7 @@
     confirmar.disabled = true;
     confirmar.textContent = 'Marcando…';
     erroAgenda.textContent = '';
+    funil('agenda_confirmou', 'agenda', { segundos: noPasso() });
     try {
       const r = await fetch(`${API_AGENDA}/marcar`, {
         method: 'POST',
@@ -1005,6 +1063,7 @@
       });
       const j = await r.json();
       if (j.ok) {
+        funil('marcou', 'agenda', { segundos: noPasso() });
         const d = new Date(j.inicio);
         const email = form.email.value.trim().toLowerCase();
         concluir({
@@ -1021,6 +1080,7 @@
         return;
       }
       if (j.erro === 'ocupado' && j.horarios?.length) {
+        funil('agenda_ocupado', 'agenda');
         confirmar.disabled = false;
         confirmar.textContent = 'Confirmar';
         desenharAgenda(j.horarios);
@@ -1030,12 +1090,14 @@
       throw new Error(j.erro);
     } catch (e) {
       console.error(e);
+      funil('agenda_erro', 'agenda');
       confirmar.disabled = false;
       confirmar.textContent = 'Confirmar';
       erroAgenda.textContent = 'Não foi possível marcar agora. Tente de novo ou peça para a equipe chamar você no WhatsApp.';
     }
   });
   $('.pular').addEventListener('click', () => {
+    funil('pulou', 'agenda', { segundos: noPasso() });
     if (window.gtag) gtag('event', 'diagnostico_agenda_pulou', { versao: 'b' });
     concluir();
   });
@@ -1048,8 +1110,10 @@
       if (faltando !== atual) ir(faltando, -1);
       void telas[faltando].offsetWidth;
       telas[faltando].classList.add('invalida');
+      funil('passo_erro', faltando);
       return;
     }
+    funil('passo_respondeu', 'email', { segundos: noPasso() });
 
     const ainda = naoVende();
     const data = {
@@ -1063,7 +1127,7 @@
       faturamento: ainda ? 'Ainda não vendo' : marcado('faturamento').value,
       dificuldade: form.dificuldade.value.trim(),
       pagina: location.href.slice(0, 500),
-      agenda_token: crypto.randomUUID(),
+      agenda_token: sessao,
     };
     const utm = new URLSearchParams(location.search);
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => {
@@ -1082,6 +1146,7 @@
       });
       if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
       tokenAgenda = data.agenda_token;
+      funil('enviou');
       // tracking: lead do diagnóstico da assessoria (Pixel + CAPI com e-mail, WhatsApp e nome; liga o visitante ao lead)
       try {
         const partes = data.nome.split(/\s+/);
@@ -1090,12 +1155,18 @@
       abrirAgendaOuConcluir();
     } catch (err) {
       console.error(err);
+      funil('envio_erro', 'email');
       btn.disabled = false;
       erro.textContent = 'Não foi possível enviar agora. Suas respostas estão guardadas: tente de novo em instantes.';
       telas.email.classList.add('invalida');
       const restaura = () => { erro.textContent = 'Informe um e-mail válido.'; };
       form.addEventListener('input', restaura, { once: true });
     }
+  });
+
+  // saiu da página no meio: guarda onde estava e há quanto tempo (o abandono em si é calculado pelo último passo visto)
+  addEventListener('pagehide', () => {
+    if (!terminou) funil('saiu', agenda.hidden ? atual : 'agenda', { segundos: noPasso() });
   });
 
   atualizarChrome();
