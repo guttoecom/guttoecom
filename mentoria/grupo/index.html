@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aplicação · Mentoria em Grupo | gutto.</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Responda a aplicação para a Mentoria em Grupo enquanto a live acontece.">
+<meta property="og:title" content="Aplicação · Mentoria em Grupo | gutto.">
+<meta property="og:description" content="Responda a aplicação para a Mentoria em Grupo enquanto a live acontece.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#121212">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --card: #1C1B1A;
+    --card-2: #252422;
+    --line: #3A3835;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-tint: rgba(255, 90, 31, .16);
+    --on-dark-2: #C9C5BE;
+    --on-dark-3: #A39F98;
+    --error: #FF9A75;
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --mola: cubic-bezier(.34, 1.56, .64, 1);
+    --gutter: 20px;
+    --topo: 58px;
+    --teclado: 0px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: clip;
+    background: var(--black);
+    color: var(--off-white);
+    font-family: var(--font);
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { touch-action: manipulation; }
+  [hidden] { display: none !important; }
+  .dot { color: var(--orange); }
+
+  /* ---------- topo ---------- */
+  .topo {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--black);
+    padding-top: env(safe-area-inset-top);
+  }
+  .topo-linha {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: var(--topo);
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 var(--gutter) 0 12px;
+  }
+  .voltar {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -4px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+  }
+  .voltar svg { width: 22px; height: 22px; }
+  .logo { padding-left: 8px; font-size: 23px; font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--off-white); text-decoration: none; }
+  .voltar:not([hidden]) + .logo { padding-left: 0; }
+  .ao-vivo { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .ao-vivo i { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+  .ao-vivo i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--orange); animation: pulso 1.6s ease-out infinite; }
+  @keyframes pulso { to { transform: scale(3); opacity: 0; } }
+  .contador { margin-left: auto; font-size: 14px; font-weight: 800; color: var(--on-dark-3); font-variant-numeric: tabular-nums; }
+  .contador b { color: var(--off-white); }
+  .barra { height: 3px; background: var(--card-2); }
+  .barra i { display: block; height: 100%; width: 0; background: var(--orange); border-radius: 0 3px 3px 0; transition: width .45s var(--ease); }
+
+  /* ---------- telas ---------- */
+  main { max-width: 640px; margin: 0 auto; }
+  .tela { display: none; }
+  .tela.ativa { display: block; }
+
+  /* ---------- abertura ---------- */
+  .abertura.ativa {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--topo) - 3px);
+    min-height: calc(100dvh - var(--topo) - 3px - env(safe-area-inset-top));
+    padding: 28px var(--gutter) calc(20px + env(safe-area-inset-bottom));
+  }
+  .abertura h1 { margin: 0; font-size: clamp(42px, 13.2vw, 68px); font-weight: 800; letter-spacing: -0.055em; line-height: .98; animation: sobe .7s var(--ease) both; }
+  .abertura h1 em { display: block; font-style: normal; color: var(--orange); }
+  .abertura-sub { margin: 18px 0 0; max-width: 460px; font-size: 18px; font-weight: 600; line-height: 1.45; color: var(--on-dark-2); animation: sobe .7s var(--ease) .08s both; }
+  .fatos { margin: 26px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); animation: sobe .7s var(--ease) .16s both; }
+  .fatos li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--on-dark-3); }
+  .fatos b { font-size: 16px; font-weight: 800; color: var(--off-white); text-align: right; }
+  .bonus-tira { display: grid; gap: 1px; margin: 16px 0 0; padding: 13px 15px; border-radius: 14px; background: var(--orange); color: var(--black); font-size: 14px; font-weight: 700; line-height: 1.3; animation: sobe .7s var(--ease) .2s both; }
+  .bonus-tira-rot { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .bonus-tira b { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+  .abertura-acao { margin-top: auto; padding-top: 24px; animation: sobe .7s var(--ease) .24s both; }
+  .abertura-nota { margin: 12px 0 0; font-size: 14px; font-weight: 600; text-align: center; color: var(--on-dark-3); }
+  @keyframes sobe { from { opacity: 0; transform: translateY(20px); } }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 22px;
+    border: 0;
+    border-radius: 16px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .12s var(--ease), background-color .15s;
+  }
+  .btn:active { transform: scale(.975); background: #E8490F; }
+  .btn:disabled { opacity: .6; }
+  .btn svg { flex: none; width: 20px; height: 20px; }
+  :focus-visible { outline: 2px solid var(--off-white); outline-offset: 3px; }
+
+  /* ---------- pergunta: enunciado em cima, resposta perto do polegar ---------- */
+  .pergunta.ativa {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--topo) - 3px);
+    min-height: calc(100dvh - var(--topo) - 3px - env(safe-area-inset-top));
+    padding: 24px var(--gutter) calc(16px + env(safe-area-inset-bottom));
+    animation: entra .38s var(--ease);
+  }
+  .pergunta.ativa.volta { animation-name: entra-volta; }
+  @keyframes entra { from { opacity: 0; transform: translateX(26px); } }
+  @keyframes entra-volta { from { opacity: 0; transform: translateX(-26px); } }
+  .p-titulo { margin: 0; font-size: clamp(27px, 7.6vw, 36px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.12; }
+  .p-ajuda { margin: 10px 0 0; font-size: 16px; line-height: 1.45; color: var(--on-dark-3); }
+  .p-resposta { margin-top: auto; padding-top: 24px; }
+  .opcoes { display: grid; gap: 8px; }
+  .opcao {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 52px 12px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .12s, border-color .12s, color .12s, transform .12s var(--ease);
+    animation: opcao .34s var(--ease) both;
+    animation-delay: calc(var(--i) * 35ms + 60ms);
+  }
+  @keyframes opcao { from { opacity: 0; transform: translateY(10px); } }
+  .opcao:active { transform: scale(.98); }
+  /* o ponto da marca marca a resposta */
+  .opcao::after {
+    content: '';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    border: 1.5px solid var(--line);
+    border-radius: 50%;
+    transition: background-color .12s, border-color .12s, transform .25s var(--mola);
+  }
+  .multi .opcao::after { border-radius: 5px; }
+  .opcao[aria-checked="true"] { border-color: var(--orange); background: var(--orange); color: var(--black); }
+  .opcao[aria-checked="true"]::after { border-color: var(--black); background: var(--black); transform: scale(.72); }
+  .campo {
+    display: block;
+    width: 100%;
+    padding: 16px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .campo::placeholder { color: #807C75; font-weight: 500; }
+  .campo:focus { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-tint); }
+  textarea.campo { min-height: 132px; max-height: 38vh; resize: none; font-size: 18px; line-height: 1.4; }
+  .conta-letras { margin: 6px 2px 0; font-size: 13px; color: var(--on-dark-3); text-align: right; font-variant-numeric: tabular-nums; }
+  .p-erro { display: none; margin: 10px 2px 0; font-size: 15px; font-weight: 700; color: var(--error); }
+  .invalida .p-erro { display: block; }
+  .invalida .campo { border-color: var(--error); }
+  .tremer .p-resposta { animation: tremer .34s ease; }
+  @keyframes tremer { 25% { transform: translateX(-6px); } 60% { transform: translateX(5px); } }
+  .p-acoes { display: flex; gap: 8px; margin-top: 12px; }
+  .p-acoes .btn { flex: 1; }
+  .pular { flex: none; min-height: 60px; padding: 0 20px; border: 1.5px solid var(--line); border-radius: 16px; background: none; font-size: 16px; font-weight: 700; color: var(--on-dark-2); cursor: pointer; }
+
+  /* teclado aberto: o botão fica logo acima dele, sem precisar rolar */
+  body.teclado .pergunta.ativa { min-height: 0; padding-bottom: 12px; }
+  body.teclado .p-resposta { margin-top: 0; }
+  body.teclado .p-acoes { position: fixed; left: 0; right: 0; bottom: var(--teclado); z-index: 30; margin: 0; padding: 8px var(--gutter); background: var(--black); }
+  body.teclado .pergunta.ativa { padding-bottom: 88px; }
+
+  /* ---------- enviando / erro ---------- */
+  .aviso.ativa { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; padding: 0 var(--gutter); text-align: center; }
+  .pontos { display: flex; gap: 10px; margin-bottom: 22px; }
+  .pontos i { width: 14px; height: 14px; border-radius: 50%; background: var(--orange); animation: pula 1s var(--ease) infinite; }
+  .pontos i:nth-child(2) { animation-delay: .15s; }
+  .pontos i:nth-child(3) { animation-delay: .3s; }
+  @keyframes pula { 0%, 80%, 100% { transform: none; opacity: .5; } 40% { transform: translateY(-12px); opacity: 1; } }
+  .aviso p { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.15; }
+  .aviso small { display: block; margin: 12px 0 24px; font-size: 16px; font-weight: 500; line-height: 1.45; color: var(--on-dark-2); }
+
+  /* ---------- prova e oferta ---------- */
+  [data-rv] { opacity: 0; transform: translateY(22px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: var(--d, 0ms); }
+  [data-rv].in { opacity: 1; transform: none; }
+  .recebida { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; font-size: 14px; font-weight: 800; color: var(--orange); }
+  .recebida i { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
+  .grande { margin: 0; font-size: clamp(38px, 11.4vw, 60px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.02; overflow-wrap: anywhere; }
+  .grande em { font-style: normal; color: var(--orange); }
+  .lead { margin: 18px 0 0; font-size: 18px; line-height: 1.5; color: var(--on-dark-2); }
+  .bloco { padding: 28px var(--gutter) 0; }
+  .sec { padding: 48px var(--gutter) 0; }
+  .sec-rot { margin: 0 0 14px; font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
+
+  .meses { margin: 36px 0 0; padding: 0 var(--gutter); list-style: none; display: grid; gap: 40px; }
+  .mes-quando { margin: 0; font-size: 15px; color: var(--on-dark-3); }
+  .mes-quando b { color: var(--off-white); font-weight: 800; }
+  .mes-valor { margin: 8px 0 0; font-size: clamp(38px, 11.6vw, 58px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .meses li:last-child .mes-valor { color: var(--orange); }
+  .mes-pedidos { margin: 6px 0 0; font-size: 17px; font-weight: 700; color: var(--on-dark-2); font-variant-numeric: tabular-nums; }
+  .mes-delta { display: inline-block; margin: 10px 0 0; padding: 5px 11px; border-radius: 999px; background: var(--orange-tint); color: var(--orange); font-size: 14px; font-weight: 800; }
+  .mes-print { display: block; margin-top: 14px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
+  .mes-print img { display: block; width: 100%; height: auto; }
+  .faixa { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 44px; padding: 28px var(--gutter); background: var(--orange); color: var(--black); }
+  .faixa p { margin: 0; font-size: 16px; font-weight: 800; }
+  .faixa b { display: block; font-size: clamp(56px, 18vw, 96px); font-weight: 800; letter-spacing: -0.06em; line-height: .95; }
+  .fecho { margin: 32px var(--gutter) 0; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.25; }
+  .seguir { padding: 24px var(--gutter) calc(32px + env(safe-area-inset-bottom)); }
+
+  .citacao { margin: 28px 0 0; padding: 2px 0 2px 16px; border-left: 3px solid var(--orange); }
+  .citacao blockquote { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.4; overflow-wrap: anywhere; }
+  .citacao figcaption { margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--on-dark-3); }
+
+  .sim { margin: 0; padding: 0; list-style: none; }
+  .sim li { padding: 18px 0; border-top: 1px solid var(--line); font-size: 20px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.28; }
+  .sim-fim { margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); font-size: 18px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; color: var(--orange); }
+
+  .mvt { position: relative; overflow: hidden; margin-top: 48px; padding: 44px var(--gutter); background: var(--off-white); color: var(--black); }
+  .mvt .sec-rot { color: #C8430F; }
+  .mvt-tit { margin: 0; font-size: 92px; font-weight: 800; letter-spacing: -0.07em; line-height: .86; }
+  .mvt-sub { margin: 14px 0 0; font-size: 17px; font-weight: 600; color: #3A3835; }
+  .passos { margin: 30px 0 0; padding: 0; list-style: none; display: grid; gap: 30px; }
+  .passo { display: grid; grid-template-columns: 54px 1fr; gap: 2px; }
+  .letra { font-size: 54px; font-weight: 800; line-height: .84; letter-spacing: -0.05em; color: var(--orange); }
+  .passo b { display: block; font-size: 21px; font-weight: 800; letter-spacing: -0.025em; }
+  .faz { display: grid; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+  .faz li { font-size: 15.5px; line-height: 1.45; color: #3A3835; }
+  .seu { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: #121212; color: var(--off-white); font-size: 15px; font-weight: 700; line-height: 1.4; }
+
+  .inclui { margin: 0; padding: 0; list-style: none; }
+  .inclui li { padding: 15px 0; border-top: 1px solid var(--line); font-size: 17px; font-weight: 700; line-height: 1.35; }
+  .inclui li:last-child { border-bottom: 1px solid var(--line); }
+
+  .bonus { scroll-margin-top: 76px; margin: 44px var(--gutter) 0; padding: 22px 20px; border-radius: 20px; background: var(--orange); color: var(--black); }
+  .bonus-topo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .bonus-tag { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .bonus-resta { flex: none; font-size: 14px; font-weight: 800; }
+  .bonus-resta b { font-size: 22px; }
+  .bonus-tit { margin: 12px 0 0; font-size: 32px; font-weight: 800; letter-spacing: -0.045em; line-height: 1.05; }
+  .bonus-texto { margin: 12px 0 0; font-size: 17px; font-weight: 700; line-height: 1.35; }
+  .assentos { display: flex; gap: 8px; margin-top: 16px; }
+  .assentos span { display: grid; place-items: center; width: 36px; height: 36px; border: 2px solid var(--black); border-radius: 50%; font-size: 14px; font-weight: 800; }
+  .assentos span.tomado { background: var(--black); color: var(--orange); }
+  .bonus-nota { margin: 14px 0 0; padding-top: 14px; border-top: 2px dashed rgba(18, 18, 18, .4); font-size: 15px; font-weight: 800; line-height: 1.35; }
+  .bonus-atalho { display: block; margin-top: 18px; padding: 13px 15px; border-radius: 14px; background: var(--orange); color: var(--black); font-size: 15px; font-weight: 800; line-height: 1.3; text-decoration: none; }
+
+  .lugares { padding: 32px var(--gutter) 0; }
+  .lugares p { margin: 0 0 12px; font-size: 18px; font-weight: 600; color: var(--on-dark-2); }
+  .lugares b { color: var(--off-white); font-weight: 800; }
+  .fila { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+  .fila span { height: 10px; border-radius: 999px; background: var(--card-2); }
+  .fila span.tomado { background: var(--orange); }
+
+  .final { padding: 36px var(--gutter) calc(48px + env(safe-area-inset-bottom)); }
+  .final-tit { margin: 0 0 18px; font-size: 32px; font-weight: 800; letter-spacing: -0.045em; line-height: 1.05; }
+  .final-nota { margin: 12px 0 0; font-size: 15px; font-weight: 600; line-height: 1.4; text-align: center; color: var(--on-dark-3); }
+
+  /* botão fixo enquanto a pessoa lê: é a live, ela pode querer agir a qualquer momento */
+  .fixo {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 25;
+    padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+    background: rgba(18, 18, 18, .94);
+    border-top: 1px solid var(--line);
+    transform: translateY(110%);
+    transition: transform .3s var(--ease);
+  }
+  .fixo.ver { transform: none; }
+  .fixo .btn { max-width: 600px; margin: 0 auto; min-height: 54px; font-size: 17px; }
+
+  /* celular pequeno: a abertura inteira, com o botão, cabe sem rolar */
+  @media (max-height: 640px) {
+    .abertura.ativa { padding-top: 16px; }
+    .abertura h1 { font-size: 34px; }
+    .abertura-sub { margin-top: 10px; font-size: 15px; line-height: 1.35; }
+    .fatos { margin-top: 12px; }
+    .fatos li { padding: 7px 0; font-size: 14px; }
+    .bonus-tira { margin-top: 10px; padding: 9px 12px; font-size: 13px; }
+    .bonus-tira b { font-size: 16px; }
+    .fatos b { font-size: 14px; }
+    .abertura-acao { padding-top: 12px; }
+    .abertura-acao .btn { min-height: 54px; }
+    .abertura-nota { display: none; }
+    .abertura-sub { display: none; }
+    .abertura h1 { margin-bottom: 2px; }
+  }
+  @media (min-width: 640px) { .topo-linha { padding-right: 24px; } }
+  @media (hover: hover) { .btn:hover { background: #FF7240; } .opcao:not([aria-checked="true"]):hover { border-color: var(--on-dark-3); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    [data-rv] { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-linha">
+    <button class="voltar" type="button" aria-label="Voltar" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a>
+    <span class="ao-vivo"><i aria-hidden="true"></i>Ao vivo</span>
+    <span class="contador" aria-live="polite" hidden></span>
+  </div>
+  <div class="barra" role="progressbar" aria-label="Progresso da aplicação" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+</header>
+
+<main>
+  <section class="tela abertura" data-step="intro">
+    <h1>Aplique para a <em>Mentoria em Grupo<span style="color:var(--off-white)">.</span></em></h1>
+    <p class="abertura-sub">Pode responder enquanto assiste à live. Se sair para ver o Léo, suas respostas ficam guardadas.</p>
+    <ul class="fatos">
+      <li>Formato <b>2 meses, 1 encontro por semana</b></li>
+      <li>Início <b data-inicio>7 de novembro</b></li>
+      <li>Vagas <b data-vagas-abertura>10 na turma</b></li>
+    </ul>
+    <p class="bonus-tira" data-bonus-abertura>
+      <span class="bonus-tira-rot">Bônus só da live</span>
+      <b>Acesso ao Treinamento de Shopee</b>
+      <span data-bonus-resta>Só por este formulário.</span>
+    </p>
+    <div class="abertura-acao">
+      <button class="btn" type="button" data-comecar>Começar aplicação <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button>
+      <p class="abertura-nota">Leva cerca de 3 minutos.</p>
+    </div>
+  </section>
+
+  <div id="steps"></div>
+
+  <section class="tela aviso" data-step="loading" role="status" aria-live="polite">
+    <div class="pontos" aria-hidden="true"><i></i><i></i><i></i></div>
+    <p>Enviando sua aplicação…</p>
+  </section>
+
+  <section class="tela aviso" data-step="error" role="alert">
+    <p>Não deu para enviar agora.</p>
+    <small>Deve ter sido a conexão. Suas respostas estão guardadas.</small>
+    <button class="btn" type="button" data-tentar>Tentar de novo</button>
+  </section>
+
+  <section class="tela" data-step="prova">
+    <div class="bloco">
+      <p class="recebida"><i aria-hidden="true"></i>Aplicação recebida</p>
+      <h1 class="grande"><span class="pv-nome">Antes</span> de ver como funciona, olha isso<span class="dot">.</span></h1>
+      <p class="lead">Não acredite no método só porque eu estou dizendo que funciona. Veja o que aconteceu quando ele foi aplicado em uma conta nova da Shopee.</p>
+    </div>
+    <ol class="meses">
+      <li data-rv>
+        <p class="mes-quando"><b>Fevereiro 2026.</b> A operação ainda estava começando.</p>
+        <p class="mes-valor" data-conta="1436.29" data-tipo="reais">R$ 1.436,29</p>
+        <p class="mes-pedidos" data-conta="35" data-sufixo="pedidos">35 pedidos</p>
+        <a class="mes-print" href="/mentoria/prova/print-fevereiro.jpg" aria-label="Ver o print de fevereiro em tamanho real"><picture><source srcset="/mentoria/prova/print-fevereiro.webp" type="image/webp"><img src="/mentoria/prova/print-fevereiro.jpg" alt="Painel da Shopee em fevereiro de 2026: R$ 1.436,29 em vendas e 35 pedidos" width="1400" height="722" loading="lazy"></picture></a>
+      </li>
+      <li data-rv>
+        <p class="mes-quando"><b>Março 2026.</b> Um mês depois.</p>
+        <p class="mes-valor" data-conta="64677.58" data-tipo="reais">R$ 64.677,58</p>
+        <p class="mes-pedidos" data-conta="1131" data-sufixo="pedidos">1.131 pedidos</p>
+        <p class="mes-delta">+4.403% em vendas vs. fevereiro</p>
+        <a class="mes-print" href="/mentoria/prova/print-marco.jpg" aria-label="Ver o print de março em tamanho real"><picture><source srcset="/mentoria/prova/print-marco.webp" type="image/webp"><img src="/mentoria/prova/print-marco.jpg" alt="Painel da Shopee em março de 2026: R$ 64.677,58 em vendas e 1.131 pedidos" width="1400" height="640" loading="lazy"></picture></a>
+      </li>
+      <li data-rv>
+        <p class="mes-quando"><b>Abril 2026.</b> A mesma conta, dois meses depois.</p>
+        <p class="mes-valor" data-conta="161210.59" data-tipo="reais">R$ 161.210,59</p>
+        <p class="mes-pedidos" data-conta="2562" data-sufixo="pedidos">2.562 pedidos</p>
+        <p class="mes-delta">+149% em vendas vs. março</p>
+        <a class="mes-print" href="/mentoria/prova/print-abril.jpg" aria-label="Ver o print de abril em tamanho real"><picture><source srcset="/mentoria/prova/print-abril.webp" type="image/webp"><img src="/mentoria/prova/print-abril.jpg" alt="Painel da Shopee em abril de 2026: R$ 161.210,59 em vendas e 2.562 pedidos" width="1400" height="636" loading="lazy"></picture></a>
+      </li>
+    </ol>
+    <div class="faixa" data-rv>
+      <p><b>73x</b> mais pedidos</p>
+      <p><b>112x</b> mais vendas</p>
+    </div>
+    <p class="fecho" data-rv>Não foi um “segredo da Shopee”. Foi método aplicado na operação, todo dia. É esse método que você vai ver agora.</p>
+    <div class="seguir"><button class="btn pv-seguir" type="button">Ver como funciona a mentoria <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button></div>
+  </section>
+
+  <section class="tela" data-step="done"></section>
+</main>
+
+<div class="fixo" aria-hidden="true"></div>
+
+<script src="/mentoria/config.js"></script>
+<script>
+(() => {
+  const CFG = window.MENTORIA_CONFIG;
+  const primeiroNome = () => ((answers.nome || '').trim().split(/\s+/)[0] || '');
+  const QUESTIONS = [
+    { name: 'nome', type: 'text', required: true, label: 'Pra começar, qual é o seu nome completo?', placeholder: 'Seu nome e sobrenome', autocomplete: 'name', max: 160 },
+    { name: 'whatsapp', type: 'tel', required: true, label: () => `Prazer${primeiroNome() ? `, ${primeiroNome()}` : ''}! Qual é o seu WhatsApp?`, help: 'Com DDD. É por lá que a equipe fala com você.', placeholder: '(00) 00000-0000' },
+    { name: 'email', type: 'email', required: true, label: 'E o seu melhor e-mail?', help: 'Para mandar os materiais e os avisos da mentoria.', placeholder: 'voce@email.com', max: 254 },
+    { name: 'link_loja', type: 'url', label: 'Qual é o link da sua loja?', help: 'Site, Shopee, Mercado Livre, Instagram... o que você tiver.', placeholder: 'shopee.com.br/suamarca', max: 300 },
+    { name: 'cidade_estado', type: 'text', label: 'De qual cidade você é?', placeholder: 'Ex.: Ribeirão Preto/SP', autocomplete: 'address-level2', max: 120 },
+    { name: 'producao', type: 'radio', required: true, label: 'Você fabrica as peças que vende?', options: [
+      ['propria', 'Sim, tenho produção própria'],
+      ['terceirizada', 'Terceirizo a produção com a minha marca'],
+      ['revenda', 'Revendo produtos de outras marcas'],
+    ] },
+    { name: 'vende_marketplace', type: 'radio', required: true, label: 'Você já vende em marketplace hoje?', options: [
+      ['sim', 'Sim'],
+      ['nao', 'Ainda não'],
+    ] },
+    // já vende
+    { name: 'marketplaces', type: 'checkbox', label: 'Em quais marketplaces você vende?', help: 'Pode marcar mais de um.', options: [
+      ['mercadolivre', 'Mercado Livre'], ['shopee', 'Shopee'], ['shein', 'Shein'], ['tiktokshop', 'TikTok Shop'],
+      ['amazon', 'Amazon'], ['magalu', 'Magalu'], ['outro', 'Outro'],
+    ] },
+    { name: 'faturamento_marketplace', type: 'radio', required: true, label: 'Quanto você fatura por mês nos marketplaces?', options: [
+      ['ate_5k', 'Até R$ 5 mil'], ['5k_20k', 'R$ 5 a 20 mil'], ['20k_50k', 'R$ 20 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
+    ] },
+    { name: 'dificuldades', type: 'checkbox', label: 'O que mais trava suas vendas hoje?', help: 'Pode marcar mais de uma.', options: [
+      ['anuncios', 'Anúncios que não vendem'], ['precificacao', 'Precificação e margem'], ['ads', 'Anúncios pagos (Ads)'],
+      ['organizacao', 'Organização e falta de tempo'], ['crescer', 'Não sei por onde crescer'],
+    ] },
+    { name: 'quem_cuida', type: 'radio', label: 'Quem cuida dos marketplaces hoje?', options: [
+      ['eu', 'Eu mesmo(a)'], ['equipe', 'Tenho alguém da equipe'], ['agencia', 'Contrato agência ou assessoria'],
+    ] },
+    // ainda não vende
+    { name: 'canal_principal', type: 'radio', label: 'Por onde você vende hoje?', options: [
+      ['atacado', 'Atacado'], ['loja_fisica', 'Loja física'], ['instagram_whatsapp', 'Instagram e WhatsApp'],
+      ['feiras', 'Feiras'], ['nao_vende', 'Ainda não vendo'],
+    ] },
+    { name: 'faturamento_empresa', type: 'radio', required: true, label: 'Quanto sua empresa fatura por mês?', options: [
+      ['ate_10k', 'Até R$ 10 mil'], ['10k_30k', 'R$ 10 a 30 mil'], ['30k_50k', 'R$ 30 a 50 mil'], ['acima_50k', 'Acima de R$ 50 mil'],
+    ] },
+    { name: 'impedimento', type: 'text', label: 'O que te impediu de começar nos marketplaces até agora?', placeholder: 'Conta em poucas palavras', max: 500, autocapitalize: 'sentences' },
+    // compromisso
+    { name: 'motivo', type: 'textarea', required: true, label: () => `${primeiroNome() ? `${primeiroNome()}, por` : 'Por'} que você quer entrar na mentoria agora?`, help: 'Conta o que está acontecendo no seu negócio e o que você espera da mentoria.', placeholder: 'Escreva aqui...', max: 2000 },
+    { name: 'disponibilidade', type: 'radio', required: true, label: 'A mentoria tem 1 encontro ao vivo por semana, durante 2 meses. Você consegue reservar esse tempo?', options: [
+      ['sim', 'Sim, consigo'], ['maioria', 'Consigo na maioria das semanas'], ['nao', 'Não consigo agora'],
+    ] },
+  ];
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const onlyDigits = s => s.replace(/\D/g, '');
+  const FIELDS = Object.fromEntries(QUESTIONS.map(q => [q.name, q]));
+
+  // ---------- origem e prévia ----------
+  const params = new URLSearchParams(location.search);
+  const PREVIA = params.get('ver') === 'grupo';
+  const origin = { utm_source: 'live', utm_campaign: 'mentoria_grupo' }; // o link da live pode trazer as próprias UTMs
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(k => {
+    const v = (params.get(k) || '').trim();
+    if (v) origin[k] = v.slice(0, 200);
+  });
+
+  // ---------- respostas guardadas: a pessoa volta para a live e o navegador do app pode recarregar a página ----------
+  const CHAVE = 'gutto_mentoria_grupo';
+  const novaSessao = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+  function lerGuardado() {
+    if (PREVIA) return null;
+    try { return JSON.parse(localStorage.getItem(CHAVE)); } catch { return null; }
+  }
+  const guardado = lerGuardado();
+  const answers = (guardado && guardado.answers) || {};
+  const SESSAO = (guardado && guardado.sessao) || novaSessao();
+  let enviada = !!(guardado && guardado.enviada);
+  function guardar() {
+    if (PREVIA) return;
+    try { localStorage.setItem(CHAVE, JSON.stringify({ answers, sessao: SESSAO, passo: current, enviada })); } catch { /* sem armazenamento, segue normal */ }
+  }
+
+  // ---------- rastreio da sessão (cada resposta e cada etapa, mesmo de quem abandona) ----------
+  function rpc(nome, corpo) {
+    if (PREVIA) return;
+    try {
+      fetch(`${CFG.supabaseUrl}/rest/v1/rpc/${nome}`, {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey },
+        body: JSON.stringify(corpo),
+      }).catch(() => {});
+    } catch { /* rastreio nunca atrapalha o formulário */ }
+  }
+  const salvarSessao = pergunta => rpc('mentoria_sessao_salvar', { p_id: SESSAO, p_respostas: answers, p_pergunta: pergunta, p_utm: origin });
+  const eventoSessao = evento => rpc('mentoria_sessao_evento', { p_id: SESSAO, p_evento: evento });
+
+  // ---------- montar as perguntas ----------
+  const SETA = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>';
+
+  function entradaHtml(f) {
+    const id = `f-${f.name}`;
+    if (f.type === 'radio' || f.type === 'checkbox') {
+      const multi = f.type === 'checkbox';
+      return `<div class="opcoes${multi ? ' multi' : ''}" role="${multi ? 'group' : 'radiogroup'}" aria-labelledby="${id}-label">${f.options.map(([v, t], i) =>
+        `<button class="opcao" type="button" role="${multi ? 'checkbox' : 'radio'}" aria-checked="${[].concat(answers[f.name] || []).includes(v)}" data-value="${v}" style="--i:${i}">${esc(t)}</button>`).join('')}</div>`;
+    }
+    const comum = `class="campo" id="${id}" name="${f.name}" aria-labelledby="${id}-label" aria-describedby="${id}-err"${f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : ''}${f.max ? ` maxlength="${f.max}"` : ''}`;
+    if (f.type === 'textarea') return `<textarea ${comum} rows="4"></textarea><p class="conta-letras" aria-hidden="true"></p>`;
+    if (f.type === 'tel') return `<input ${comum} type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" enterkeyhint="next">`;
+    if (f.type === 'email') return `<input ${comum} type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next">`;
+    if (f.type === 'url') return `<input ${comum} type="url" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" enterkeyhint="next">`;
+    return `<input ${comum} type="text"${f.autocomplete ? ` autocomplete="${f.autocomplete}"` : ''} autocapitalize="${f.autocapitalize || 'words'}" enterkeyhint="next">`;
+  }
+
+  $('#steps').innerHTML = QUESTIONS.map(f => {
+    const escolhaUnica = f.type === 'radio';
+    return `
+    <section class="tela pergunta" data-step="${f.name}">
+      <h2 class="p-titulo" id="f-${f.name}-label"></h2>
+      ${f.help ? `<p class="p-ajuda">${esc(f.help)}</p>` : ''}
+      <div class="p-resposta">
+        ${entradaHtml(f)}
+        <p class="p-erro" id="f-${f.name}-err" role="alert"></p>
+        <div class="p-acoes"${escolhaUnica && f.required ? ' hidden' : ''}>
+          ${f.required ? '' : '<button class="pular" type="button">Pular</button>'}
+          ${escolhaUnica ? '' : `<button class="btn avancar" type="button">Continuar ${SETA}</button>`}
+        </div>
+      </div>
+    </section>`;
+  }).join('');
+
+  const screens = Object.fromEntries($$('.tela').map(el => [el.dataset.step, el]));
+  const barra = $('.barra');
+  const contador = $('.contador');
+  const aoVivo = $('.ao-vivo');
+  const voltar = $('.voltar');
+  const fixo = $('.fixo');
+  let current = 'intro';
+
+  // ---------- campos ----------
+  const phone = $('#f-whatsapp');
+  phone.addEventListener('input', () => {
+    const d = onlyDigits(phone.value).slice(0, 11);
+    let out = d;
+    if (d.length > 0) out = `(${d.slice(0, 2)}`;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    phone.value = out;
+  });
+  $$('.campo').forEach(el => {
+    if (answers[el.name]) el.value = answers[el.name];
+    el.addEventListener('input', () => {
+      answers[el.name] = el.value;
+      el.closest('.pergunta').classList.remove('invalida');
+      guardar();
+    });
+  });
+  $$('textarea.campo').forEach(el => {
+    const conta = el.parentElement.querySelector('.conta-letras');
+    const atualizar = () => { conta.textContent = `${el.value.length} / ${el.maxLength}`; };
+    el.addEventListener('input', atualizar);
+    atualizar();
+  });
+
+  let avancando = null; // escolha única avança sozinha
+  $$('.opcao').forEach(btn => btn.addEventListener('click', () => {
+    const q = btn.closest('.pergunta');
+    const name = q.dataset.step;
+    if (FIELDS[name].type === 'checkbox') {
+      btn.setAttribute('aria-checked', String(btn.getAttribute('aria-checked') !== 'true'));
+      answers[name] = $$('.opcao[aria-checked="true"]', q).map(c => c.dataset.value);
+    } else {
+      $$('.opcao', q).forEach(c => c.setAttribute('aria-checked', String(c === btn)));
+      answers[name] = btn.dataset.value;
+      clearTimeout(avancando);
+      avancando = setTimeout(() => { if (current === name) advance(); }, 260);
+    }
+    q.classList.remove('invalida');
+    guardar();
+  }));
+  $$('.avancar').forEach(b => b.addEventListener('click', () => advance()));
+  $$('.pular').forEach(b => b.addEventListener('click', () => {
+    const q = b.closest('.pergunta');
+    const name = q.dataset.step;
+    answers[name] = FIELDS[name].type === 'checkbox' ? [] : '';
+    const campo = $('.campo', q);
+    if (campo) campo.value = '';
+    $$('.opcao', q).forEach(c => c.setAttribute('aria-checked', 'false'));
+    advance();
+  }));
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.isComposing || !FIELDS[current]) return;
+    if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+    e.preventDefault();
+    advance();
+  });
+
+  // ---------- teclado do celular: o botão de continuar fica colado nele ----------
+  const vv = window.visualViewport;
+  function medirTeclado() {
+    if (!vv) return;
+    const altura = Math.max(0, Math.round(innerHeight - vv.height - vv.offsetTop));
+    document.documentElement.style.setProperty('--teclado', `${altura}px`);
+    document.body.classList.toggle('teclado', altura > 120);
+  }
+  if (vv) { vv.addEventListener('resize', medirTeclado); vv.addEventListener('scroll', medirTeclado); }
+
+  // ---------- validação ----------
+  const MSG = {
+    nome: v => v.trim().length < 2 ? 'Escreve seu nome completo.' : '',
+    whatsapp: v => {
+      const d = onlyDigits(v || '');
+      if (!d) return 'Coloca seu WhatsApp com DDD.';
+      if (d.length !== 11 || !/^[1-9]{2}9/.test(d)) return 'Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.';
+      return '';
+    },
+    email: v => !v.trim() ? 'Escreve seu e-mail.'
+      : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Hmm, esse e-mail parece incompleto. Confere?',
+    motivo: v => v.trim() ? '' : 'Conta pra gente por que você quer entrar agora.',
+  };
+
+  function fieldError(f) {
+    const v = answers[f.name];
+    if (f.name === 'whatsapp') return MSG.whatsapp(v);
+    if (!f.required) return '';
+    if (MSG[f.name]) return MSG[f.name](v || '');
+    if (f.type === 'radio') return v ? '' : 'Escolhe uma opção pra continuar.';
+    if (f.type === 'checkbox') return v && v.length ? '' : 'Marca pelo menos uma opção.';
+    return (v || '').trim() ? '' : 'Esse campo é obrigatório.';
+  }
+  function validar(name) {
+    const q = screens[name];
+    const msg = fieldError(FIELDS[name]);
+    $('.p-erro', q).textContent = msg;
+    q.classList.toggle('invalida', !!msg);
+    if (msg) {
+      q.classList.remove('tremer');
+      void q.offsetWidth;
+      q.classList.add('tremer');
+      const el = $('.campo', q);
+      if (el) el.focus({ preventScroll: true });
+    }
+    return !msg;
+  }
+
+  // ---------- navegação ----------
+  const FLOW = () => [
+    'intro', 'nome', 'whatsapp', 'email', 'link_loja', 'cidade_estado', 'producao', 'vende_marketplace',
+    ...(answers.vende_marketplace === 'nao'
+      ? ['canal_principal', 'faturamento_empresa', 'impedimento']
+      : ['marketplaces', 'faturamento_marketplace', 'dificuldades', 'quem_cuida']),
+    'motivo', 'disponibilidade',
+  ];
+
+  function render(step, back = false) {
+    screens[current].classList.remove('ativa', 'volta');
+    const to = screens[step];
+    to.classList.toggle('volta', back);
+    to.classList.add('ativa');
+    current = step;
+    window.scrollTo(0, 0);
+    guardar();
+
+    const f = FIELDS[step];
+    const flow = FLOW();
+    const perguntas = flow.length - 1;
+    const pos = flow.indexOf(step);
+    if (f) {
+      $('.p-titulo', to).textContent = typeof f.label === 'function' ? f.label(answers) : f.label;
+      const av = $('.avancar', to);
+      if (av) av.innerHTML = pos === perguntas ? `Enviar aplicação ${SETA}` : `Continuar ${SETA}`;
+      const campo = $('.campo', to);
+      if (campo) setTimeout(() => { if (current === step) campo.focus({ preventScroll: true }); }, 280);
+    }
+    const pct = f ? (pos / (perguntas + 1)) * 100 : ['loading', 'error', 'prova', 'done'].includes(step) ? 100 : 0;
+    $('i', barra).style.width = `${pct}%`;
+    barra.setAttribute('aria-valuenow', Math.round(pct));
+    contador.hidden = !f;
+    aoVivo.hidden = !!f;
+    if (f) contador.innerHTML = `<b>${pos}</b> de ${perguntas}`;
+    voltar.hidden = !(f && pos >= 1) && step !== 'error';
+    if (step !== 'done') fixo.classList.remove('ver');
+  }
+
+  function go(step) {
+    history.pushState({ step }, '');
+    render(step);
+  }
+
+  function advance() {
+    clearTimeout(avancando);
+    const flow = FLOW();
+    const i = flow.indexOf(current);
+    if (i < 0) return;
+    if (current !== 'intro' && !validar(current)) return;
+    if (current !== 'intro') salvarSessao(current);
+    if (flow[i + 1]) go(flow[i + 1]);
+    else submit();
+  }
+
+  voltar.addEventListener('click', () => {
+    if (current === 'error') return render('disponibilidade', true);
+    const flow = FLOW();
+    const i = flow.indexOf(current);
+    if (i > 0) render(flow[i - 1], true);
+  });
+  window.addEventListener('popstate', e => {
+    if (['loading', 'prova', 'done'].includes(current)) return;
+    const step = e.state && e.state.step;
+    render(step && screens[step] ? step : 'intro', true);
+  });
+  $('[data-comecar]').addEventListener('click', () => advance());
+  $('[data-tentar]').addEventListener('click', () => submit());
+
+  // ---------- envio ----------
+  async function insertRow(row) {
+    const res = await fetch(`${CFG.supabaseUrl}/rest/v1/aplicacoes_mentoria`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey, Prefer: 'return=minimal' },
+      body: JSON.stringify(row),
+    });
+    if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+  }
+  const txt = name => (answers[name] || '').trim() || null;
+
+  // ---------- turma (números reais do CRM) ----------
+  let INICIO_TURMA = '7 de novembro';
+  let TOTAL_VAGAS = 10;
+  let TOTAL_BONUS = 5;
+  const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  async function lerVagas() {
+    try {
+      const res = await fetch(`${CFG.supabaseUrl}/rest/v1/rpc/mentoria_vagas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseKey },
+        body: '{}',
+      });
+      const v = res.ok ? await res.json() : null;
+      const d = v && /^\d{4}-\d{2}-\d{2}$/.test(v.inicio || '') ? v.inicio.split('-').map(Number) : null;
+      if (d) INICIO_TURMA = `${d[2]} de ${MESES[d[1] - 1]}`;
+      if (v && v.total > 0) TOTAL_VAGAS = v.total;
+      if (v && v.bonus_total != null && v.bonus_total >= 0) TOTAL_BONUS = v.bonus_total;
+      return v;
+    } catch { return null; }
+  }
+
+  const FAIXA_MKT = { ate_5k: 'até R$ 5 mil', '5k_20k': 'de R$ 5 a 20 mil', '20k_50k': 'de R$ 20 a 50 mil', acima_50k: 'mais de R$ 50 mil' };
+  const FAIXA_EMP = { ate_10k: 'até R$ 10 mil', '10k_30k': 'de R$ 10 a 30 mil', '30k_50k': 'de R$ 30 a 50 mil', acima_50k: 'mais de R$ 50 mil' };
+  const DIFS = { anuncios: 'anúncios que não vendem', precificacao: 'precificação', ads: 'Ads', organizacao: 'falta de tempo', crescer: 'não saber por onde crescer' };
+  const CANAIS = { atacado: 'do atacado', loja_fisica: 'da loja física', instagram_whatsapp: 'do Instagram e do WhatsApp', feiras: 'das feiras' };
+  const NO_MKT = { mercadolivre: 'no Mercado Livre', shopee: 'na Shopee', shein: 'na Shein', tiktokshop: 'no TikTok Shop', amazon: 'na Amazon', magalu: 'no Magalu', outro: 'em outros marketplaces' };
+  const lista = xs => xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} e ${xs[xs.length - 1]}`;
+  const reais = v => `R$ ${v.toLocaleString('pt-BR')}`;
+  function razao(a) {
+    const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
+    if (a.vende_marketplace === 'sim') {
+      const fat = FAIXA_MKT[a.faturamento_marketplace];
+      return `Você vende ${mks || 'em marketplace'}${fat ? ` e fatura ${fat} por mês` : ''}. Na turma, você aplica o método na sua loja e tira dúvidas com o grupo a semana toda.`;
+    }
+    const canal = CANAIS[a.canal_principal];
+    return `Você ainda não vende em marketplace${canal ? ` e hoje suas vendas vêm ${canal}` : ''}. A turma é o jeito mais rápido de começar do jeito certo: o método passo a passo e um grupo para tirar dúvidas a semana toda.`;
+  }
+
+  const PRODUTO = { propria: 'já fabrica seu próprio produto', terceirizada: 'já tem marca própria', revenda: 'já tem produto para vender' };
+  function perguntasSim(a) {
+    const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
+    const difs = lista((a.dificuldades || []).map(v => DIFS[v]).filter(Boolean));
+    const prod = PRODUTO[a.producao] || 'já tem produto';
+    return [
+      a.vende_marketplace === 'sim'
+        ? `Você ${prod} e quer vender mais ${mks || 'nos marketplaces'}?`
+        : `Você ${prod} e quer levar esse produto para os marketplaces?`,
+      difs
+        ? `Hoje o que mais trava é ${difs}. Você quer resolver isso com um método, em vez de tentativa e erro?`
+        : 'Você quer crescer com um método claro, em vez de tentativa e erro?',
+      `Você consegue reservar 1 encontro por semana nos próximos 2 meses, a partir de ${INICIO_TURMA}?`,
+    ];
+  }
+
+  /** Os 3 passos do Método MVT: o que é feito na loja, e o "no seu caso" pelas dificuldades marcadas. */
+  function pilares(tipo, a) {
+    const d = new Set(a.dificuldades || []);
+    const novo = a.vende_marketplace !== 'sim';
+    const mks = lista((a.marketplaces || []).map(v => NO_MKT[v]).filter(Boolean));
+    const individual = tipo === 'individual';
+    return [
+      {
+        l: 'M', t: 'Margem',
+        itens: [
+          'Lucro real de cada produto, com tarifa, frete, imposto, custo e Ads na conta',
+          'Preço mínimo de cada anúncio e o desconto máximo que ele aguenta numa promoção',
+        ],
+        seu: novo ? 'antes do primeiro anúncio, você já sabe o preço que dá lucro.'
+          : d.has('precificacao') ? 'você marcou precificação, então esse é o primeiro passo dos encontros.' : '',
+      },
+      {
+        l: 'V', t: 'Vitrine',
+        itens: [
+          `Título com as palavras que o comprador digita na busca${mks ? ` ${mks}` : ''}`,
+          'Ficha técnica completa, que pesa no ranqueamento',
+          'Capa e fotos que fazem o clique ser no seu anúncio, e não no do concorrente',
+        ],
+        seu: novo ? 'seus primeiros anúncios já entram completos para ranquear.'
+          : d.has('anuncios') ? (individual ? 'você marcou anúncios que não vendem, então a gente refaz os seus principais juntos, nos encontros.' : 'você marcou anúncios que não vendem, então você aplica esse passo a passo nos seus durante a turma.') : '',
+      },
+      {
+        l: 'T', t: 'Tração',
+        itens: [
+          'Ads com teto de gasto calculado pela sua margem',
+          'Entrada só nas promoções que dão lucro: relâmpago, campanhas e cupons',
+        ],
+        seu: novo ? 'as primeiras vendas vêm com Ads e promoções no limite certo.'
+          : d.has('ads') ? 'você marcou Ads, então vamos definir quanto investir em cada anúncio sem queimar margem.'
+          : d.has('crescer') ? 'você marcou que não sabe por onde crescer, então aqui sai o plano dos próximos meses da sua loja.' : '',
+      },
+    ];
+  }
+  // ---------- oferta (sem preço; o botão leva ao WhatsApp) ----------
+  function montarOferta(vagas) {
+    const nome = primeiroNome();
+    const esgotada = !!(vagas && vagas.vagas === 0);
+    const bonusRestam = vagas ? vagas.bonus : null;
+    const comBonus = !esgotada && bonusRestam !== 0 && TOTAL_BONUS > 0; // o bônus existe só nesta página
+    const msg = esgotada
+      ? `Oi! Sou ${nome}, fiz a aplicação na live e quero entrar na lista de espera da próxima turma da Mentoria em Grupo.`
+      : comBonus
+        ? `Oi! Sou ${nome}, fiz a aplicação na live e quero garantir minha vaga na Mentoria em Grupo, com o bônus da live.`
+        : `Oi! Sou ${nome}, fiz a aplicação na live e quero garantir minha vaga na Mentoria em Grupo.`;
+    const href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(msg)}`;
+    const cta = esgotada ? 'Entrar na lista de espera' : comBonus ? 'Quero minha vaga e o bônus' : 'Quero garantir minha vaga';
+    const motivo = txt('motivo') || '';
+    const organizar = (answers.dificuldades || []).includes('organizacao');
+    const rv = (d = 0) => `data-rv style="--d:${d}ms"`;
+    const tomadas = vagas ? vagas.total - vagas.vagas : 0;
+
+    screens.done.innerHTML = `
+      <div class="bloco">
+        <p class="recebida"><i aria-hidden="true"></i>Aplicação recebida</p>
+        <h1 class="grande">${nome ? `${esc(nome)}, a` : 'A'} <em>Mentoria em Grupo</em> é o seu próximo passo<span class="dot">.</span></h1>
+        <p class="lead">${esc(razao(answers))}</p>
+        ${comBonus ? `<a class="bonus-atalho" href="#bonus-live">Você veio pela live: tem um bônus exclusivo para você${bonusRestam != null ? ` · restam ${bonusRestam} de ${TOTAL_BONUS}` : ''}</a>` : ''}
+        ${motivo.length >= 15 ? `<figure class="citacao" ${rv()}><blockquote>${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>` : ''}
+      </div>
+
+      <section class="sec">
+        <p class="sec-rot" ${rv()}>Responda para você mesmo(a)</p>
+        <ol class="sim">${perguntasSim(answers).map((q, i) => `<li ${rv(i * 80)}>${esc(q)}</li>`).join('')}</ol>
+        <p class="sim-fim" ${rv()}>Se a resposta foi sim para as três, a Mentoria em Grupo foi feita para você.</p>
+      </section>
+
+      <section class="mvt">
+        <p class="sec-rot" ${rv()}>O método</p>
+        <h2 class="mvt-tit" ${rv()}>MVT<span class="dot">.</span></h2>
+        <p class="mvt-sub" ${rv()}>Os 3 passos que vamos aplicar na sua loja, nesta ordem:</p>
+        <ol class="passos">${pilares('grupo', answers).map(p => `
+          <li class="passo" ${rv()}>
+            <span class="letra" aria-hidden="true">${p.l}</span>
+            <div><b>${esc(p.t)}</b><ul class="faz">${p.itens.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${p.seu ? `<p class="seu">No seu caso: ${esc(p.seu)}</p>` : ''}</div>
+          </li>`).join('')}
+        </ol>
+        ${organizar ? `<p class="seu" ${rv()}>E para a falta de tempo: uma rotina semanal simples para manter tudo andando.</p>` : ''}
+      </section>
+
+      <section class="sec">
+        <p class="sec-rot" ${rv()}>Como funciona</p>
+        <ul class="inclui">
+          <li ${rv()}>2 meses de mentoria, com 1 encontro ao vivo por semana</li>
+          <li ${rv()}>Grupo de WhatsApp da turma para tirar dúvidas entre os encontros</li>
+          <li ${rv()}>Início em ${esc(INICIO_TURMA)}, com horário definido junto com a turma</li>
+          <li ${rv()}>Turma pequena: só ${TOTAL_VAGAS} vagas</li>
+        </ul>
+      </section>
+
+      ${comBonus ? `<section class="bonus" id="bonus-live" ${rv()}>
+        <div class="bonus-topo">
+          <span class="bonus-tag">Bônus só da live</span>
+          ${bonusRestam != null ? `<span class="bonus-resta">restam <b>${bonusRestam}</b> de ${TOTAL_BONUS}</span>` : ''}
+        </div>
+        <p class="bonus-tit">Acesso ao Treinamento de Shopee.</p>
+        <p class="bonus-texto">Para quem se inscreve por este formulário da live.</p>
+        ${bonusRestam != null ? `<div class="assentos" role="img" aria-label="${TOTAL_BONUS - bonusRestam} de ${TOTAL_BONUS} bônus já garantidos">${Array.from({ length: TOTAL_BONUS }, (_, i) => `<span class="${i < TOTAL_BONUS - bonusRestam ? 'tomado' : ''}">${i + 1}</span>`).join('')}</div>` : ''}
+        <p class="bonus-nota">Não está disponível em nenhuma outra página da mentoria.</p>
+      </section>` : ''}
+
+      <div class="lugares" ${rv()}>
+        ${!vagas ? `<p><b>Turma com ${TOTAL_VAGAS} vagas.</b></p>`
+          : `<p>${esgotada ? '<b>Esta turma está completa.</b> Entre na lista de espera da próxima.' : `<b>Restam ${vagas.vagas} de ${vagas.total} vagas</b> nesta turma.`}</p>
+             <div class="fila" role="img" aria-label="${tomadas} de ${vagas.total} vagas preenchidas">${Array.from({ length: vagas.total }, (_, i) => `<span class="${i < tomadas ? 'tomado' : ''}"></span>`).join('')}</div>`}
+      </div>
+
+      <section class="final" id="final">
+        <h2 class="final-tit">${esgotada ? 'Fique na frente da próxima turma.' : 'Sua vaga é combinada no WhatsApp.'}</h2>
+        <a class="btn of-cta" href="${href}">${cta} ${SETA}</a>
+        <p class="final-nota">Você fala direto com o Bruno, da equipe do Léo.</p>
+      </section>`;
+
+    fixo.innerHTML = `<a class="btn of-cta" href="${href}" tabindex="-1">${cta} ${SETA}</a>`;
+    revelar(screens.done);
+
+    // o botão fixo aparece depois do topo e some quando o botão principal entra na tela
+    if (typeof IntersectionObserver !== 'undefined') {
+      const estado = { passouTopo: false, viuFinal: false };
+      const atualizar = () => fixo.classList.toggle('ver', current === 'done' && estado.passouTopo && !estado.viuFinal);
+      new IntersectionObserver(([e]) => { estado.passouTopo = !e.isIntersecting; atualizar(); }).observe($('.bloco', screens.done));
+      new IntersectionObserver(([e]) => { estado.viuFinal = e.isIntersecting; atualizar(); }).observe($('#final', screens.done));
+    }
+  }
+
+  function revelar(raiz) {
+    const els = $$('[data-rv]', raiz);
+    const semMovimento = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || typeof IntersectionObserver === 'undefined') return els.forEach(el => el.classList.add('in'));
+    const io = new IntersectionObserver(entradas => entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }), { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+    els.forEach(el => io.observe(el));
+  }
+
+  async function submit() {
+    const vende = answers.vende_marketplace;
+    const row = {
+      nome: txt('nome'),
+      whatsapp: onlyDigits(answers.whatsapp || ''),
+      email: (answers.email || '').trim().toLowerCase() || null,
+      link_loja: (answers.link_loja || '').trim().replace(/\s+/g, '') || null,
+      cidade_estado: txt('cidade_estado'),
+      producao: answers.producao,
+      vende_marketplace: vende,
+      marketplaces: vende === 'sim' ? answers.marketplaces || [] : [],
+      faturamento_marketplace: vende === 'sim' ? answers.faturamento_marketplace || null : null,
+      dificuldades: vende === 'sim' ? answers.dificuldades || [] : [],
+      quem_cuida: vende === 'sim' ? answers.quem_cuida || null : null,
+      canal_principal: vende === 'nao' ? answers.canal_principal || null : null,
+      faturamento_empresa: vende === 'nao' ? answers.faturamento_empresa || null : null,
+      impedimento: vende === 'nao' ? txt('impedimento') : null,
+      motivo: txt('motivo'),
+      disponibilidade: answers.disponibilidade,
+      sessao_id: SESSAO,
+      versao: 'grupo', // no banco, mantém o lead no funil do grupo seja qual for o faturamento
+      ...origin,
+    };
+    render('loading');
+    const minWait = new Promise(r => setTimeout(r, 700));
+    try {
+      const [, vagas] = await Promise.all([insertRow(row), lerVagas(), minWait]);
+      enviada = true;
+      montarOferta(vagas);
+      mostrarProva();
+    } catch (err) {
+      console.error(err);
+      await minWait;
+      render('error');
+    }
+  }
+
+  function mostrarProva() {
+    const nome = primeiroNome();
+    $('.pv-nome', screens.prova).textContent = nome ? `${nome}, antes` : 'Antes';
+    history.replaceState({ step: 'prova' }, '');
+    render('prova');
+    revelar(screens.prova);
+    contarValores(screens.prova);
+    eventoSessao('prova');
+  }
+  $('.pv-seguir', screens.prova).addEventListener('click', () => {
+    history.replaceState({ step: 'done' }, '');
+    render('done');
+    eventoSessao('oferta');
+  });
+  // o clique no WhatsApp vira atividade no CRM (botão principal e botão fixo)
+  document.addEventListener('click', e => {
+    if (e.target.closest && e.target.closest('.of-cta')) eventoSessao('whatsapp');
+  });
+
+  /** Valores da prova sobem de 0 até o número quando aparecem na tela. */
+  function contarValores(raiz) {
+    const els = $$('[data-conta]', raiz);
+    const fmt = (el, v) => {
+      el.textContent = el.dataset.tipo === 'reais'
+        ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        : `${Math.round(v).toLocaleString('pt-BR')} ${el.dataset.sufixo || ''}`.trim();
+    };
+    const semMovimento = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || typeof IntersectionObserver === 'undefined') return els.forEach(el => fmt(el, Number(el.dataset.conta)));
+    const animar = el => {
+      const fim = Number(el.dataset.conta);
+      const t0 = performance.now();
+      const dur = 1400;
+      const passo = t => {
+        const p = Math.min(1, (t - t0) / dur);
+        fmt(el, fim * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(passo);
+        else fmt(el, fim);
+      };
+      requestAnimationFrame(passo);
+    };
+    const io = new IntersectionObserver(entradas => entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      animar(e.target);
+      io.unobserve(e.target);
+    }), { threshold: 0.6 });
+    els.forEach(el => { fmt(el, 0); io.observe(el); });
+  }
+  // ---------- início ----------
+  history.replaceState({ step: 'intro' }, '');
+  screens.intro.classList.add('ativa');
+  render('intro');
+
+  // abertura com os números reais da turma
+  lerVagas().then(v => {
+    $('[data-inicio]').textContent = INICIO_TURMA;
+    if (v) $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'turma completa' : `restam ${v.vagas} de ${v.total}`;
+    else $('[data-vagas-abertura]').textContent = `${TOTAL_VAGAS} na turma`;
+    if (v && (v.vagas === 0 || v.bonus === 0)) $('[data-bonus-abertura]').hidden = true;
+    else if (v) $('[data-bonus-resta]').textContent = `Só por este formulário. Restam ${v.bonus} de ${TOTAL_BONUS}.`;
+  });
+
+  if (PREVIA) {
+    // ?ver=grupo: tela final com respostas de exemplo, nada é salvo
+    Object.assign(answers, {
+      nome: 'Ana Souza', producao: 'propria', vende_marketplace: 'sim', marketplaces: ['mercadolivre', 'shopee'],
+      faturamento_marketplace: '5k_20k', dificuldades: ['anuncios', 'ads'], disponibilidade: 'sim',
+      motivo: 'Quero parar de depender de promoção para vender e entender de verdade quanto sobra de cada venda.',
+    });
+    lerVagas().then(vagas => { montarOferta(vagas); mostrarProva(); });
+  } else if (enviada) {
+    // voltou do WhatsApp e o app recarregou a página: mostra a tela final, sem enviar de novo
+    lerVagas().then(vagas => { montarOferta(vagas); render('done'); });
+  } else if (guardado && guardado.passo && FIELDS[guardado.passo] && FLOW().includes(guardado.passo)) {
+    // voltou da live no meio da aplicação: continua na mesma pergunta
+    history.replaceState({ step: guardado.passo }, '');
+    render(guardado.passo);
+  }
+})();
+</script>
+</body>
+</html>
