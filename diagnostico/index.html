@@ -295,141 +295,6 @@
   .micro { margin: 20px 0 0; max-width: 480px; font-size: 14px; color: var(--on-dark-3); }
   .micro strong { color: var(--on-dark-2); font-weight: 700; }
 
-  /* ---------- segunda parte: escolher o horário ---------- */
-  .agenda {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 96px var(--gutter) 64px;
-  }
-  .agenda[hidden] { display: none; }
-  .agenda-miolo { width: 100%; max-width: 880px; margin: 0 auto; animation: entraBaixo .5s var(--ease) both; }
-  .agenda .pergunta { margin-bottom: 12px; }
-  .agenda-info { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 24px; padding: 0; list-style: none; font-size: 15px; font-weight: 600; color: var(--on-dark-2); }
-  .agenda-info li { position: relative; }
-  .agenda-info li + li::before { content: ''; position: absolute; left: -11px; top: .62em; width: 4px; height: 4px; border-radius: 50%; background: var(--orange); }
-
-  /* painel: calendário do mês à esquerda, horários do dia à direita */
-  .painel {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
-    border: 1.5px solid var(--line);
-    border-radius: 20px;
-    background: var(--card);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, .4);
-  }
-  .cal { padding: 24px; }
-  .cal-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 16px; }
-  .cal-mes { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.03em; text-transform: lowercase; }
-  .cal-nav { display: flex; gap: 6px; }
-  .cal-nav button {
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border: 1.5px solid var(--line);
-    border-radius: 50%;
-    background: transparent;
-    color: var(--off-white);
-    font: inherit;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: border-color .15s, opacity .15s;
-  }
-  .cal-nav button:disabled { opacity: .3; cursor: default; }
-  .cal-semana, .cal-dias { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-  .cal-semana { margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--on-dark-3); text-align: center; text-transform: lowercase; }
-  .dia {
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: 100%;
-    max-width: 52px;
-    aspect-ratio: 1;
-    margin: 0 auto;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: var(--orange-tint);
-    color: var(--off-white);
-    font: inherit;
-    font-size: 16px;
-    font-weight: 800;
-    font-variant-numeric: tabular-nums;
-    cursor: pointer;
-    transition: background .15s, color .15s, transform .35s var(--mola);
-  }
-  .dia:disabled { background: none; color: #6F6B65; font-weight: 500; cursor: default; }
-  .dia.hoje::after { content: ''; position: absolute; bottom: 6px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: currentColor; }
-  /* o dia escolhido é o ponto da marca */
-  .dia[aria-pressed="true"] { background: var(--orange); color: var(--black); transform: scale(1.06); }
-
-  .horas { display: flex; flex-direction: column; min-width: 0; padding: 24px 20px 24px 24px; border-left: 1.5px solid var(--line); }
-  .horas-dia { margin: 0 0 12px; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
-  .horas-dia::first-letter { text-transform: uppercase; }
-  .horas-lista { display: grid; align-content: start; gap: 8px; max-height: 356px; padding-right: 4px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-  .periodo { margin: 6px 0 -2px; font-size: 12px; font-weight: 700; color: var(--on-dark-3); text-transform: lowercase; }
-  .periodo:first-child { margin-top: 0; }
-  .linha { display: flex; gap: 8px; }
-  .slot {
-    flex: 1 1 0;
-    min-width: 0;
-    min-height: 50px;
-    border: 1.5px solid var(--line);
-    border-radius: 10px;
-    background: transparent;
-    color: var(--off-white);
-    font: inherit;
-    font-size: 16px;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    cursor: pointer;
-    transition: background .15s, border-color .15s;
-  }
-  .slot[aria-pressed="true"] { border-color: var(--off-white); background: var(--card-hover); }
-  [data-confirmar] { flex: 1 1 0; min-width: 0; min-height: 50px; padding: 0 8px; border-radius: 10px; font-size: 15px; white-space: nowrap; animation: abreConfirmar .3s var(--ease) both; }
-  [data-confirmar][hidden] { display: none; }
-  @keyframes abreConfirmar { from { opacity: 0; transform: translateX(-12px); } }
-  @media (hover: hover) {
-    .cal-nav button:not(:disabled):hover { border-color: var(--off-white); }
-    .dia:not(:disabled):not([aria-pressed="true"]):hover { background: rgba(255, 90, 31, .32); }
-    .slot:hover { border-color: var(--orange); }
-  }
-  .dia:focus-visible, .slot:focus-visible, .pular:focus-visible, .cal-nav button:focus-visible { outline: 2px solid var(--off-white); outline-offset: 2px; }
-  .agenda .erro { display: block; margin-top: 12px; }
-  .agenda .erro:empty { display: none; }
-  .pular {
-    display: block;
-    margin-top: 18px;
-    padding: 6px 0;
-    border: 0;
-    background: none;
-    color: var(--on-dark-2);
-    font: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer;
-  }
-  @media (max-width: 760px) {
-    .agenda { justify-content: flex-start; padding-top: 88px; padding-bottom: 48px; }
-    .agenda-info { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 4px 16px; margin-bottom: 18px; font-size: 14px; }
-    .agenda-info li::before, .agenda-info li + li::before { content: ''; position: static; display: inline-block; width: 4px; height: 4px; margin: 0 7px 3px 0; border-radius: 50%; background: var(--orange); }
-    .painel { grid-template-columns: minmax(0, 1fr); }
-    .cal { padding: 16px; }
-    .horas { padding: 16px; border-left: 0; border-top: 1.5px solid var(--line); scroll-margin-top: 88px; }
-    .horas-lista { max-height: none; padding-right: 0; overflow: visible; }
-  }
-  .espera { position: fixed; inset: 0; z-index: 2; display: grid; place-items: center; margin: 0; padding: var(--gutter); color: var(--on-dark-2); font-weight: 600; text-align: center; }
-  .espera[hidden] { display: none; }
-
   /* ---------- fim: o ponto tomou a tela ---------- */
   .fim {
     position: fixed;
@@ -472,6 +337,9 @@
   /* sequência: o ponto laranja cobre a tela → as letras sobem uma a uma → o ponto preto cai e quica → a mensagem entra */
   body.enviado .letra i { animation: sobe .7s cubic-bezier(.16, 1, .3, 1) calc(.8s + var(--i) * 38ms) both; }
   body.enviado .fim-ponto { animation: quica .85s linear 1.2s both; transform-origin: 50% 100%; }
+  .ligacao { margin-top: 18px; padding: 16px 18px; border-radius: 14px; background: var(--black); color: var(--off-white); }
+  .ligacao span { display: block; font-size: 15px; font-weight: 600; line-height: 1.4; }
+  .ligacao a { display: block; margin: 2px 0 6px; color: var(--orange); font-size: clamp(28px, 4.4vw, 40px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; text-decoration: none; white-space: nowrap; }
   body.enviado .fim-msg { animation: entraBaixo .6s var(--ease) 1.75s both; }
   @keyframes sobe { from { transform: translateY(110%); } }
   @keyframes quica {
@@ -600,46 +468,17 @@
   </section>
 </form>
 
-<p class="espera" role="status" hidden>Só um instante…</p>
-
-<section class="agenda" hidden>
-  <div class="agenda-miolo">
-    <h1 class="pergunta" tabindex="-1"><span data-agenda-nome></span>vamos marcar sua conversa<span class="q">?</span></h1>
-    <ul class="agenda-info">
-      <li data-agenda-duracao></li>
-      <li>Google Meet</li>
-      <li>Com o Bruno, da gutto</li>
-      <li>Horário de Brasília</li>
-    </ul>
-    <div class="painel">
-      <div class="cal">
-        <div class="cal-topo">
-          <h2 class="cal-mes" aria-live="polite"></h2>
-          <div class="cal-nav">
-            <button type="button" data-mes="-1" aria-label="Mês anterior">←</button>
-            <button type="button" data-mes="1" aria-label="Próximo mês">→</button>
-          </div>
-        </div>
-        <div class="cal-semana" aria-hidden="true"><span>dom</span><span>seg</span><span>ter</span><span>qua</span><span>qui</span><span>sex</span><span>sáb</span></div>
-        <div class="cal-dias" role="group" aria-label="Escolha o dia"></div>
-      </div>
-      <div class="horas">
-        <h2 class="horas-dia" aria-live="polite"></h2>
-        <div class="horas-lista" role="group" aria-label="Escolha o horário"></div>
-        <p class="erro" role="alert"></p>
-      </div>
-    </div>
-    <button type="button" class="btn" data-confirmar hidden>Confirmar</button>
-    <button type="button" class="pular">Prefiro que a equipe me chame no WhatsApp</button>
-  </div>
-</section>
-
 <div class="fim">
   <div class="fim-conteudo" role="status" aria-live="polite">
     <h1 tabindex="-1" aria-label="recebemos."></h1>
     <div class="fim-msg">
       <strong data-fim-titulo>Obrigado!</strong>
-      <p>Nossa equipe vai chamar você no WhatsApp <b data-fim-zap></b> para entender sua operação.</p>
+      <p>Nosso time vai entrar em contato por ligação no número <b data-fim-zap></b>.</p>
+      <div class="ligacao">
+        <span>Quem vai ligar é o <b>Bruno, da gutto</b>:</span>
+        <a href="tel:+5516992117706">(16) 99211-7706</a>
+        <span>A ligação vem com <b>DDD 16</b>. Atenda quando esse número aparecer.</span>
+      </div>
     </div>
   </div>
 </div>
@@ -895,227 +734,17 @@
     titulo.innerHTML = [...palavra].map((c, i) => `<span class="letra" aria-hidden="true"><i style="--i:${i}">${c}</i></span>`).join('') + '<span class="fim-ponto" aria-hidden="true">.</span>';
   }
 
-  function concluir({ palavra = 'recebemos', largura = 5.25, chamada, mensagem } = {}) {
+  function concluir() {
     terminou = true;
-    const primeiro = form.nome.value.trim().split(/\s+/)[0];
-    montarPalavra(palavra, largura);
-    $('[data-fim-titulo]').textContent = chamada || `Obrigado, ${primeiro}.`;
-    if (mensagem) mensagem($('.fim-msg p'));
-    else $('[data-fim-zap]').textContent = phone.value;
+    montarPalavra('recebemos', 5.25);
+    $('[data-fim-titulo]').textContent = `Obrigado, ${form.nome.value.trim().split(/\s+/)[0]}.`;
+    $('[data-fim-zap]').textContent = phone.value;
     // o ponto cresce até cobrir a tela; a tela final, da mesma cor, entra por cima
     ponto.style.setProperty('--escala', (Math.hypot(innerWidth, innerHeight) / 50 * 1.05).toFixed(2));
     document.body.classList.add('enviado');
     form.hidden = true;
-    agenda.hidden = true;
-    espera.hidden = true;
     titulo.focus({ preventScroll: true });
   }
-
-  // ---------- segunda parte: quem qualifica escolhe um horário (o servidor decide; lista vazia vai para a tela de recebemos)
-  const agenda = $('.agenda');
-  const espera = $('.espera');
-  const diasBox = $('.cal-dias');
-  const horasBox = $('.horas');
-  const listaBox = $('.horas-lista');
-  const confirmar = $('[data-confirmar]');
-  const erroAgenda = $('.erro', agenda);
-  const API_AGENDA = '/app/api/agenda';
-  const fmt = opcoes => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', ...opcoes });
-  const diaChave = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }); // AAAA-MM-DD
-  const hora = fmt({ hour: '2-digit', minute: '2-digit' });
-  const nomeMes = new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC', month: 'long', year: 'numeric' });
-  const longo = fmt({ weekday: 'long', day: 'numeric', month: 'long' });
-  let tokenAgenda = null;
-  let todos = [];
-  let diaAtivo = null;
-  let mesAtivo = null; // AAAA-MM
-  let horarioEscolhido = null;
-
-  const doDia = k => todos.filter(h => diaChave.format(new Date(h)) === k);
-  const mesesComHorario = () => [...new Set(todos.map(h => diaChave.format(new Date(h)).slice(0, 7)))];
-
-  function desenharCalendario() {
-    const [ano, mes] = mesAtivo.split('-').map(Number);
-    const primeiro = new Date(Date.UTC(ano, mes - 1, 1));
-    const total = new Date(Date.UTC(ano, mes, 0)).getUTCDate();
-    const hoje = diaChave.format(new Date());
-    $('.cal-mes').textContent = nomeMes.format(primeiro).replace(' de ', ' ');
-    const meses = mesesComHorario();
-    $$('[data-mes]').forEach(b => { b.disabled = !meses.includes(mesVizinho(Number(b.dataset.mes))); });
-    diasBox.innerHTML = '';
-    for (let i = 0; i < primeiro.getUTCDay(); i++) diasBox.append(document.createElement('span'));
-    for (let d = 1; d <= total; d++) {
-      const k = `${mesAtivo}-${String(d).padStart(2, '0')}`;
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'dia';
-      b.textContent = d;
-      b.classList.toggle('hoje', k === hoje);
-      const lista = doDia(k);
-      b.disabled = !lista.length;
-      if (lista.length) {
-        b.setAttribute('aria-label', longo.format(new Date(lista[0])));
-        b.setAttribute('aria-pressed', String(k === diaAtivo));
-        b.addEventListener('click', () => {
-          escolherDia(k);
-          funil('dia_escolhido', 'agenda', { dia: k });
-          // no celular os horários ficam abaixo do calendário
-          if (innerWidth <= 760) horasBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      }
-      diasBox.append(b);
-    }
-  }
-
-  function mesVizinho(delta) {
-    const [ano, mes] = mesAtivo.split('-').map(Number);
-    const d = new Date(Date.UTC(ano, mes - 1 + delta, 1));
-    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
-  }
-
-  function escolherHorario(h, linha, slot) {
-    horarioEscolhido = h;
-    funil('horario_escolhido', 'agenda', { horario: hora.format(new Date(h)) });
-    erroAgenda.textContent = '';
-    $$('.slot', listaBox).forEach(o => o.setAttribute('aria-pressed', String(o === slot)));
-    // reinicia a animação ao trocar de horário
-    confirmar.hidden = true;
-    void confirmar.offsetWidth;
-    linha.append(confirmar);
-    confirmar.hidden = false;
-  }
-
-  function desenharHorarios() {
-    const lista = doDia(diaAtivo);
-    $('.horas-dia').textContent = lista.length ? longo.format(new Date(lista[0])) : '';
-    // o botão de confirmar sai da lista antes de ela ser refeita
-    confirmar.hidden = true;
-    $('.agenda-miolo').append(confirmar);
-    horarioEscolhido = null;
-    listaBox.innerHTML = '';
-    let periodo = null;
-    lista.forEach(h => {
-      const texto = hora.format(new Date(h));
-      const atual = Number(texto.slice(0, 2)) < 12 ? 'manhã' : 'tarde';
-      if (atual !== periodo) {
-        periodo = atual;
-        const rot = document.createElement('p');
-        rot.className = 'periodo';
-        rot.textContent = atual;
-        listaBox.append(rot);
-      }
-      const linha = document.createElement('div');
-      linha.className = 'linha';
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'slot';
-      b.textContent = texto;
-      b.setAttribute('aria-pressed', 'false');
-      b.addEventListener('click', () => escolherHorario(h, linha, b));
-      linha.append(b);
-      listaBox.append(linha);
-    });
-  }
-
-  function escolherDia(k) {
-    diaAtivo = k;
-    mesAtivo = k.slice(0, 7);
-    erroAgenda.textContent = '';
-    desenharCalendario();
-    desenharHorarios();
-  }
-
-  function desenharAgenda(horarios) {
-    todos = horarios;
-    const dias = horarios.map(h => diaChave.format(new Date(h)));
-    escolherDia(dias.includes(diaAtivo) ? diaAtivo : dias[0]);
-  }
-
-  $$('[data-mes]').forEach(b => b.addEventListener('click', () => {
-    // ao trocar de mês, já mostra o primeiro dia com horário dele
-    const alvo = mesVizinho(Number(b.dataset.mes));
-    const primeiro = todos.map(h => diaChave.format(new Date(h))).find(k => k.startsWith(alvo));
-    if (primeiro) escolherDia(primeiro);
-  }));
-
-  async function abrirAgendaOuConcluir() {
-    form.hidden = true;
-    $('.topo-dir').style.visibility = 'hidden';
-    espera.hidden = false;
-    let horarios = [];
-    let duracao = 0;
-    let falhou = false;
-    try {
-      // a agenda nunca segura o lead: se demorar ou falhar, ele vê a tela de recebemos
-      const r = await fetch(`${API_AGENDA}/horarios?token=${tokenAgenda}`, { signal: AbortSignal.timeout(8000) });
-      if (r.ok) ({ horarios, duracao_min: duracao } = await r.json());
-      else falhou = true;
-    } catch (e) { console.error(e); falhou = true; }
-    espera.hidden = true;
-    if (!horarios.length) { funil('sem_agenda', null, falhou ? { falhou: true } : {}); concluir(); return; }
-    $('[data-agenda-nome]').textContent = `${form.nome.value.trim().split(/\s+/)[0]}, `;
-    $('[data-agenda-duracao]').textContent = `${duracao} minutos`;
-    desenharAgenda(horarios);
-    agenda.hidden = false;
-    $('.pergunta', agenda).focus({ preventScroll: true });
-    window.scrollTo(0, 0);
-    passoDesde = Date.now();
-    funil('agenda_aberta', 'agenda', { horarios: horarios.length });
-    if (window.gtag) gtag('event', 'diagnostico_agenda_aberta', { versao: 'b' });
-  }
-
-  confirmar.addEventListener('click', async () => {
-    if (!horarioEscolhido) return;
-    confirmar.disabled = true;
-    confirmar.textContent = 'Marcando…';
-    erroAgenda.textContent = '';
-    funil('agenda_confirmou', 'agenda', { segundos: noPasso() });
-    try {
-      const r = await fetch(`${API_AGENDA}/marcar`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: tokenAgenda, inicio: horarioEscolhido }),
-      });
-      const j = await r.json();
-      if (j.ok) {
-        funil('marcou', 'agenda', { segundos: noPasso() });
-        const d = new Date(j.inicio);
-        const email = form.email.value.trim().toLowerCase();
-        concluir({
-          palavra: 'marcado',
-          largura: 4.3,
-          chamada: `${longo.format(d).replace(/^./, c => c.toUpperCase())}, às ${hora.format(d)}.`,
-          mensagem: p => {
-            const b = document.createElement('b');
-            b.textContent = email;
-            p.replaceChildren('O convite com o link do Google Meet foi para ', b, '. Se não encontrar, olhe no spam.');
-          },
-        });
-        try { if (window.trackEvent) trackEvent('ReuniaoMarcada', { content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b' } }); } catch (e) {}
-        return;
-      }
-      if (j.erro === 'ocupado' && j.horarios?.length) {
-        funil('agenda_ocupado', 'agenda');
-        confirmar.disabled = false;
-        confirmar.textContent = 'Confirmar';
-        desenharAgenda(j.horarios);
-        erroAgenda.textContent = 'Esse horário acabou de ser ocupado. Escolha outro.';
-        return;
-      }
-      throw new Error(j.erro);
-    } catch (e) {
-      console.error(e);
-      funil('agenda_erro', 'agenda');
-      confirmar.disabled = false;
-      confirmar.textContent = 'Confirmar';
-      erroAgenda.textContent = 'Não foi possível marcar agora. Tente de novo ou peça para a equipe chamar você no WhatsApp.';
-    }
-  });
-  $('.pular').addEventListener('click', () => {
-    funil('pulou', 'agenda', { segundos: noPasso() });
-    if (window.gtag) gtag('event', 'diagnostico_agenda_pulou', { versao: 'b' });
-    concluir();
-  });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -1160,14 +789,13 @@
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
-      tokenAgenda = data.agenda_token;
       funil('enviou');
       // tracking: lead do diagnóstico da assessoria (Pixel + CAPI com e-mail, WhatsApp e nome; liga o visitante ao lead)
       try {
         const partes = data.nome.split(/\s+/);
         if (window.trackEvent) trackEvent('Lead', { user_data: { email: data.email, phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b', perfil: data.fabrica, faturamento: data.faturamento } });
       } catch (e) {}
-      abrirAgendaOuConcluir();
+      concluir();
     } catch (err) {
       console.error(err);
       funil('envio_erro', 'email');
@@ -1181,7 +809,7 @@
 
   // saiu da página no meio: guarda onde estava e há quanto tempo (o abandono em si é calculado pelo último passo visto)
   addEventListener('pagehide', () => {
-    if (!terminou) funil('saiu', agenda.hidden ? atual : 'agenda', { segundos: noPasso() });
+    if (!terminou) funil('saiu', atual, { segundos: noPasso() });
   });
 
   atualizarChrome();
