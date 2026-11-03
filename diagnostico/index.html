@@ -527,9 +527,19 @@
     </div>
   </section>
 
+  <section class="tela" data-passo="whatsapp" hidden>
+    <div class="miolo">
+      <label class="pergunta" for="whatsapp" style="display:block"><span data-saudacao></span>qual é o seu whatsapp<span class="q">?</span></label>
+      <p class="apoio">É por lá que nossa equipe vai falar com você, mesmo se você não terminar agora.</p>
+      <input class="resposta" type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="numeric" maxlength="15">
+      <p class="erro" role="alert">Informe um WhatsApp válido.</p>
+      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
+    </div>
+  </section>
+
   <section class="tela" data-passo="confeccao" hidden>
     <div class="miolo">
-      <label class="pergunta" for="confeccao" style="display:block"><span data-saudacao></span>qual é o nome do seu negócio<span class="q">?</span></label>
+      <label class="pergunta" for="confeccao" style="display:block">qual é o nome do seu negócio<span class="q">?</span></label>
       <input class="resposta" type="text" id="confeccao" name="confeccao" placeholder="Digite o nome da sua empresa" autocomplete="organization" maxlength="160">
       <p class="erro" role="alert">Informe o nome do seu negócio.</p>
       <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
@@ -576,16 +586,6 @@
       <textarea class="resposta" id="dificuldade" name="dificuldade" rows="1" placeholder="Conte brevemente o que mais trava sua operação" maxlength="2000"></textarea>
       <p class="erro" role="alert">Conte rapidamente sua maior dificuldade.</p>
       <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica"><kbd>Enter ↵</kbd> avança · <kbd>Shift + Enter</kbd> quebra a linha</span></div>
-    </div>
-  </section>
-
-  <section class="tela" data-passo="whatsapp" hidden>
-    <div class="miolo">
-      <label class="pergunta" for="whatsapp" style="display:block">qual é o seu whatsapp<span class="q">?</span></label>
-      <p class="apoio">É por lá que nossa equipe vai falar com você.</p>
-      <input class="resposta" type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="numeric" maxlength="15">
-      <p class="erro" role="alert">Informe um WhatsApp válido.</p>
-      <div class="acoes"><button type="button" class="btn" data-avancar>OK <span class="seta" aria-hidden="true">→</span></button><span class="dica">ou aperte <kbd>Enter ↵</kbd></span></div>
     </div>
   </section>
 
@@ -685,7 +685,7 @@
   const naoVende = () => marcado('vende')?.value === 'Ainda não';
 
   // quem ainda não vende pula marketplaces e faturamento
-  const passos = () => ['nome', 'confeccao', 'fabrica', 'vende', ...(naoVende() ? [] : ['canais', 'faturamento']), 'dificuldade', 'whatsapp', 'email'];
+  const passos = () => ['nome', 'whatsapp', 'confeccao', 'fabrica', 'vende', ...(naoVende() ? [] : ['canais', 'faturamento']), 'dificuldade', 'email'];
 
   const rules = {
     abertura: () => true,
@@ -724,6 +724,20 @@
       }
     } catch (e) { /* o funil nunca atrapalha o formulário */ }
   }
+  // único dado digitado que sai antes do envio: nome e WhatsApp, avisado na tela. Se a pessoa parar, vira card no CRM depois de 30 minutos.
+  function guardarContato() {
+    try {
+      const u = new URLSearchParams(location.search);
+      const dados = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => { if (u.get(k)) dados[k] = u.get(k).slice(0, 100); });
+      fetch(`${SUPABASE_URL}/rest/v1/rpc/diag_parcial`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+        body: JSON.stringify({ p_sessao: sessao, p_nome: form.nome.value.trim(), p_whatsapp: phone.value, p_dados: dados }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch (e) { /* nunca atrapalha o formulário */ }
+  }
   const respostaDe = passo => (passo === 'canais' ? canais() : ['fabrica', 'vende', 'faturamento'].includes(passo) ? marcado(passo)?.value : undefined);
   (() => {
     const u = new URLSearchParams(location.search);
@@ -761,7 +775,7 @@
     tela.classList.add(direcao > 0 ? 'entra-baixo' : 'entra-cima');
     tela.hidden = false;
     window.scrollTo(0, 0);
-    if (passo === 'confeccao') {
+    if (passo === 'whatsapp') {
       const primeiro = form.nome.value.trim().split(/\s+/)[0];
       $('[data-saudacao]').textContent = primeiro ? `prazer, ${primeiro}. ` : '';
     }
@@ -793,6 +807,7 @@
       ir('nome', 1);
       return true;
     }
+    if (atual === 'whatsapp') guardarContato();
     // o e-mail é registrado no envio, que também recebe o clique direto no botão
     if (atual !== 'email') {
       const resposta = respostaDe(atual);
