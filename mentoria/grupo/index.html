@@ -97,24 +97,77 @@
   .tela.ativa { display: block; }
 
   /* ---------- abertura ---------- */
+  /* capa: cartaz da live. O ponto da marca nasce atrás do Léo; o resto entra por cima da foto */
+  body:has(.abertura.ativa) .barra { visibility: hidden; }
   .abertura.ativa {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - var(--topo) - 3px);
     min-height: calc(100dvh - var(--topo) - 3px - env(safe-area-inset-top));
-    padding: 28px var(--gutter) calc(20px + env(safe-area-inset-bottom));
+    overflow: hidden;
   }
-  .abertura h1 { margin: 0; font-size: clamp(42px, 13.2vw, 68px); font-weight: 800; letter-spacing: -0.055em; line-height: .98; animation: sobe .7s var(--ease) both; }
-  .abertura h1 em { display: block; font-style: normal; color: var(--orange); }
-  .abertura-sub { margin: 18px 0 0; max-width: 460px; font-size: 18px; font-weight: 600; line-height: 1.45; color: var(--on-dark-2); animation: sobe .7s var(--ease) .08s both; }
-  .fatos { margin: 26px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); animation: sobe .7s var(--ease) .16s both; }
-  .fatos li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--on-dark-3); }
-  .fatos b { font-size: 16px; font-weight: 800; color: var(--off-white); text-align: right; }
-  .bonus-tira { display: grid; gap: 1px; margin: 16px 0 0; padding: 13px 15px; border-radius: 14px; background: var(--orange); color: var(--black); font-size: 14px; font-weight: 700; line-height: 1.3; animation: sobe .7s var(--ease) .2s both; }
-  .bonus-tira-rot { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-  .bonus-tira b { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
-  .abertura-acao { margin-top: auto; padding-top: 24px; animation: sobe .7s var(--ease) .24s both; }
-  .abertura-nota { margin: 12px 0 0; font-size: 14px; font-weight: 600; text-align: center; color: var(--on-dark-3); }
+  .palco { position: relative; flex: 1 1 0; min-height: 150px; overflow: hidden; }
+  .palco-ponto {
+    position: absolute;
+    left: 50%;
+    bottom: -14%;
+    width: min(112vw, 660px);
+    aspect-ratio: 1;
+    margin-left: calc(min(112vw, 660px) / -2 + 5vw);
+    border-radius: 50%;
+    background: var(--orange);
+    animation: ponto-nasce .9s cubic-bezier(.16, 1, .3, 1) both;
+  }
+  @keyframes ponto-nasce { from { transform: scale(.2); opacity: 0; } }
+  .palco-foto {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 100%;
+    width: auto;
+    max-width: none;
+    transform: translateX(-46%);
+    -webkit-mask-image: linear-gradient(#000 74%, transparent 99%);
+    mask-image: linear-gradient(#000 74%, transparent 99%);
+    animation: foto-sobe .9s cubic-bezier(.16, 1, .3, 1) .12s both;
+  }
+  .palco-foto img { display: block; height: 100%; width: auto; max-width: none; }
+  @keyframes foto-sobe { from { opacity: 0; transform: translate(-46%, 34px); } }
+  .palco-sombra { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(transparent, var(--black)); }
+  .capa-corpo { position: relative; z-index: 1; margin-top: -30px; padding: 0 var(--gutter) calc(16px + env(safe-area-inset-bottom)); }
+  .capa-kicker { margin: 0 0 6px; font-size: 14px; font-weight: 800; color: var(--off-white); animation: sobe .6s var(--ease) .3s both; }
+  .abertura h1 { margin: 0; font-size: clamp(50px, 15.8vw, 84px); font-weight: 800; letter-spacing: -0.065em; line-height: .88; animation: sobe .7s var(--ease) .34s both; }
+  .fatos { display: grid; grid-template-columns: auto 1fr auto; margin: 16px 0 0; padding: 0; list-style: none; animation: sobe .6s var(--ease) .42s both; }
+  .fatos li { padding: 0 12px; border-left: 1px solid var(--line); }
+  .fatos li:first-child { padding-left: 0; border-left: 0; }
+  .fatos li:last-child { padding-right: 0; }
+  .fatos b { display: block; font-size: 19px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; white-space: nowrap; }
+  .fatos span { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 600; line-height: 1.25; color: var(--on-dark-3); }
+  /* o bônus é um ingresso: claro sobre o escuro, para não competir com o botão laranja */
+  .ingresso {
+    --furo: 9px;
+    --corte: 86px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr var(--corte);
+    margin: 16px 0 0;
+    border-radius: 14px;
+    background: var(--off-white);
+    color: var(--black);
+    -webkit-mask: radial-gradient(circle var(--furo) at calc(100% - var(--corte)) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                  radial-gradient(circle var(--furo) at calc(100% - var(--corte)) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+            mask: radial-gradient(circle var(--furo) at calc(100% - var(--corte)) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                  radial-gradient(circle var(--furo) at calc(100% - var(--corte)) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+    animation: sobe .6s var(--ease) .5s both;
+  }
+  .ingresso-txt { padding: 12px 12px 12px 15px; }
+  .ingresso-rot { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: #C8430F; }
+  .ingresso-txt b { display: block; margin-top: 2px; font-size: 18px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.12; }
+  .ingresso-txt small { display: block; margin-top: 3px; font-size: 13px; font-weight: 700; line-height: 1.2; }
+  .ingresso-canhoto { display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 2px dashed rgba(18, 18, 18, .3); text-align: center; font-size: 11.5px; font-weight: 800; line-height: 1.1; }
+  .ingresso-canhoto b { font-size: 32px; font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
+  .abertura-acao { margin-top: 14px; animation: sobe .6s var(--ease) .58s both; }
+  .abertura-nota { margin: 9px 0 0; font-size: 13px; font-weight: 600; line-height: 1.3; text-align: center; color: var(--on-dark-3); }
   @keyframes sobe { from { opacity: 0; transform: translateY(20px); } }
 
   .btn {
@@ -333,19 +386,16 @@
 
   /* celular pequeno: a abertura inteira, com o botão, cabe sem rolar */
   @media (max-height: 640px) {
-    .abertura.ativa { padding-top: 16px; }
-    .abertura h1 { font-size: 34px; }
-    .abertura-sub { margin-top: 10px; font-size: 15px; line-height: 1.35; }
-    .fatos { margin-top: 12px; }
-    .fatos li { padding: 7px 0; font-size: 14px; }
-    .bonus-tira { margin-top: 10px; padding: 9px 12px; font-size: 13px; }
-    .bonus-tira b { font-size: 16px; }
-    .fatos b { font-size: 14px; }
-    .abertura-acao { padding-top: 12px; }
+    .abertura h1 { font-size: clamp(42px, 13.4vw, 60px); }
+    .fatos { margin-top: 11px; }
+    .fatos b { font-size: 16px; }
+    .fatos span { font-size: 11.5px; }
+    .ingresso { margin-top: 11px; }
+    .ingresso-txt { padding: 9px 10px 9px 13px; }
+    .ingresso-txt b { font-size: 16px; }
+    .abertura-acao { margin-top: 11px; }
     .abertura-acao .btn { min-height: 54px; }
     .abertura-nota { display: none; }
-    .abertura-sub { display: none; }
-    .abertura h1 { margin-bottom: 2px; }
   }
   @media (min-width: 640px) { .topo-linha { padding-right: 24px; } }
   @media (hover: hover) { .btn:hover { background: #FF7240; } .opcao:not([aria-checked="true"]):hover { border-color: var(--on-dark-3); } }
@@ -369,21 +419,31 @@
 
 <main>
   <section class="tela abertura" data-step="intro">
-    <h1>Aplique para a <em>Mentoria em Grupo<span style="color:var(--off-white)">.</span></em></h1>
-    <p class="abertura-sub">Pode responder enquanto assiste à live. Se sair para ver o Léo, suas respostas ficam guardadas.</p>
-    <ul class="fatos">
-      <li>Formato <b>2 meses, 1 encontro por semana</b></li>
-      <li>Início <b data-inicio>7 de novembro</b></li>
-      <li>Vagas <b data-vagas-abertura>10 na turma</b></li>
-    </ul>
-    <p class="bonus-tira" data-bonus-abertura>
-      <span class="bonus-tira-rot">Bônus só da live</span>
-      <b>Acesso ao Treinamento de Shopee</b>
-      <span data-bonus-resta>Só por este formulário.</span>
-    </p>
-    <div class="abertura-acao">
-      <button class="btn" type="button" data-comecar>Começar aplicação <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button>
-      <p class="abertura-nota">Leva cerca de 3 minutos.</p>
+    <div class="palco" aria-hidden="true">
+      <div class="palco-ponto"></div>
+      <picture class="palco-foto"><source srcset="/mentoria/grupo/leo-capa.webp" type="image/webp"><img src="/mentoria/grupo/leo-capa.png" alt="" width="725" height="858" fetchpriority="high"></picture>
+      <div class="palco-sombra"></div>
+    </div>
+    <div class="capa-corpo">
+      <p class="capa-kicker">Aplicação · com Léo Gutemberg</p>
+      <h1>Mentoria<br>em Grupo<span class="dot">.</span></h1>
+      <ul class="fatos">
+        <li><b>Semana que vem</b><span>início</span></li>
+        <li><b>2 meses</b><span>1x por semana</span></li>
+        <li><b data-vagas-abertura>10</b><span data-vagas-rot>vagas na turma</span></li>
+      </ul>
+      <div class="ingresso" data-bonus-abertura>
+        <p class="ingresso-txt" style="margin:0">
+          <span class="ingresso-rot">Bônus só da live</span>
+          <b>Treinamento de Shopee</b>
+          <small>Só por este formulário.</small>
+        </p>
+        <div class="ingresso-canhoto" data-bonus-canhoto hidden><b data-bonus-resta></b><span data-bonus-de></span></div>
+      </div>
+      <div class="abertura-acao">
+        <button class="btn" type="button" data-comecar>Começar aplicação <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button>
+        <p class="abertura-nota">Leva cerca de 3 minutos. Se voltar para a live, suas respostas ficam guardadas.</p>
+      </div>
     </div>
   </section>
 
@@ -768,10 +828,8 @@
   const txt = name => (answers[name] || '').trim() || null;
 
   // ---------- turma (números reais do CRM) ----------
-  let INICIO_TURMA = '7 de novembro';
   let TOTAL_VAGAS = 10;
   let TOTAL_BONUS = 5;
-  const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
   async function lerVagas() {
     try {
       const res = await fetch(`${CFG.supabaseUrl}/rest/v1/rpc/mentoria_vagas`, {
@@ -780,8 +838,6 @@
         body: '{}',
       });
       const v = res.ok ? await res.json() : null;
-      const d = v && /^\d{4}-\d{2}-\d{2}$/.test(v.inicio || '') ? v.inicio.split('-').map(Number) : null;
-      if (d) INICIO_TURMA = `${d[2]} de ${MESES[d[1] - 1]}`;
       if (v && v.total > 0) TOTAL_VAGAS = v.total;
       if (v && v.bonus_total != null && v.bonus_total >= 0) TOTAL_BONUS = v.bonus_total;
       return v;
@@ -817,7 +873,7 @@
       difs
         ? `Hoje o que mais trava é ${difs}. Você quer resolver isso com um método, em vez de tentativa e erro?`
         : 'Você quer crescer com um método claro, em vez de tentativa e erro?',
-      `Você consegue reservar 1 encontro por semana nos próximos 2 meses, a partir de ${INICIO_TURMA}?`,
+      `Você consegue reservar 1 encontro por semana nos próximos 2 meses, a partir da semana que vem?`,
     ];
   }
 
@@ -910,7 +966,7 @@
         <ul class="inclui">
           <li ${rv()}>2 meses de mentoria, com 1 encontro ao vivo por semana</li>
           <li ${rv()}>Grupo de WhatsApp da turma para tirar dúvidas entre os encontros</li>
-          <li ${rv()}>Início em ${esc(INICIO_TURMA)}, com horário definido junto com a turma</li>
+          <li ${rv()}>Início na semana que vem, com horário definido junto com a turma</li>
           <li ${rv()}>Turma pequena: só ${TOTAL_VAGAS} vagas</li>
         </ul>
       </section>
@@ -1054,11 +1110,16 @@
 
   // abertura com os números reais da turma
   lerVagas().then(v => {
-    $('[data-inicio]').textContent = INICIO_TURMA;
-    if (v) $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'turma completa' : `restam ${v.vagas} de ${v.total}`;
-    else $('[data-vagas-abertura]').textContent = `${TOTAL_VAGAS} na turma`;
-    if (v && (v.vagas === 0 || v.bonus === 0)) $('[data-bonus-abertura]').hidden = true;
-    else if (v) $('[data-bonus-resta]').textContent = `Só por este formulário. Restam ${v.bonus} de ${TOTAL_BONUS}.`;
+    if (v) {
+      $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'Completa' : `${v.vagas} de ${v.total}`;
+      $('[data-vagas-rot]').textContent = v.vagas === 0 ? 'lista de espera' : 'vagas restantes';
+      if (v.vagas === 0 || v.bonus === 0) $('[data-bonus-abertura]').hidden = true;
+      else {
+        $('[data-bonus-resta]').textContent = v.bonus;
+        $('[data-bonus-de]').textContent = `de ${TOTAL_BONUS} restam`;
+        $('[data-bonus-canhoto]').hidden = false;
+      }
+    }
   });
 
   if (PREVIA) {
