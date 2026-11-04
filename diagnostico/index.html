@@ -295,60 +295,35 @@
   .micro { margin: 20px 0 0; max-width: 480px; font-size: 14px; color: var(--on-dark-3); }
   .micro strong { color: var(--on-dark-2); font-weight: 700; }
 
-  /* ---------- fim: o ponto tomou a tela ---------- */
+  /* ---------- fim: o ponto da marca cresce no canto e a mensagem fica no escuro ---------- */
   .fim {
     position: fixed;
     inset: 0;
     z-index: 4;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     overflow-y: auto;
-    padding: 96px var(--gutter) max(clamp(28px, 6vh, 64px), env(safe-area-inset-bottom));
-    background: var(--orange);
-    color: var(--black);
+    padding: 88px var(--gutter) max(32px, env(safe-area-inset-bottom));
+    color: var(--off-white);
     visibility: hidden;
     opacity: 0;
   }
-  body.enviado .fim { visibility: visible; opacity: 1; transition: opacity .25s linear .7s; }
+  body.enviado .fim { visibility: visible; opacity: 1; transition: opacity .3s linear .35s; }
   body.enviado .topo { z-index: 5; background: none; }
-  body.enviado .logo, body.enviado .logo .dot { color: var(--black); transition: color .25s linear .7s; }
   body.enviado .topo-dir { display: none; }
-  .fim-conteudo { display: flex; flex-direction: column; width: 100%; }
-  .fim-msg { order: -1; max-width: 560px; margin-bottom: clamp(20px, 5vh, 56px); }
-  .fim-msg strong { display: block; margin-bottom: 8px; font-size: clamp(26px, 3.6vw, 40px); font-weight: 800; letter-spacing: -0.035em; line-height: 1.1; }
-  .fim-msg p { margin: 0; font-size: clamp(17px, 2vw, 20px); font-weight: 600; line-height: 1.45; }
-  .fim-msg b { font-weight: 800; white-space: nowrap; }
-  /* a palavra ocupa a largura toda da tela (--largura-em = largura dela em em) */
-  .fim h1 {
-    display: flex;
-    align-items: baseline;
-    margin: 0;
-    font-size: min(calc((100vw - 2 * var(--gutter)) / var(--largura-em, 5.25)), 40vh);
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    line-height: .9;
-    white-space: nowrap;
-    outline: none;
-  }
-  .letra { display: inline-block; overflow: hidden; padding-bottom: .06em; }
-  .letra i { display: inline-block; font-style: normal; }
-  .fim-ponto { display: inline-block; }
-  /* sequência: o ponto laranja cobre a tela → as letras sobem uma a uma → o ponto preto cai e quica → a mensagem entra */
-  body.enviado .letra i { animation: sobe .7s cubic-bezier(.16, 1, .3, 1) calc(.8s + var(--i) * 38ms) both; }
-  body.enviado .fim-ponto { animation: quica .85s linear 1.2s both; transform-origin: 50% 100%; }
-  .ligacao { margin-top: 18px; padding: 16px 18px; border-radius: 14px; background: var(--black); color: var(--off-white); }
-  .ligacao span { display: block; font-size: 15px; font-weight: 600; line-height: 1.4; }
-  .ligacao a { display: block; margin: 2px 0 6px; color: var(--orange); font-size: clamp(28px, 4.4vw, 40px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; text-decoration: none; white-space: nowrap; }
-  body.enviado .fim-msg { animation: entraBaixo .6s var(--ease) 1.75s both; }
-  @keyframes sobe { from { transform: translateY(110%); } }
-  @keyframes quica {
-    0% { transform: translateY(-110vh); animation-timing-function: cubic-bezier(.55, 0, .9, .5); }
-    48% { transform: translateY(0) scale(1.25, .7); animation-timing-function: cubic-bezier(.1, .6, .4, 1); }
-    70% { transform: translateY(-.2em) scale(.95, 1.06); animation-timing-function: cubic-bezier(.6, 0, .9, .5); }
-    86% { transform: translateY(0) scale(1.1, .88); animation-timing-function: ease-out; }
-    100% { transform: none; }
-  }
+  .fim-conteudo { width: 100%; max-width: 760px; }
+  .fim-recebido { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); font-weight: 700; color: var(--on-dark-2); }
+  .fim h1 { margin: 0; font-size: clamp(42px, 7.4vw, 84px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; outline: none; }
+  .fim-rotulo { margin: clamp(26px, 5vh, 44px) 0 4px; font-size: clamp(16px, 1.8vw, 18px); font-weight: 600; color: var(--on-dark-2); }
+  .fim-numero { display: inline-block; color: var(--orange); font-size: clamp(36px, 6vw, 64px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; text-decoration: none; white-space: nowrap; }
+  .fim-nota { margin: 8px 0 0; font-size: clamp(16px, 1.8vw, 18px); font-weight: 600; line-height: 1.4; color: var(--on-dark-2); }
+  body.enviado .fim-conteudo > * { animation: entraBaixo .55s var(--ease) both; }
+  body.enviado .fim-recebido { animation-delay: .75s; }
+  body.enviado .fim h1 { animation-delay: .82s; }
+  body.enviado .fim-rotulo { animation-delay: .95s; }
+  body.enviado .fim-numero { animation-delay: 1s; }
+  body.enviado .fim-nota { animation-delay: 1.08s; }
 
   @media (max-width: 480px) { .btn { padding: 0 20px; font-size: 16px; white-space: nowrap; } }
 
@@ -470,16 +445,11 @@
 
 <div class="fim">
   <div class="fim-conteudo" role="status" aria-live="polite">
-    <h1 tabindex="-1" aria-label="recebemos."></h1>
-    <div class="fim-msg">
-      <strong data-fim-titulo>Obrigado!</strong>
-      <p>Nosso time vai entrar em contato por ligação no número <b data-fim-zap></b>.</p>
-      <div class="ligacao">
-        <span>Quem vai ligar é o <b>Bruno, da gutto</b>:</span>
-        <a href="tel:+5516992117706">(16) 99211-7706</a>
-        <span>A ligação vem com <b>DDD 16</b>. Atenda quando esse número aparecer.</span>
-      </div>
-    </div>
+    <p class="fim-recebido" data-fim-titulo>Recebemos.</p>
+    <h1 tabindex="-1">O Bruno vai entrar em contato<span class="dot">.</span></h1>
+    <p class="fim-rotulo">A ligação vem deste número:</p>
+    <a class="fim-numero" href="tel:+5516992117706">(16) 99211-7706</a>
+    <p class="fim-nota">Quando ele aparecer na sua tela, pode atender.</p>
   </div>
 </div>
 
@@ -726,21 +696,13 @@
 
   addEventListener('resize', () => { if (!document.body.classList.contains('enviado')) atualizarChrome(); });
 
-  // a palavra final letra a letra; o ponto é separado porque cai por cima
   const titulo = $('.fim h1');
-  function montarPalavra(palavra, largura) {
-    titulo.setAttribute('aria-label', `${palavra}.`);
-    titulo.style.setProperty('--largura-em', largura);
-    titulo.innerHTML = [...palavra].map((c, i) => `<span class="letra" aria-hidden="true"><i style="--i:${i}">${c}</i></span>`).join('') + '<span class="fim-ponto" aria-hidden="true">.</span>';
-  }
 
   function concluir() {
     terminou = true;
-    montarPalavra('recebemos', 5.25);
-    $('[data-fim-titulo]').textContent = `Obrigado, ${form.nome.value.trim().split(/\s+/)[0]}.`;
-    $('[data-fim-zap]').textContent = phone.value;
-    // o ponto cresce até cobrir a tela; a tela final, da mesma cor, entra por cima
-    ponto.style.setProperty('--escala', (Math.hypot(innerWidth, innerHeight) / 50 * 1.05).toFixed(2));
+    $('[data-fim-titulo]').textContent = `Recebemos, ${form.nome.value.trim().split(/\s+/)[0]}.`;
+    // o ponto cresce só até virar um círculo grande no canto da tela
+    ponto.style.setProperty('--escala', (Math.min(innerWidth, innerHeight) * (innerHeight < 700 ? .8 : 1.24) / 100).toFixed(2));
     document.body.classList.add('enviado');
     form.hidden = true;
     titulo.focus({ preventScroll: true });
