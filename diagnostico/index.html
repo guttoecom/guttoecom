@@ -758,6 +758,9 @@
       try {
         const partes = data.nome.split(/\s+/);
         if (window.trackEvent) trackEvent('Lead', { user_data: { email: data.email, phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b', perfil: data.fabrica, faturamento: data.faturamento } });
+        // lead qualificado = fabrica e vende de R$ 20 mil por mês para cima; é por este evento que a campanha otimiza
+        const qualificado = data.fabrica === 'Sim' && ['De R$ 20 mil a R$ 50 mil', 'De R$ 50 mil a R$ 100 mil', 'Acima de R$ 100 mil'].includes(data.faturamento);
+        if (qualificado && window.trackEvent) trackEvent('LeadQualificado', { user_data: { email: data.email, phone: data.whatsapp, first_name: partes[0], last_name: partes.slice(1).join(' ') }, content_name: 'Diagnóstico gutto (versão B)', params: { origem: 'diagnostico', versao: 'b', faturamento: data.faturamento } });
       } catch (e) {}
       concluir();
     } catch (err) {
