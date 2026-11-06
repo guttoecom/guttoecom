@@ -1327,15 +1327,7 @@
 
     let lugares = '';
     if (grupo) {
-      if (!vagas) lugares = `<div class="of-lugares" ${rv()}><p class="of-lugares-txt"><b>Turma com ${TOTAL_VAGAS} vagas.</b></p></div>`;
-      else {
-        const tomadas = vagas.total - vagas.vagas;
-        lugares = `<div class="of-lugares" ${rv()}>
-          <p class="of-lugares-txt">${esgotada ? '<b>Esta turma está completa.</b> Entre na lista de espera da próxima.' : `<b>Restam ${vagas.vagas} de ${vagas.total} vagas</b> nesta turma.`}</p>
-          <div class="of-fila" role="img" aria-label="${tomadas} de ${vagas.total} vagas preenchidas">${Array.from({ length: vagas.total }, (_, i) =>
-            `<span class="${i < tomadas ? 'tomado' : ''}" style="--i:${i}"></span>`).join('')}</div>
-        </div>`;
-      }
+      lugares = `<div class="of-lugares" ${rv()}><p class="of-lugares-txt">${esgotada ? '<b>Esta turma está completa.</b> Entre na lista de espera da próxima.' : `<b>Turma com ${TOTAL_VAGAS} vagas.</b>`}</p></div>`;
     }
 
     screens.done.innerHTML = `

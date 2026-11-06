@@ -902,7 +902,7 @@
         <p class="recebida"><i aria-hidden="true"></i>Aplicação recebida</p>
         <h1 class="grande">${nome ? `${esc(nome)}, a` : 'A'} <em>Mentoria em Grupo</em> é o seu próximo passo<span class="dot">.</span></h1>
         <p class="lead">${esc(razao(answers))}</p>
-        ${comBonus ? `<a class="bonus-atalho" href="#bonus-live">Você veio pela live: tem um bônus exclusivo para você${bonusRestam != null ? ` · restam ${bonusRestam} de ${TOTAL_BONUS}` : ''}</a>` : ''}
+        ${comBonus ? `<a class="bonus-atalho" href="#bonus-live">Você veio pela live: tem um bônus exclusivo para você</a>` : ''}
         ${motivo.length >= 15 ? `<figure class="citacao" ${rv()}><blockquote>${esc(motivo.length > 220 ? `${motivo.slice(0, 217).trim()}…` : motivo)}</blockquote><figcaption>Por que agora, nas suas palavras</figcaption></figure>` : ''}
       </div>
 
@@ -938,11 +938,9 @@
       ${comBonus ? `<section class="bonus" id="bonus-live" ${rv()}>
         <div class="bonus-topo">
           <span class="bonus-tag">Bônus só da live</span>
-          ${bonusRestam != null ? `<span class="bonus-resta">restam <b>${bonusRestam}</b> de ${TOTAL_BONUS}</span>` : ''}
         </div>
         <p class="bonus-tit">Acesso ao Treinamento de Shopee.</p>
         <p class="bonus-texto">Para quem se inscreve por este formulário da live.</p>
-        ${bonusRestam != null ? `<div class="assentos" role="img" aria-label="${TOTAL_BONUS - bonusRestam} de ${TOTAL_BONUS} bônus já garantidos">${Array.from({ length: TOTAL_BONUS }, (_, i) => `<span class="${i < TOTAL_BONUS - bonusRestam ? 'tomado' : ''}">${i + 1}</span>`).join('')}</div>` : ''}
         <p class="bonus-nota">Não está disponível em nenhuma outra página da mentoria.</p>
       </section>` : ''}
 
@@ -1076,11 +1074,6 @@
       $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'Completa' : v.total;
       $('[data-vagas-rot]').textContent = v.vagas === 0 ? 'lista de espera' : 'vagas na turma';
       if (v.vagas === 0 || v.bonus === 0) $('[data-bonus-abertura]').hidden = true;
-      else {
-        $('[data-bonus-resta]').textContent = v.bonus;
-        $('[data-bonus-de]').textContent = `de ${TOTAL_BONUS} restam`;
-        $('[data-bonus-canhoto]').hidden = false;
-      }
     }
   });
 
