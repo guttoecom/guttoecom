@@ -384,7 +384,6 @@
   <div class="topo-linha">
     <button class="voltar" type="button" aria-label="Voltar" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
     <a class="logo" href="/" aria-label="gutto.">gutto<span class="dot">.</span></a>
-    <span class="ao-vivo"><i aria-hidden="true"></i>Ao vivo</span>
     <span class="contador" aria-live="polite" hidden></span>
   </div>
   <div class="barra" role="progressbar" aria-label="Progresso da aplicação" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
@@ -604,7 +603,6 @@
   const screens = Object.fromEntries($$('.tela').map(el => [el.dataset.step, el]));
   const barra = $('.barra');
   const contador = $('.contador');
-  const aoVivo = $('.ao-vivo');
   const voltar = $('.voltar');
   const fixo = $('.fixo');
   let current = 'intro';
@@ -748,7 +746,6 @@
     $('i', barra).style.width = `${pct}%`;
     barra.setAttribute('aria-valuenow', Math.round(pct));
     contador.hidden = !f;
-    aoVivo.hidden = !!f;
     if (f) contador.innerHTML = `<b>${pos}</b> de ${perguntas}`;
     voltar.hidden = !(f && pos >= 1) && step !== 'error';
     if (step !== 'done') fixo.classList.remove('ver');
@@ -899,7 +896,6 @@
     const motivo = txt('motivo') || '';
     const organizar = (answers.dificuldades || []).includes('organizacao');
     const rv = (d = 0) => `data-rv style="--d:${d}ms"`;
-    const tomadas = vagas ? vagas.total - vagas.vagas : 0;
 
     screens.done.innerHTML = `
       <div class="bloco">
@@ -951,9 +947,7 @@
       </section>` : ''}
 
       <div class="lugares" ${rv()}>
-        ${!vagas ? `<p><b>Turma com ${TOTAL_VAGAS} vagas.</b></p>`
-          : `<p>${esgotada ? '<b>Esta turma está completa.</b> Entre na lista de espera da próxima.' : `<b>Restam ${vagas.vagas} de ${vagas.total} vagas</b> nesta turma.`}</p>
-             <div class="fila" role="img" aria-label="${tomadas} de ${vagas.total} vagas preenchidas">${Array.from({ length: vagas.total }, (_, i) => `<span class="${i < tomadas ? 'tomado' : ''}"></span>`).join('')}</div>`}
+        <p>${esgotada ? '<b>Esta turma está completa.</b> Entre na lista de espera da próxima.' : `<b>Turma com ${TOTAL_VAGAS} vagas.</b>`}</p>
       </div>
 
       <section class="final" id="final">
@@ -1079,8 +1073,8 @@
   // abertura com os números reais da turma
   lerVagas().then(v => {
     if (v) {
-      $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'Completa' : `${v.vagas} de ${v.total}`;
-      $('[data-vagas-rot]').textContent = v.vagas === 0 ? 'lista de espera' : 'vagas restantes';
+      $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'Completa' : v.total;
+      $('[data-vagas-rot]').textContent = v.vagas === 0 ? 'lista de espera' : 'vagas na turma';
       if (v.vagas === 0 || v.bonus === 0) $('[data-bonus-abertura]').hidden = true;
       else {
         $('[data-bonus-resta]').textContent = v.bonus;
