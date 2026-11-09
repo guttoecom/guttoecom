@@ -288,6 +288,10 @@
   .linha-c label .n { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--orange); margin-right: 8px; }
   .caixa { display: flex; align-items: center; flex: none; width: 150px; border-radius: 11px; background: var(--well); border: 1px solid var(--line-2); transition: border-color .2s, box-shadow .2s; }
   .caixa:focus-within { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(255,90,31,.14); }
+  .caixa.fixa { background: transparent; border-style: dashed; border-color: var(--line-2); box-shadow: none; }
+  .caixa.fixa .cad { margin-left: 12px; color: var(--faint); flex: none; }
+  .caixa.fixa .pre { padding-left: 6px; }
+  .caixa.fixa input { color: var(--ink-2); cursor: default; pointer-events: none; }
   .caixa.erro { border-color: var(--red); background: rgba(255,122,77,.07); }
   .caixa .pre { padding-left: 12px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
   .caixa input { width: 100%; min-width: 0; border: 0; background: none; outline: none; padding: 11px 12px 11px 8px; text-align: right; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -545,16 +549,16 @@
         <div class="linha-c">
           <div class="linha-topo">
             <label for="taxaPrograma"><span class="n">03</span>Taxa do programa</label>
-            <div class="caixa"><span class="pre">R$</span><input id="taxaPrograma" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="0,49" aria-describedby="d-taxaPrograma"></div>
+            <div class="caixa fixa"><svg class="cad" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><span class="pre">R$</span><input id="taxaPrograma" readonly tabindex="-1" data-tipo="dinheiro" value="0,49" aria-describedby="d-taxaPrograma"></div>
           </div>
-          <p class="dica" id="d-taxaPrograma">Por pedido confirmado.</p>
+          <p class="dica" id="d-taxaPrograma">Por pedido confirmado. Valor fixo da simulação.</p>
         </div>
         <div class="linha-c">
           <div class="linha-topo">
             <label for="taxaDevolucao"><span class="n">04</span>Taxa por devolução</label>
-            <div class="caixa"><span class="pre">R$</span><input id="taxaDevolucao" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="15,00" aria-describedby="d-taxaDevolucao"></div>
+            <div class="caixa fixa"><svg class="cad" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><span class="pre">R$</span><input id="taxaDevolucao" readonly tabindex="-1" data-tipo="dinheiro" value="15,00" aria-describedby="d-taxaDevolucao"></div>
           </div>
-          <p class="dica" id="d-taxaDevolucao">Cobrada sem o programa.</p>
+          <p class="dica" id="d-taxaDevolucao">Cobrada sem o programa. Valor fixo da simulação.</p>
         </div>
         <div class="linha-c">
           <div class="linha-topo">
@@ -563,7 +567,7 @@
           </div>
           <p class="dica" id="d-frete">Frete médio da volta.</p>
         </div>
-        <p class="params-pe">Os valores de taxa são um ponto de partida. Troque pelos da sua loja: o resultado muda na hora.</p>
+        <p class="params-pe">As duas taxas ficam fixas. Ajuste os pedidos, as devoluções e o frete da sua loja: o resultado muda na hora.</p>
       </form>
     </div>
 
@@ -591,7 +595,7 @@
     </div>
 
     <div class="explica" id="explica"></div>
-    <p class="obs"><b>Importante:</b> R$ 0,49, R$ 15,00 e R$ 20,00 são valores iniciais de simulação, não tarifas garantidas. As taxas, as condições de cobertura e as regras do Devolução Fácil são da Shopee e podem mudar; confira sempre na Central do Vendedor. O resultado é uma estimativa, não uma garantia de economia. A conta não inclui produto perdido nem outras despesas da devolução.</p>
+    <p class="obs"><b>Importante:</b> as taxas de R$ 0,49 e R$ 15,00 e o frete inicial de R$ 20,00 são valores de simulação, não tarifas garantidas. As taxas, as condições de cobertura e as regras do Devolução Fácil são da Shopee e podem mudar; confira sempre na Central do Vendedor. O resultado é uma estimativa, não uma garantia de economia. A conta não inclui produto perdido nem outras despesas da devolução.</p>
 
     <details class="regras">
       <summary>Como a conta é feita <span class="mais" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary>
