@@ -394,11 +394,6 @@
     <div class="capa-corpo">
       <p class="capa-kicker">Aplicação · com Léo Gutemberg</p>
       <h1>Mentoria<br>em Grupo<span class="dot">.</span></h1>
-      <ul class="fatos">
-        <li><b>Semana que vem</b><span>início</span></li>
-        <li><b>2 meses</b><span>1x por semana</span></li>
-        <li><b data-vagas-abertura>10</b><span data-vagas-rot>vagas na turma</span></li>
-      </ul>
       <div class="ingresso" data-bonus-abertura>
         <p class="ingresso-txt" style="margin:0">
           <span class="ingresso-rot">Bônus só da live</span>
@@ -1071,8 +1066,6 @@
   // abertura com os números reais da turma
   lerVagas().then(v => {
     if (v) {
-      $('[data-vagas-abertura]').textContent = v.vagas === 0 ? 'Completa' : v.total;
-      $('[data-vagas-rot]').textContent = v.vagas === 0 ? 'lista de espera' : 'vagas na turma';
       if (v.vagas === 0 || v.bonus === 0) $('[data-bonus-abertura]').hidden = true;
     }
   });
