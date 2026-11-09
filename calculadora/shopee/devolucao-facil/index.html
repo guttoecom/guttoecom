@@ -132,8 +132,7 @@
   /* ---------- abertura ---------- */
   main { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter) 120px; }
   .intro { padding: clamp(32px, 7vw, 76px) 0 clamp(24px, 4vw, 44px); display: grid; gap: 22px; }
-  @media (min-width: 1040px) { .intro { grid-template-columns: minmax(0, 1fr) 320px; align-items: end; } }
-  .kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 20px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 20px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
   .kicker b { color: var(--orange); font-weight: 600; }
   .kicker::before { content: ""; width: 26px; height: 1.5px; background: var(--orange); }
   h1 { margin: 0; font-weight: 800; letter-spacing: -0.055em; line-height: .92; font-size: clamp(40px, 7.6vw, 92px); overflow-wrap: break-word; }
@@ -147,7 +146,7 @@
 
   /* ---------- cadastro (antes da calculadora) ---------- */
   .cadastro { display: grid; gap: 22px; align-items: start; }
-  @media (min-width: 980px) { .cadastro { grid-template-columns: minmax(0, 1fr) 470px; gap: 40px; } }
+  .cadastro { max-width: 560px; }
   .previa {
     position: relative; overflow: hidden; border-radius: 24px; border: 1px solid var(--line);
     background: linear-gradient(160deg, var(--surface-2), var(--surface) 55%); padding: 26px 24px 24px; min-height: 340px;
@@ -420,33 +419,9 @@
       <h1 class="sobe d1">Calculadora <span class="fino">Devolução Fácil</span> <em>Shopee</em><span class="dot">.</span></h1>
       <p class="sub sobe d2">Descubra em segundos se aderir ao Devolução Fácil realmente compensa para sua operação.</p>
     </div>
-    <dl class="ficha sobe d3">
-      <dt>O que compara</dt><dd>Taxa por pedido × taxa e frete de cada devolução</dd>
-      <dt>Você recebe</dt><dd>Veredito, economia ou prejuízo e o ponto de equilíbrio</dd>
-    </dl>
   </section>
 
   <section class="cadastro" id="cadastro" aria-labelledby="cad-tit">
-    <div class="sobe d3">
-      <div class="previa" aria-hidden="true">
-        <div class="previa-borrada">
-          <span class="pv-pill">VALE A PENA ADERIR</span>
-          <p class="pv-num">+R$ 350</p>
-          <div class="pv-barra"></div>
-          <div class="pv-linhas"><span></span><span></span><span></span></div>
-        </div>
-        <div class="cadeado">
-          <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></span>
-          <b>Seu resultado aparece aqui</b>
-          <span>Preencha o cadastro ao lado e a calculadora abre na hora, nesta mesma página.</span>
-        </div>
-      </div>
-      <ol class="passos">
-        <li><span class="n">01</span><div><b>Preencha seus dados</b><span>Leva menos de 1 minuto.</span></div></li>
-        <li><span class="n">02</span><div><b>A calculadora abre na hora</b><span>Aqui mesmo, nesta página.</span></div></li>
-        <li><span class="n">03</span><div><b>Coloque os números da sua loja</b><span>Pedidos, devoluções e taxas do mês.</span></div></li>
-      </ol>
-    </div>
     <div class="cad-card sobe d4">
       <div class="cad-in">
         <form id="form-cad" novalidate>
