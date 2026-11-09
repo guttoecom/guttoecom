@@ -281,6 +281,51 @@
   .d1 { animation-delay: .05s; } .d2 { animation-delay: .12s; } .d3 { animation-delay: .2s; }
   .pisca { animation: pisca .45s var(--ease); }
   @keyframes pisca { 0% { opacity: .35; transform: translateY(3px); } 100% { opacity: 1; transform: none; } }
+  /* ---------- cadastro antes da calculadora ---------- */
+  .cadastro { display: grid; gap: 24px; align-items: start; }
+  @media (min-width: 960px) { .cadastro { grid-template-columns: minmax(0, 1fr) 460px; gap: 40px; } }
+  .cad-passos { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; counter-reset: p; }
+  .cad-passos li { counter-increment: p; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; }
+  .cad-passos li::before { content: counter(p); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--black); color: var(--white); font-weight: 800; font-size: 14px; }
+  .cad-passos b { display: block; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; }
+  .cad-passos span { display: block; margin-top: 2px; font-size: 14px; color: var(--gray); line-height: 1.45; }
+  .cad-o-que { margin: 22px 0 0; padding: 18px; background: var(--white); border: 1px solid var(--border); border-radius: 18px; }
+  .cad-o-que p { margin: 0 0 10px; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+  .cad-o-que ul { margin: 0; padding-left: 18px; font-size: 14.5px; line-height: 1.6; color: var(--body); }
+  .cad-card { position: relative; background: var(--white); border: 1px solid var(--border); border-radius: 22px; padding: 24px 20px 20px; box-shadow: 0 24px 50px -30px rgba(18,18,18,.35); }
+  .cad-card::before { content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 4px; border-radius: 0 0 6px 6px; background: var(--orange); }
+  .cad-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .cad-topo h2 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; }
+  .cad-topo span { padding: 5px 10px; border-radius: 999px; background: var(--orange); color: var(--white); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .cad-sub { margin: 6px 0 18px; font-size: 14px; color: var(--gray); }
+  .fc { margin-bottom: 14px; }
+  .fc label.rot { display: block; margin-bottom: 7px; font-size: 14px; font-weight: 700; }
+  .fc input[type=text], .fc input[type=email], .fc input[type=tel], .fc select {
+    width: 100%; padding: 13px 14px; border: 1.5px solid transparent; border-radius: 12px; background: var(--off-white);
+    font-family: inherit; font-size: 16px; font-weight: 600; color: var(--black); outline: none; appearance: none; -webkit-appearance: none;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+  }
+  .fc select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%236B6862' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; }
+  .fc input:focus, .fc select:focus { background-color: var(--white); border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
+  .fc.erro input, .fc.erro select { border-color: var(--bad); background-color: var(--bad-tint); }
+  .fc .msg { margin: 6px 0 0; font-size: 12.5px; font-weight: 700; color: var(--bad); }
+  .fc .msg:empty { display: none; }
+  .aceite { display: flex; gap: 8px; align-items: flex-start; margin-top: 8px; font-size: 12.5px; line-height: 1.4; color: var(--gray); cursor: pointer; }
+  .aceite input { margin: 2px 0 0; accent-color: var(--orange); flex: none; }
+  .btn-cad {
+    width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 6px;
+    padding: 17px 22px; border: 0; border-radius: 999px; background: var(--orange); color: var(--white); cursor: pointer;
+    font-family: inherit; font-size: 16px; font-weight: 800; box-shadow: 0 14px 28px -12px rgba(255,90,31,.9);
+    transition: background .2s, transform .2s;
+  }
+  .btn-cad:hover { background: var(--orange-strong); transform: translateY(-1px); }
+  .btn-cad:disabled { opacity: .7; cursor: wait; transform: none; }
+  .btn-cad svg { width: 16px; height: 16px; }
+  .erro-envio { margin: 10px 0 0; font-size: 13.5px; font-weight: 700; color: var(--bad); }
+  .priv { margin: 12px 0 0; font-size: 12px; text-align: center; color: var(--gray); }
+  .priv a { color: var(--black); font-weight: 700; }
+  #calc { scroll-margin-top: 76px; }
+  .liberada { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; padding: 12px 16px; border-radius: 14px; background: var(--good-tint); color: var(--good); font-size: 14.5px; font-weight: 700; }
   .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   @media (max-width: 420px) { .logo { font-size: 22px; } .top-link { font-size: 13px; } }
   @media (prefers-reduced-motion: reduce) {
@@ -303,6 +348,79 @@
     <p class="sub sobe d2">Descubra em segundos se aderir ao Devolução Fácil realmente compensa para sua operação.</p>
   </section>
 
+  <section class="cadastro" id="cadastro" aria-labelledby="cad-tit">
+    <div class="sobe d3">
+      <ol class="cad-passos">
+        <li><div><b>Preencha seus dados</b><span>Leva menos de 1 minuto.</span></div></li>
+        <li><div><b>A calculadora abre na hora</b><span>Aqui mesmo, nesta página.</span></div></li>
+        <li><div><b>Coloque os números da sua loja</b><span>Pedidos, devoluções e taxas do mês.</span></div></li>
+      </ol>
+      <div class="cad-o-que">
+        <p>O que você vai ver</p>
+        <ul>
+          <li>Se vale a pena aderir ao Devolução Fácil</li>
+          <li>Quanto você economiza ou perde por mês</li>
+          <li>A partir de quantas devoluções o programa compensa</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cad-card sobe d3">
+      <form id="form-cad" novalidate>
+        <div class="cad-topo"><h2 id="cad-tit">Acessar a calculadora</h2><span>Grátis</span></div>
+        <p class="cad-sub">Preencha e a calculadora abre na hora.</p>
+
+        <div class="fc" data-campo="nome">
+          <label class="rot" for="f-nome">Seu nome</label>
+          <input id="f-nome" type="text" autocomplete="name" autocapitalize="words" maxlength="120" placeholder="Nome e sobrenome" required>
+          <p class="msg" role="alert"></p>
+        </div>
+        <div class="fc" data-campo="email">
+          <label class="rot" for="f-email">Seu melhor e-mail</label>
+          <input id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="voce@email.com" required>
+          <p class="msg" role="alert"></p>
+          <label class="aceite"><input type="checkbox" id="f-aceita"> <span>Aceito receber e-mails da gutto com conteúdo e ofertas. Dá para sair a qualquer momento.</span></label>
+        </div>
+        <div class="fc" data-campo="whatsapp">
+          <label class="rot" for="f-whatsapp">WhatsApp com DDD</label>
+          <input id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999" required>
+          <p class="msg" role="alert"></p>
+          <label class="aceite"><input type="checkbox" id="f-aceita-wa"> <span>Aceito receber mensagens da gutto no WhatsApp. Para sair, é só responder SAIR.</span></label>
+        </div>
+        <div class="fc" data-campo="faturamento">
+          <label class="rot" for="f-faturamento">Quanto você fatura por mês no marketplace?</label>
+          <select id="f-faturamento" required>
+            <option value="" disabled selected>Selecione uma opção</option>
+            <option value="nao_vende">Ainda não vendo em marketplace</option>
+            <option value="ate_5k">Até R$ 5 mil</option>
+            <option value="5k_20k">De R$ 5 mil a R$ 20 mil</option>
+            <option value="20k_50k">De R$ 20 mil a R$ 50 mil</option>
+            <option value="50k_100k">De R$ 50 mil a R$ 100 mil</option>
+            <option value="100k_250k">De R$ 100 mil a R$ 250 mil</option>
+            <option value="250k_500k">De R$ 250 mil a R$ 500 mil</option>
+            <option value="acima_500k">Acima de R$ 500 mil</option>
+          </select>
+          <p class="msg" role="alert"></p>
+        </div>
+        <div class="fc" data-campo="perfil">
+          <label class="rot" for="f-perfil">Você fabrica ou revende?</label>
+          <select id="f-perfil" required>
+            <option value="" disabled selected>Selecione uma opção</option>
+            <option value="fabrica">Fabrico (produção própria ou terceirizada)</option>
+            <option value="revende">Revendo produtos de outras marcas</option>
+            <option value="nao_comecou">Ainda não comecei</option>
+          </select>
+          <p class="msg" role="alert"></p>
+        </div>
+
+        <button class="btn-cad" type="submit" id="enviar"><span>Acessar calculadora</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        <p class="erro-envio" id="erro-envio" role="alert" hidden>Não deu para liberar agora, deve ter sido a conexão. Tenta de novo?</p>
+        <p class="priv">Ao continuar, você concorda com a nossa <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
+      </form>
+    </div>
+  </section>
+
+  <div id="calc" hidden>
+  <p class="liberada" id="liberada" hidden><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg> Calculadora liberada. Os números de exemplo já estão preenchidos: troque pelos da sua loja.</p>
   <div class="grade">
     <form class="form sobe d3" id="form" novalidate onsubmit="return false">
       <section class="grupo" aria-labelledby="g1">
@@ -409,6 +527,7 @@
       <p>Só entram as devoluções que gerariam cobrança para você e que o programa cobriria. Devolução sem custo para o vendedor não muda a conta.</p>
     </div>
   </details>
+  </div>
 
   <section class="cta" aria-labelledby="cta-tit">
     <div>
@@ -438,12 +557,117 @@
   <a href="/?utm_source=calculadora&amp;utm_medium=site&amp;utm_campaign=calculadora&amp;utm_content=rodape_devolucao_facil">gutto<span class="dot">.</span> assessoria de marketplace</a>
 </footer>
 
-<button type="button" class="dock fora" id="dock" aria-label="Ver o resultado completo">
+<button type="button" class="dock fora" id="dock" hidden aria-label="Ver o resultado completo">
   <span><small id="dock-rot">Resultado</small><strong id="dock-val">R$ 0,00</strong></span>
   <span class="ver">Ver conta</span>
 </button>
 
+<script src="/kit/config.js"></script>
 <script src="/calculadora/devolucao.js"></script>
+<script>
+/* Cadastro antes da calculadora: grava em leads_kit (pagina = devolucao_facil), igual à /calculadora-de-preco-de-venda.
+   Quem já se cadastrou neste navegador entra direto. */
+(function () {
+  'use strict';
+  var CHAVE = 'gutto_devolucao_liberado';
+  var CFG = window.KIT_CONFIG || {};
+  var $ = function (s) { return document.querySelector(s); };
+  var digitos = function (s) { return s.replace(/\D/g, ''); };
+
+  function liberar(recemCadastrado) {
+    $('#cadastro').hidden = true;
+    $('#calc').hidden = false;
+    $('#dock').hidden = false;
+    if (recemCadastrado) {
+      $('#liberada').hidden = false;
+      $('#calc').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  var jaLiberou = false;
+  try { jaLiberou = localStorage.getItem(CHAVE) === '1'; } catch (e) {}
+  if (jaLiberou) { liberar(false); return; }
+
+  // origem (ManyChat, Instagram, UTMs) guardada na sessão, igual às outras páginas
+  var params = new URLSearchParams(location.search), origem = {};
+  var ler = function (k) { try { return sessionStorage.getItem('dvf_' + k) || ''; } catch (e) { return ''; } };
+  var gravar = function (k, v) { try { sessionStorage.setItem('dvf_' + k, v); } catch (e) {} };
+  [['mc', 'manychat_id'], ['ig', 'instagram'], ['utm_source', 'utm_source'], ['utm_medium', 'utm_medium'], ['utm_campaign', 'utm_campaign']].forEach(function (par) {
+    var v = (params.get(par[0]) || '').trim();
+    if (par[0] === 'mc') v = /^[0-9]{1,30}$/.test(v) ? v : '';
+    if (par[0] === 'ig') v = v.replace(/^@/, '');
+    if (v) gravar(par[0], v.slice(0, 200)); else v = ler(par[0]);
+    if (v) origem[par[1]] = v.slice(0, 200);
+  });
+
+  var tel = $('#f-whatsapp');
+  tel.addEventListener('input', function () {
+    var d = digitos(tel.value).slice(0, 11), out = d;
+    if (d.length > 2) out = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length > 7) out = '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+    tel.value = out;
+  });
+
+  var regras = {
+    nome: function () { return $('#f-nome').value.trim().length < 2 ? 'Escreve seu nome.' : ''; },
+    email: function () { var v = $('#f-email').value.trim(); return !v ? 'Escreve seu e-mail pra gente liberar a calculadora.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Hmm, esse e-mail parece incompleto. Confere?'; },
+    whatsapp: function () { var d = digitos(tel.value); return !d ? 'Coloca seu WhatsApp com DDD.' : d.length !== 11 || !/^[1-9]{2}9/.test(d) ? 'Confere o número: DDD + 9 dígitos, tipo (11) 99999-9999.' : ''; },
+    faturamento: function () { return $('#f-faturamento').value ? '' : 'Escolhe uma opção.'; },
+    perfil: function () { return $('#f-perfil').value ? '' : 'Escolhe uma opção.'; }
+  };
+  function caixa(n) { return document.querySelector('[data-campo="' + n + '"]'); }
+  function checar(n) {
+    var msg = regras[n]();
+    caixa(n).querySelector('.msg').textContent = msg;
+    caixa(n).classList.toggle('erro', !!msg);
+    return !msg;
+  }
+  Object.keys(regras).forEach(function (n) {
+    var el = caixa(n).querySelector('input, select');
+    el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'blur', function () { if (el.value) checar(n); });
+    el.addEventListener('input', function () { caixa(n).classList.remove('erro'); });
+  });
+
+  var form = $('#form-cad'), botao = $('#enviar'), enviando = false;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (enviando) return;
+    var erros = Object.keys(regras).filter(function (n) { return !checar(n); });
+    if (erros.length) { caixa(erros[0]).querySelector('input, select').focus(); return; }
+    var fat = $('#f-faturamento').value;
+    var row = Object.assign({
+      pagina: 'devolucao_facil',
+      nome: $('#f-nome').value.trim().replace(/\s+/g, ' ').slice(0, 120),
+      email: $('#f-email').value.trim().toLowerCase(),
+      whatsapp: digitos(tel.value),
+      fabrica_ou_revende: $('#f-perfil').value,
+      vende_marketplace: fat === 'nao_vende' ? 'nao' : 'sim',
+      faturamento_mensal: fat,
+      aceita_email: $('#f-aceita').checked,
+      aceita_whatsapp: $('#f-aceita-wa').checked
+    }, origem);
+    enviando = true;
+    botao.disabled = true;
+    botao.querySelector('span').textContent = 'Liberando…';
+    $('#erro-envio').hidden = true;
+    fetch(CFG.supabaseUrl + '/rest/v1/leads_kit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseAnonKey, Authorization: 'Bearer ' + CFG.supabaseAnonKey, Prefer: 'return=minimal' },
+      body: JSON.stringify(row)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Supabase ' + res.status);
+      try { localStorage.setItem(CHAVE, '1'); } catch (e) {}
+      try { if (window.trackEvent) trackEvent('Lead', { user_data: { email: row.email, phone: row.whatsapp }, content_name: 'Calculadora Devolução Fácil', params: { origem: 'calculadora_devolucao_facil', perfil: row.fabrica_ou_revende, faturamento: row.faturamento_mensal } }); } catch (e) {}
+      liberar(true);
+    }).catch(function (err) {
+      console.error(err);
+      $('#erro-envio').hidden = false;
+      botao.disabled = false;
+      botao.querySelector('span').textContent = 'Acessar calculadora';
+      enviando = false;
+    });
+  });
+})();
+</script>
 <script>
 (function () {
   'use strict';
