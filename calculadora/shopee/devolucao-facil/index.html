@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" style="color-scheme: dark">
 <head>
 <meta charset="utf-8">
 <!-- Google Analytics 4 (mesma propriedade do curso; page_view sai pelo /trk.js) -->
@@ -39,7 +39,7 @@
 <meta name="twitter:image" content="https://guttoecom.com.br/og/calculadora-shopee.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Calculadora Devolução Fácil Shopee","url":"https://guttoecom.com.br/calculadora/shopee/devolucao-facil","description":"Compara o custo do programa Devolução Fácil da Shopee (taxa por pedido confirmado) com o custo das devoluções sem o programa (taxa por devolução + frete) e mostra se compensa aderir.","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"pt-BR","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"},"author":{"@type":"Person","name":"Léo Gutemberg","jobTitle":"Fundador da gutto, especialista em marketplaces","worksFor":{"@type":"Organization","name":"gutto","url":"https://guttoecom.com.br"}},"publisher":{"@type":"Organization","name":"gutto","url":"https://guttoecom.com.br","logo":"https://guttoecom.com.br/og/gutto-logo.png"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"gutto","item":"https://guttoecom.com.br"},{"@type":"ListItem","position":2,"name":"Calculadora","item":"https://guttoecom.com.br/calculadora"},{"@type":"ListItem","position":3,"name":"Devolução Fácil Shopee","item":"https://guttoecom.com.br/calculadora/shopee/devolucao-facil"}]}]}</script>
 <link rel="icon" href="/og/favicon.png" type="image/png">
-<meta name="theme-color" content="#F4F2EE">
+<meta name="theme-color" content="#0F0F0F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -332,6 +332,39 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   }
+
+  /* ---------- versão preta (pedido do Bruno em 09/11) ---------- */
+  body { color: #F4F2EE; background-color: #0F0F0F;
+    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); }
+  .top { background: rgba(15,15,15,.86); }
+  .top.rolou { border-bottom-color: #2A2927; }
+  .logo, .top-link, .link-btn, footer a, .priv a, .cad-topo h2, .cad-passos b { color: #F4F2EE; }
+  .kicker, .dica, .acoes-form p, .card h3, .cad-sub, .cad-passos span, .cad-o-que p, .aceite, .priv, .obs, footer { color: #A39F98; }
+  .intro p.sub, .explica p, .regras-corpo, .cad-o-que ul, .obs b { color: #C9C5BE; }
+  .grupo, .card, .explica, details.regras, .cad-card, .cad-o-que { background: #1A1A19; border-color: #2E2D2B; }
+  .cad-card { box-shadow: 0 24px 50px -30px rgba(0,0,0,.8); }
+  .explica { border-left-color: var(--orange); }
+  .explica b, .regras-corpo code, .campo label, .fc label.rot, .grupo h2, .card .v { color: #F4F2EE; }
+  .caixa, .fc input[type=text], .fc input[type=email], .fc input[type=tel], .fc select { background-color: #262523; }
+  .caixa:focus-within, .fc input:focus, .fc select:focus { background-color: #2E2C2A; }
+  .caixa input, .fc input, .fc select { color: #F4F2EE; }
+  .fc select option { background: #1A1A19; color: #F4F2EE; }
+  .caixa input::placeholder, .fc input::placeholder { color: #6E6A63; }
+  .caixa .pre, .caixa .suf { color: #A39F98; }
+  .caixa.erro, .fc.erro input, .fc.erro select { border-color: #FF7A4D; background-color: rgba(255,122,77,.1); }
+  .dica.erro, .fc .msg, .erro-envio { color: #FF8F68; }
+  .resultado { background: #1A1A19; border: 1px solid #2E2D2B; }
+  .card .v.pos { color: #5BC88A; }
+  .card .v.neg { color: #FF7A4D; }
+  .card.destaque { border-color: #3A3936; }
+  .card.destaque.pos { background: rgba(47,143,91,.14); border-color: rgba(91,200,138,.35); }
+  .card.destaque.neg { background: rgba(255,122,77,.1); border-color: rgba(255,122,77,.35); }
+  details.regras summary .mais { background: #262523; }
+  .cad-passos li::before { background: var(--orange); color: #FFFFFF; }
+  .liberada { background: rgba(91,200,138,.12); color: #8FE0B2; }
+  .cta { background: #1A1A19; border: 1px solid #2E2D2B; }
+  footer { border-top-color: #2A2927; }
+  .dock { background: #262523; border: 1px solid #3A3936; }
 </style>
 </head>
 <body>
