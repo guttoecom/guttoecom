@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- Google Analytics 4 (mesma propriedade do curso; page_view sai pelo /trk.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVNCL9MHPG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LVNCL9MHPG', { send_page_view: false, linker: { domains: ['umleogutemberg.com.br', 'pay.kiwify.com.br'] } });
+</script>
+<!-- Microsoft Clarity · mapas de calor e gravações (mesmo projeto do curso) -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yxze0ojjac");
+    clarity("set", "pagina", "calculadora-devolucao-facil");
+</script>
+<!-- Tracking first-party do site gutto: Pixel + CAPI (mesmo event_id) + GA4 -->
+<script src="/trk.js" data-nome="Calculadora Devolução Fácil" data-categoria="ferramenta" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculadora Devolução Fácil Shopee: vale a pena aderir? | gutto.</title>
+<meta name="description" content="Calculadora grátis do Devolução Fácil da Shopee: coloque seus pedidos e devoluções do mês e veja se a taxa por pedido sai mais barata que pagar taxa e frete de cada devolução. Sem cadastro.">
+<link rel="canonical" href="https://guttoecom.com.br/calculadora/shopee/devolucao-facil">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gutto.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://guttoecom.com.br/calculadora/shopee/devolucao-facil">
+<meta property="og:title" content="Calculadora Devolução Fácil Shopee: vale a pena aderir? | gutto.">
+<meta property="og:description" content="Descubra em segundos se aderir ao Devolução Fácil realmente compensa para sua operação.">
+<meta property="og:image" content="https://guttoecom.com.br/og/calculadora-shopee.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://guttoecom.com.br/og/calculadora-shopee.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Calculadora Devolução Fácil Shopee","url":"https://guttoecom.com.br/calculadora/shopee/devolucao-facil","description":"Compara o custo do programa Devolução Fácil da Shopee (taxa por pedido confirmado) com o custo das devoluções sem o programa (taxa por devolução + frete) e mostra se compensa aderir.","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"pt-BR","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"},"author":{"@type":"Person","name":"Léo Gutemberg","jobTitle":"Fundador da gutto, especialista em marketplaces","worksFor":{"@type":"Organization","name":"gutto","url":"https://guttoecom.com.br"}},"publisher":{"@type":"Organization","name":"gutto","url":"https://guttoecom.com.br","logo":"https://guttoecom.com.br/og/gutto-logo.png"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"gutto","item":"https://guttoecom.com.br"},{"@type":"ListItem","position":2,"name":"Calculadora","item":"https://guttoecom.com.br/calculadora"},{"@type":"ListItem","position":3,"name":"Devolução Fácil Shopee","item":"https://guttoecom.com.br/calculadora/shopee/devolucao-facil"}]}]}</script>
+<link rel="icon" href="/og/favicon.png" type="image/png">
+<meta name="theme-color" content="#F4F2EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #121212;
+    --off-white: #F4F2EE;
+    --orange: #FF5A1F;
+    --orange-strong: #E8490F;
+    --gray: #6B6862;
+    --white: #FFFFFF;
+    --border: #E2DED7;
+    --border-strong: #C9C4BB;
+    --body: #3A3835;
+    --orange-tint: rgba(255, 90, 31, .09);
+    --good: #2F8F5B;
+    --good-tint: rgba(47, 143, 91, .1);
+    --bad: #C8322F;
+    --bad-tint: rgba(200, 50, 47, .09);
+    --bad-dark: #FF7A4D;
+
+    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --gutter: clamp(16px, 4.5vw, 48px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: var(--font); font-weight: 500; color: var(--black);
+    background-color: var(--off-white);
+    background-image:
+      linear-gradient(rgba(18,18,18,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(18,18,18,.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+  }
+  button, input { font-family: inherit; }
+  [hidden] { display: none !important; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- topo ---------- */
+  .top {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px var(--gutter);
+    background: rgba(244, 242, 238, .86);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent; transition: border-color .2s;
+  }
+  .top.rolou { border-bottom-color: var(--border); }
+  .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.05em; line-height: 1; color: var(--black); text-decoration: none; }
+  .dot { color: var(--orange); }
+  .top-link { font-size: 14px; font-weight: 800; color: var(--black); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 4px; }
+
+  /* ---------- abertura ---------- */
+  main { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter) 120px; }
+  .intro { padding: clamp(28px, 6vw, 56px) 0 clamp(20px, 3vw, 32px); }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px;
+    font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray);
+  }
+  .kicker::before { content: ""; width: 22px; height: 2px; background: var(--orange); }
+  h1 { margin: 0; max-width: 900px; font-weight: 800; letter-spacing: -0.05em; line-height: .98; font-size: clamp(36px, 7vw, 76px); overflow-wrap: break-word; }
+  h1 em { font-style: normal; color: var(--orange); }
+  .intro p.sub { max-width: 600px; margin: 18px 0 0; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: var(--body); }
+
+  /* ---------- grade ---------- */
+  .grade { display: grid; gap: 20px; align-items: start; }
+  @media (min-width: 960px) { .grade { grid-template-columns: minmax(0, 1fr) 460px; gap: 28px; } }
+
+  /* formulário */
+  .form { display: grid; gap: 14px; }
+  .grupo { min-width: 0; background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 20px; }
+  .grupo h2 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .grupo h2 .n { color: var(--orange); font-variant-numeric: tabular-nums; }
+  .campos { display: grid; gap: 14px; }
+  @media (min-width: 560px) { .campos { grid-template-columns: 1fr 1fr; } .campo.largo { grid-column: 1 / -1; } }
+  .campos.tres { }
+  @media (min-width: 720px) { .campos.tres { grid-template-columns: repeat(3, 1fr); } }
+  .campo label { display: block; margin-bottom: 7px; font-size: 14px; font-weight: 700; color: var(--black); }
+  .caixa {
+    position: relative; display: flex; align-items: center;
+    background: var(--off-white); border: 1.5px solid transparent; border-radius: 12px;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+  }
+  .caixa:focus-within { background: var(--white); border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
+  .caixa.erro { border-color: var(--bad); background: var(--bad-tint); }
+  .caixa .pre, .caixa .suf { font-size: 15px; font-weight: 700; color: var(--gray); padding: 0 0 0 14px; white-space: nowrap; }
+  .caixa .suf { padding: 0 14px 0 0; }
+  .caixa input {
+    width: 100%; min-width: 0; border: 0; background: none; outline: none;
+    padding: 13px 14px 13px 8px; font-size: 17px; font-weight: 700; color: var(--black); font-variant-numeric: tabular-nums;
+  }
+  .caixa input:first-child { padding-left: 14px; }
+  .caixa input::placeholder { color: #B3AEA5; font-weight: 600; }
+  .dica { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--gray); }
+  .dica.erro { color: var(--bad); font-weight: 700; }
+  .acoes-form { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 2px 4px; }
+  .acoes-form p { margin: 0; font-size: 13px; color: var(--gray); }
+  .link-btn { border: 0; background: none; padding: 6px 0; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--black); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--orange); }
+
+  /* ---------- painel do resultado ---------- */
+  .resultado {
+    position: relative; overflow: hidden;
+    background: var(--black); color: var(--white);
+    border-radius: 22px; padding: 24px 22px 22px; scroll-margin-top: 80px;
+  }
+  @media (min-width: 960px) { .resultado { position: sticky; top: 84px; } }
+  .resultado::before {
+    content: ""; position: absolute; right: -120px; top: -140px; width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,90,31,.38), rgba(255,90,31,0) 68%); pointer-events: none;
+  }
+  .r-rotulo { position: relative; margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+  .veredito {
+    position: relative; display: inline-flex; align-items: center; gap: 8px; margin: 14px 0 0;
+    padding: 9px 14px; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .veredito svg { width: 16px; height: 16px; flex: none; }
+  .veredito.vale { background: rgba(47,143,91,.24); color: #8FE0B2; }
+  .veredito.nao_vale { background: rgba(255,122,77,.2); color: #FFB08F; }
+  .veredito.empate { background: rgba(255,255,255,.12); color: var(--white); }
+  .r-heroi { position: relative; margin: 14px 0 0; font-weight: 800; letter-spacing: -0.05em; line-height: 1; font-size: clamp(44px, 6vw, 58px); font-variant-numeric: tabular-nums; }
+  .r-heroi.vale { color: #8FE0B2; }
+  .r-heroi.nao_vale { color: var(--bad-dark); }
+  .r-heroi-sub { position: relative; margin: 8px 0 0; font-size: 14px; font-weight: 700; color: rgba(255,255,255,.7); }
+
+  /* gráfico de barras: os dois cenários */
+  .grafico { position: relative; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px dashed rgba(255,255,255,.22); }
+  .grafico-tit { margin: 0 0 12px; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+  .barra-linha { display: grid; gap: 6px; margin-bottom: 14px; }
+  .barra-linha:last-child { margin-bottom: 0; }
+  .barra-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14px; }
+  .barra-cab span { color: rgba(255,255,255,.78); font-weight: 600; }
+  .barra-cab b { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .trilho { height: 16px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+  .trilho i { display: block; height: 100%; border-radius: 999px; min-width: 4px; transition: width .5s var(--ease); }
+  .trilho i.sem { background: #C9C4BB; }
+  .trilho i.com { background: var(--orange); }
+  .trilho i.zero { min-width: 0; }
+
+  .r-aviso { position: relative; margin: 16px 0 0; padding: 12px 14px; border-radius: 12px; background: rgba(255,90,31,.14); color: #FFC7B0; font-size: 13.5px; line-height: 1.45; }
+
+  /* ---------- cards ---------- */
+  .cards { display: grid; gap: 12px; margin-top: 20px; }
+  @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .cards { grid-template-columns: repeat(4, 1fr); } }
+  .card { min-width: 0; background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 16px; }
+  .card h3 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
+  .card .v { margin: 10px 0 0; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .card .v.pos { color: var(--good); }
+  .card .v.neg { color: var(--bad); }
+  .card p.d { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--gray); }
+  .card.destaque { border-color: var(--border-strong); }
+  .card.destaque.pos { background: var(--good-tint); border-color: rgba(47,143,91,.35); }
+  .card.destaque.neg { background: var(--bad-tint); border-color: rgba(200,50,47,.3); }
+
+  /* explicação e observação */
+  .explica { margin-top: 20px; padding: 20px 22px; background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--orange); border-radius: 18px; }
+  .explica p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--body); }
+  .explica p + p { margin-top: 10px; }
+  .explica b { color: var(--black); }
+  .obs { margin: 14px 4px 0; font-size: 13px; line-height: 1.5; color: var(--gray); }
+  .obs b { color: var(--body); }
+
+  /* ---------- como a conta é feita ---------- */
+  details.regras { margin-top: 28px; background: var(--white); border: 1px solid var(--border); border-radius: 18px; }
+  details.regras summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 20px; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+  details.regras summary::-webkit-details-marker { display: none; }
+  details.regras summary .mais { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--off-white); transition: transform .3s var(--ease); flex: none; }
+  details.regras[open] summary .mais { transform: rotate(45deg); }
+  details.regras summary:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; border-radius: 18px; }
+  .regras-corpo { padding: 0 20px 20px; font-size: 14.5px; line-height: 1.55; color: var(--body); }
+  .regras-corpo ul { margin: 0; padding-left: 18px; }
+  .regras-corpo li { margin: 6px 0; }
+  .regras-corpo code { font-family: inherit; font-weight: 800; color: var(--black); }
+
+  /* ---------- CTA gutto ---------- */
+  .cta {
+    position: relative; overflow: hidden; isolation: isolate; margin-top: 56px;
+    display: grid; gap: 32px; align-items: center;
+    padding: clamp(28px, 5vw, 56px); border-radius: 28px; background: var(--black); color: var(--white);
+  }
+  .cta::before { content: ""; position: absolute; z-index: -1; width: 620px; height: 620px; right: -160px; top: -200px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.42), transparent 66%); }
+  .cta::after { content: ""; position: absolute; z-index: -1; width: 460px; height: 460px; right: -80px; bottom: -280px; border-radius: 50%; border: 1.5px dashed rgba(255,255,255,.12); }
+  @media (min-width: 900px) { .cta { grid-template-columns: minmax(0, 1fr) 380px; gap: 56px; } }
+  .cta .kicker { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 18px; padding: 7px 12px; border-radius: 999px; background: rgba(255,90,31,.16); color: #FF8A5C; font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .cta .kicker::before { display: none; }
+  .cta .kicker span { color: var(--orange); }
+  .cta h2 { margin: 0; font-size: clamp(32px, 4.8vw, 56px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.02; max-width: 640px; color: var(--white); }
+  .cta h2 em { font-style: normal; color: var(--orange); }
+  .cta p.cta-sub { margin: 16px 0 0; max-width: 540px; font-size: clamp(15px, 1.6vw, 17.5px); line-height: 1.6; color: #B9B4AB; }
+  .cta-areas { margin: 24px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .cta-areas li { padding: 8px 13px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.14); font-size: 13.5px; font-weight: 700; color: var(--white); }
+  .cta-card { position: relative; padding: 26px 24px 22px; border-radius: 22px; background: var(--white); color: var(--black); box-shadow: 0 30px 60px -24px rgba(0,0,0,.6); }
+  .cta-card::before { content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 4px; border-radius: 0 0 6px 6px; background: var(--orange); }
+  .cta-card .cc-topo { margin: 0; }
+  .cta-card .cc-topo b { font-size: 19px; font-weight: 800; letter-spacing: -0.03em; }
+  .cta-card ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .cta-card li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: 14.5px; line-height: 1.4; color: #3A3833; }
+  .cta-card li::before { content: ""; width: 22px; height: 22px; border-radius: 7px; background: var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 10.5l3 3 7-7.5'/%3E%3C/svg%3E") center / 13px no-repeat; }
+  .cta-acao { margin-top: 20px; display: grid; gap: 10px; justify-items: stretch; text-align: center; }
+  .btn-cta {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 18px 24px; border-radius: 999px; background: var(--orange); color: var(--white);
+    font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
+    box-shadow: 0 14px 28px -12px rgba(255,90,31,.9);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  }
+  .btn-cta svg { transition: transform .25s var(--ease); }
+  .btn-cta:hover { transform: translateY(-2px); background: var(--orange-strong); }
+  .btn-cta:hover svg { transform: translateX(4px); }
+  .btn-cta:focus-visible { outline: 3px solid var(--black); outline-offset: 3px; }
+  .cta-acao small { font-size: 12.5px; font-weight: 700; color: var(--gray); }
+
+  footer { max-width: 1180px; margin: 0 auto; padding: 28px var(--gutter) 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--gray); }
+  footer a { color: var(--black); font-weight: 700; text-decoration: none; }
+
+  /* ---------- barra fixa no celular ---------- */
+  .dock {
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 30;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 14px 12px 18px; border-radius: 18px; background: var(--black); color: var(--white);
+    box-shadow: 0 12px 32px rgba(18,18,18,.28);
+    border: 0; width: auto; text-align: left; cursor: pointer;
+    transition: transform .35s var(--ease), opacity .35s;
+  }
+  .dock.fora { transform: translateY(140%); opacity: 0; pointer-events: none; }
+  .dock small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .dock strong { display: block; margin-top: 2px; font-size: 21px; font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .dock strong.vale { color: #8FE0B2; }
+  .dock strong.nao_vale { color: var(--bad-dark); }
+  .dock .ver { flex: none; padding: 10px 14px; border-radius: 999px; background: var(--orange); font-size: 13px; font-weight: 800; }
+  @media (min-width: 960px) { .dock { display: none; } }
+
+  .sobe { animation: sobe .7s var(--ease) both; }
+  @keyframes sobe { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .12s; } .d3 { animation-delay: .2s; }
+  .pisca { animation: pisca .45s var(--ease); }
+  @keyframes pisca { 0% { opacity: .35; transform: translateY(3px); } 100% { opacity: 1; transform: none; } }
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  @media (max-width: 420px) { .logo { font-size: 22px; } .top-link { font-size: 13px; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top" id="topo">
+  <a class="logo" href="/?utm_source=calculadora&amp;utm_medium=site&amp;utm_campaign=calculadora&amp;utm_content=logo_devolucao_facil" aria-label="gutto. — página inicial">gutto<span class="dot">.</span></a>
+  <a class="top-link" href="/calculadora">Outras calculadoras</a>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="kicker sobe">Shopee · Devolução Fácil</p>
+    <h1 class="sobe d1">Calculadora Devolução Fácil <em>Shopee</em><span class="dot">.</span></h1>
+    <p class="sub sobe d2">Descubra em segundos se aderir ao Devolução Fácil realmente compensa para sua operação.</p>
+  </section>
+
+  <div class="grade">
+    <form class="form sobe d3" id="form" novalidate onsubmit="return false">
+      <section class="grupo" aria-labelledby="g1">
+        <h2 id="g1"><span class="n">01</span> Sua operação no mês</h2>
+        <div class="campos">
+          <div class="campo">
+            <label for="pedidos">Pedidos confirmados por mês</label>
+            <div class="caixa"><input id="pedidos" inputmode="numeric" autocomplete="off" data-tipo="inteiro" value="10.000" aria-describedby="d-pedidos"><span class="suf">pedidos</span></div>
+            <p class="dica" id="d-pedidos">Todos os pedidos confirmados do mês. A taxa do programa vale para cada um.</p>
+          </div>
+          <div class="campo">
+            <label for="devolucoes">Devoluções com custo para você</label>
+            <div class="caixa"><input id="devolucoes" inputmode="numeric" autocomplete="off" data-tipo="inteiro" value="150" aria-describedby="d-devolucoes"><span class="suf">por mês</span></div>
+            <p class="dica" id="d-devolucoes">Só as que gerariam cobrança para você e que o programa cobriria.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="grupo" aria-labelledby="g2">
+        <h2 id="g2"><span class="n">02</span> Taxas da simulação</h2>
+        <div class="campos tres">
+          <div class="campo">
+            <label for="taxaPrograma">Taxa do programa</label>
+            <div class="caixa"><span class="pre">R$</span><input id="taxaPrograma" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="0,49" aria-describedby="d-taxaPrograma"></div>
+            <p class="dica" id="d-taxaPrograma">Por pedido confirmado.</p>
+          </div>
+          <div class="campo">
+            <label for="taxaDevolucao">Taxa por devolução</label>
+            <div class="caixa"><span class="pre">R$</span><input id="taxaDevolucao" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="15,00" aria-describedby="d-taxaDevolucao"></div>
+            <p class="dica" id="d-taxaDevolucao">Cobrada sem o programa.</p>
+          </div>
+          <div class="campo">
+            <label for="frete">Frete por devolução</label>
+            <div class="caixa"><span class="pre">R$</span><input id="frete" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="20,00" aria-describedby="d-frete"></div>
+            <p class="dica" id="d-frete">Frete médio da volta.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="acoes-form">
+        <p>Os valores de taxa são um ponto de partida. Troque pelos da sua loja.</p>
+        <button type="button" class="link-btn" id="limpar">Voltar aos valores iniciais</button>
+      </div>
+    </form>
+
+    <section class="resultado" id="resultado" aria-labelledby="r-rot" aria-live="polite">
+      <p class="r-rotulo" id="r-rot">Resultado do mês</p>
+      <p class="veredito" id="veredito"></p>
+      <p class="r-heroi" id="heroi"></p>
+      <p class="r-heroi-sub" id="heroi-sub"></p>
+
+      <div class="grafico" role="img" id="grafico" aria-label="">
+        <p class="grafico-tit">Custo mensal nos dois cenários</p>
+        <div class="barra-linha">
+          <div class="barra-cab"><span>Sem Devolução Fácil</span><b id="g-sem"></b></div>
+          <div class="trilho"><i class="sem" id="b-sem"></i></div>
+        </div>
+        <div class="barra-linha">
+          <div class="barra-cab"><span>Com Devolução Fácil</span><b id="g-com"></b></div>
+          <div class="trilho"><i class="com" id="b-com"></i></div>
+        </div>
+      </div>
+      <p class="r-aviso" id="r-aviso" hidden></p>
+    </section>
+  </div>
+
+  <div class="cards" id="cards">
+    <article class="card">
+      <h3>Custo com Devolução Fácil</h3>
+      <p class="v" id="c-com"></p>
+      <p class="d" id="c-com-d"></p>
+    </article>
+    <article class="card">
+      <h3>Custo sem Devolução Fácil</h3>
+      <p class="v" id="c-sem"></p>
+      <p class="d" id="c-sem-d"></p>
+    </article>
+    <article class="card destaque" id="c-saldo-card">
+      <h3 id="c-saldo-tit">Economia mensal</h3>
+      <p class="v" id="c-saldo"></p>
+      <p class="d" id="c-saldo-d"></p>
+    </article>
+    <article class="card">
+      <h3>Ponto de equilíbrio</h3>
+      <p class="v" id="c-eq"></p>
+      <p class="d" id="c-eq-d"></p>
+    </article>
+  </div>
+
+  <div class="explica" id="explica"></div>
+  <p class="obs"><b>Importante:</b> R$ 0,49, R$ 15,00 e R$ 20,00 são valores iniciais de simulação, não tarifas garantidas. As taxas, as condições de cobertura e as regras do Devolução Fácil são da Shopee e podem mudar; confira sempre na Central do Vendedor. O resultado é uma estimativa, não uma garantia de economia. A conta não inclui produto perdido nem outras despesas da devolução.</p>
+
+  <details class="regras">
+    <summary>Como a conta é feita <span class="mais" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary>
+    <div class="regras-corpo">
+      <ul>
+        <li><code>Custo com o programa</code> = pedidos confirmados × taxa do programa.</li>
+        <li><code>Custo sem o programa</code> = devoluções com custo × (taxa por devolução + frete).</li>
+        <li><code>Economia ou prejuízo</code> = custo sem o programa − custo com o programa.</li>
+        <li><code>Taxa de devolução</code> = devoluções com custo ÷ pedidos confirmados.</li>
+        <li><code>Ponto de equilíbrio</code> = taxa do programa ÷ (taxa por devolução + frete). É a taxa de devolução em que os dois cenários custam o mesmo.</li>
+        <li><code>Devoluções mínimas</code> = o menor número de devoluções por mês em que o custo evitado passa o custo do programa.</li>
+      </ul>
+      <p>Só entram as devoluções que gerariam cobrança para você e que o programa cobriria. Devolução sem custo para o vendedor não muda a conta.</p>
+    </div>
+  </details>
+
+  <section class="cta" aria-labelledby="cta-tit">
+    <div>
+      <p class="kicker">gutto<span>.</span> assessoria de marketplace</p>
+      <h2 id="cta-tit">Devolução comendo a sua <em>margem?</em></h2>
+      <p class="cta-sub">A gente cuida da sua operação nos marketplaces: preço, anúncios, devoluções e margem por venda. Conheça como funciona a nossa gestão.</p>
+      <ul class="cta-areas" aria-label="O que a gutto cuida"><li>Preço certo por anúncio</li><li>Anúncios que vendem</li><li>Margem por venda</li></ul>
+    </div>
+    <div class="cta-card">
+      <p class="cc-topo"><b>Gestão da sua loja</b></p>
+      <ul>
+        <li>Preço e margem acompanhados por venda</li>
+        <li>Anúncios criados e ajustados para vender</li>
+        <li>A equipe da gutto cuida da operação com você</li>
+      </ul>
+      <div class="cta-acao">
+        <a class="btn-cta" href="https://wa.me/5516992117706?text=Oi%2C%20Bruno!%20Usei%20a%20calculadora%20de%20Devolu%C3%A7%C3%A3o%20F%C3%A1cil%20da%20gutto.%20Quero%20conhecer%20a%20gest%C3%A3o." target="_blank" rel="noopener">Quero conhecer a gestão
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h11M10 4.5L14.5 9 10 13.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <small>Sem compromisso. A conversa é direto no WhatsApp.</small>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Estimativa com os valores que você informou. As regras do Devolução Fácil são da Shopee e podem mudar.</span>
+  <a href="/?utm_source=calculadora&amp;utm_medium=site&amp;utm_campaign=calculadora&amp;utm_content=rodape_devolucao_facil">gutto<span class="dot">.</span> assessoria de marketplace</a>
+</footer>
+
+<button type="button" class="dock fora" id="dock" aria-label="Ver o resultado completo">
+  <span><small id="dock-rot">Resultado</small><strong id="dock-val">R$ 0,00</strong></span>
+  <span class="ver">Ver conta</span>
+</button>
+
+<script src="/calculadora/devolucao.js"></script>
+<script>
+(function () {
+  'use strict';
+  var D = window.Devolucao;
+  var $ = function (id) { return document.getElementById(id); };
+  var reais = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  var inteiro = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });
+  var dinheiro = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  var pct = function (f) { return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: f < 0.1 ? 2 : 1, maximumFractionDigits: 2 }).format(f * 100) + '%'; };
+  var R = function (v) { return reais.format(v); };
+  var CAMPOS = ['pedidos', 'devolucoes', 'taxaPrograma', 'taxaDevolucao', 'frete'];
+  var INICIAIS = { pedidos: '10.000', devolucoes: '150', taxaPrograma: '0,49', taxaDevolucao: '15,00', frete: '20,00' };
+  var DICAS = {};
+  CAMPOS.forEach(function (c) { DICAS[c] = $('d-' + c).textContent; });
+
+  var ICONES = {
+    vale: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg>',
+    nao_vale: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>',
+    empate: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4 8h12M4 12h12"/></svg>'
+  };
+  var VEREDITO = { vale: 'Vale a pena aderir', nao_vale: 'Não vale a pena aderir', empate: 'Ponto de equilíbrio' };
+
+  /* lê e valida um campo: vazio = 0; inválido marca o campo e usa 0 */
+  function ler(c) {
+    var el = $(c), caixa = el.parentNode, dica = $('d-' + c);
+    var t = el.value.trim();
+    var v = t === '' ? 0 : D.lerNumero(t);
+    var ruim = Number.isNaN(v) || (el.dataset.tipo === 'inteiro' && v % 1 !== 0);
+    caixa.classList.toggle('erro', ruim);
+    el.setAttribute('aria-invalid', ruim ? 'true' : 'false');
+    dica.textContent = ruim ? (el.dataset.tipo === 'inteiro' ? 'Use só números inteiros, sem sinal de menos.' : 'Use só números, como 0,49 ou 15,00.') : DICAS[c];
+    dica.classList.toggle('erro', ruim);
+    return ruim ? 0 : v;
+  }
+
+  function formatar(c) {
+    var el = $(c), v = D.lerNumero(el.value);
+    if (Number.isNaN(v) || el.value.trim() === '') return;
+    if (el.dataset.tipo === 'inteiro') { if (v % 1 === 0) el.value = inteiro.format(v); }
+    else el.value = dinheiro.format(v);
+  }
+
+  function pedidosTxt(n) { return inteiro.format(n) + (n === 1 ? ' pedido' : ' pedidos'); }
+  function devTxt(n) { return inteiro.format(n) + (n === 1 ? ' devolução' : ' devoluções'); }
+
+  function calcular() {
+    var e = {};
+    CAMPOS.forEach(function (c) { e[c] = ler(c); });
+    var r = D.devolucaoFacil(e);
+    var abs = Math.abs(r.saldo);
+
+    // veredito e valor principal
+    var v = $('veredito');
+    v.className = 'veredito ' + r.veredito;
+    v.innerHTML = ICONES[r.veredito] + VEREDITO[r.veredito];
+    var h = $('heroi');
+    h.className = 'r-heroi ' + r.veredito;
+    h.textContent = r.veredito === 'empate' ? R(0) : (r.saldo > 0 ? '+' : '−') + R(abs);
+    $('heroi-sub').textContent = r.veredito === 'vale' ? 'de economia estimada por mês' : r.veredito === 'nao_vale' ? 'de prejuízo estimado por mês' : 'os dois cenários custam o mesmo';
+
+    // gráfico
+    var max = Math.max(r.custoSem, r.custoCom);
+    $('g-sem').textContent = R(r.custoSem);
+    $('g-com').textContent = R(r.custoCom);
+    [['b-sem', r.custoSem], ['b-com', r.custoCom]].forEach(function (b) {
+      var el = $(b[0]);
+      el.style.width = (max > 0 ? (b[1] / max) * 100 : 0) + '%';
+      el.classList.toggle('zero', b[1] === 0);
+    });
+    $('grafico').setAttribute('aria-label', 'Custo mensal sem Devolução Fácil: ' + R(r.custoSem) + '. Com Devolução Fácil: ' + R(r.custoCom) + '.');
+
+    // cards
+    $('c-com').textContent = R(r.custoCom);
+    $('c-com-d').textContent = pedidosTxt(r.pedidos) + ' × ' + R(e.taxaPrograma || 0);
+    $('c-sem').textContent = R(r.custoSem);
+    $('c-sem-d').textContent = devTxt(r.devolucoes) + ' × ' + R(r.custoPorDevolucao) + ' (taxa + frete)';
+    var card = $('c-saldo-card');
+    card.className = 'card destaque ' + (r.saldo > 0 ? 'pos' : r.saldo < 0 ? 'neg' : '');
+    $('c-saldo-tit').textContent = r.saldo < 0 ? 'Prejuízo mensal' : 'Economia mensal';
+    $('c-saldo').className = 'v ' + (r.saldo > 0 ? 'pos' : r.saldo < 0 ? 'neg' : '');
+    $('c-saldo').textContent = (r.saldo < 0 ? '−' : '') + R(abs);
+    $('c-saldo-d').textContent = r.saldo > 0 ? 'O programa sai mais barato que pagar as devoluções.' : r.saldo < 0 ? 'O programa custa mais do que as devoluções custariam.' : 'Mesmo custo nos dois cenários.';
+    $('c-eq').textContent = r.equilibrio === null ? '—' : pct(r.equilibrio);
+    $('c-eq-d').textContent = r.equilibrio === null
+      ? 'Sem custo por devolução, não há ponto de equilíbrio.'
+      : 'de devolução com custo.' + (r.minimoDevolucoes !== null ? ' Compensa a partir de ' + devTxt(r.minimoDevolucoes) + ' por mês.' : '') + (r.taxaDevolucao !== null ? ' A sua: ' + pct(r.taxaDevolucao) + '.' : '');
+
+    // explicação
+    var p1;
+    if (r.pedidos === 0) {
+      p1 = 'Informe quantos pedidos confirmados você tem por mês para ver se o programa compensa.';
+    } else {
+      p1 = 'Com <b>' + inteiro.format(r.pedidos) + '</b> ' + (r.pedidos === 1 ? 'pedido mensal' : 'pedidos mensais') + ' e <b>' + devTxt(r.devolucoes) + '</b> com custo, sua taxa de devolução é de <b>' + pct(r.taxaDevolucao) + '</b>. ' +
+        'O programa custaria <b>' + R(r.custoCom) + '</b> por mês, enquanto os custos estimados sem o programa seriam <b>' + R(r.custoSem) + '</b>. ' +
+        (r.saldo > 0 ? 'Nesse cenário, a economia estimada seria de <b>' + R(abs) + '</b> mensais.'
+          : r.saldo < 0 ? 'Nesse cenário, aderir custaria <b>' + R(abs) + '</b> a mais por mês do que pagar as devoluções.'
+          : 'Nesse cenário, os dois caminhos custam o mesmo.');
+    }
+    var p2 = '';
+    if (r.minimoDevolucoes !== null && r.equilibrio !== null) {
+      p2 = 'O programa passa a compensar a partir de <b>' + devTxt(r.minimoDevolucoes) + '</b> com custo por mês, ou seja, uma taxa de devolução acima de <b>' + pct(r.equilibrio) + '</b>.';
+    }
+    $('explica').innerHTML = '<p>' + p1 + '</p>' + (p2 ? '<p>' + p2 + '</p>' : '');
+
+    // avisos de entrada
+    var avisos = [];
+    if (r.avisos.indexOf('devolucoes_acima_dos_pedidos') >= 0) avisos.push('Há mais devoluções do que pedidos. Confira os números.');
+    if (r.avisos.indexOf('devolucao_sem_custo') >= 0) avisos.push('Com taxa e frete de devolução zerados, o programa nunca compensa.');
+    if (r.pedidos > 0 && r.avisos.indexOf('programa_sem_custo') >= 0) avisos.push('Com a taxa do programa zerada, aderir sempre compensa.');
+    var av = $('r-aviso');
+    av.hidden = !avisos.length;
+    av.textContent = avisos.join(' ');
+
+    // barra do celular
+    $('dock-rot').textContent = VEREDITO[r.veredito];
+    var dv = $('dock-val');
+    dv.className = r.veredito;
+    dv.textContent = r.veredito === 'empate' ? R(0) : (r.saldo > 0 ? '+' : '−') + R(abs) + '/mês';
+
+    h.classList.remove('pisca'); void h.offsetWidth; h.classList.add('pisca');
+  }
+
+  CAMPOS.forEach(function (c) {
+    $(c).addEventListener('input', calcular);
+    $(c).addEventListener('blur', function () { formatar(c); });
+  });
+  $('limpar').addEventListener('click', function () {
+    CAMPOS.forEach(function (c) { $(c).value = INICIAIS[c]; });
+    calcular();
+  });
+
+  // barra fixa no celular: aparece quando o painel do resultado sai da tela
+  var dock = $('dock'), painel = $('resultado');
+  dock.addEventListener('click', function () { painel.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { dock.classList.toggle('fora', es[0].isIntersecting); }, { threshold: 0.15 }).observe(painel);
+  }
+  var topo = $('topo');
+  window.addEventListener('scroll', function () { topo.classList.toggle('rolou', window.scrollY > 8); }, { passive: true });
+
+  calcular();
+})();
+</script>
+</body>
+</html>
