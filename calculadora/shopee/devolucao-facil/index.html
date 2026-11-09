@@ -42,529 +42,601 @@
 <meta name="theme-color" content="#0F0F0F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* =====================================================================
+     Calculadora Devolução Fácil · gutto.
+     Direção: instrumento de precisão financeira. Preto profundo com grão fino,
+     resultado como protagonista, campos como linhas de livro-caixa, e uma régua
+     que mostra onde a loja está em relação ao ponto de equilíbrio.
+     ===================================================================== */
   :root {
-    --black: #121212;
-    --off-white: #F4F2EE;
+    --bg: #0B0B0A;
+    --bg-2: #121211;
+    --surface: #161615;
+    --surface-2: #1D1C1A;
+    --well: #0F0F0E;
+    --line: #262522;
+    --line-2: #34322E;
+    --ink: #F4F2EE;
+    --ink-2: #C9C5BE;
+    --muted: #8D8880;
+    --faint: #5E5A54;
     --orange: #FF5A1F;
-    --orange-strong: #E8490F;
-    --gray: #6B6862;
-    --white: #FFFFFF;
-    --border: #E2DED7;
-    --border-strong: #C9C4BB;
-    --body: #3A3835;
-    --orange-tint: rgba(255, 90, 31, .09);
-    --good: #2F8F5B;
-    --good-tint: rgba(47, 143, 91, .1);
-    --bad: #C8322F;
-    --bad-tint: rgba(200, 50, 47, .09);
-    --bad-dark: #FF7A4D;
+    --orange-2: #FF7A47;
+    --orange-glow: rgba(255, 90, 31, .22);
+    --green: #6BD49A;
+    --green-dim: rgba(107, 212, 154, .12);
+    --red: #FF7A4D;
+    --red-dim: rgba(255, 122, 77, .12);
 
-    --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --sans: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
     --ease: cubic-bezier(.2, .7, .2, 1);
     --gutter: clamp(16px, 4.5vw, 48px);
+    --r: 20px;
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background: var(--bg); }
   body {
-    margin: 0; min-height: 100vh;
-    font-family: var(--font); font-weight: 500; color: var(--black);
-    background-color: var(--off-white);
-    background-image:
-      linear-gradient(rgba(18,18,18,.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(18,18,18,.035) 1px, transparent 1px);
-    background-size: 28px 28px;
+    margin: 0; min-height: 100vh; position: relative;
+    font-family: var(--sans); font-weight: 500; color: var(--ink); background: var(--bg);
     -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
   }
-  button, input { font-family: inherit; }
+  /* atmosfera: brilho laranja no topo, grade que some e grão de filme */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background:
+      radial-gradient(900px 520px at 78% -8%, rgba(255,90,31,.16), transparent 62%),
+      radial-gradient(700px 480px at -10% 30%, rgba(255,255,255,.035), transparent 60%);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size: 32px 32px;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+            mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+  }
+  .grao {
+    position: fixed; inset: -50%; z-index: 0; pointer-events: none; opacity: .06; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  button, input, select { font-family: inherit; }
   [hidden] { display: none !important; }
   .num { font-variant-numeric: tabular-nums; }
+  .mono { font-family: var(--mono); }
+  ::selection { background: var(--orange); color: #fff; }
 
   /* ---------- topo ---------- */
   .top {
-    position: sticky; top: 0; z-index: 20;
+    position: sticky; top: 0; z-index: 40;
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
     padding: 14px var(--gutter);
-    background: rgba(244, 242, 238, .86);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid transparent; transition: border-color .2s;
+    background: rgba(11, 11, 10, .72);
+    backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid transparent; transition: border-color .25s;
   }
-  .top.rolou { border-bottom-color: var(--border); }
-  .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.05em; line-height: 1; color: var(--black); text-decoration: none; }
+  .top.rolou { border-bottom-color: var(--line); }
+  .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.05em; line-height: 1; color: var(--ink); text-decoration: none; }
   .dot { color: var(--orange); }
-  .top-link { font-size: 14px; font-weight: 800; color: var(--black); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 4px; }
+  .top-dir { display: flex; align-items: center; gap: 18px; }
+  .top-tag { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .top-tag i { display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px rgba(107,212,154,.18); vertical-align: 1px; }
+  .top-link { font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--orange); padding-bottom: 2px; }
+  @media (max-width: 640px) { .top-tag { display: none; } }
 
   /* ---------- abertura ---------- */
-  main { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter) 120px; }
-  .intro { padding: clamp(28px, 6vw, 56px) 0 clamp(20px, 3vw, 32px); }
-  .kicker {
-    display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px;
-    font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gray);
-  }
-  .kicker::before { content: ""; width: 22px; height: 2px; background: var(--orange); }
-  h1 { margin: 0; max-width: 900px; font-weight: 800; letter-spacing: -0.05em; line-height: .98; font-size: clamp(36px, 7vw, 76px); overflow-wrap: break-word; }
+  main { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter) 120px; }
+  .intro { padding: clamp(32px, 7vw, 76px) 0 clamp(24px, 4vw, 44px); display: grid; gap: 22px; }
+  @media (min-width: 1040px) { .intro { grid-template-columns: minmax(0, 1fr) 320px; align-items: end; } }
+  .kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 20px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .kicker b { color: var(--orange); font-weight: 600; }
+  .kicker::before { content: ""; width: 26px; height: 1.5px; background: var(--orange); }
+  h1 { margin: 0; font-weight: 800; letter-spacing: -0.055em; line-height: .92; font-size: clamp(40px, 7.6vw, 92px); overflow-wrap: break-word; }
+  h1 .fino { font-weight: 400; color: var(--ink-2); letter-spacing: -0.045em; }
   h1 em { font-style: normal; color: var(--orange); }
-  .intro p.sub { max-width: 600px; margin: 18px 0 0; font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: var(--body); }
+  .intro p.sub { max-width: 560px; margin: 22px 0 0; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.55; color: var(--ink-2); }
+  .ficha { margin: 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(22,22,21,.6); font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .ficha dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+  .ficha dd { margin: 2px 0 10px; color: var(--ink-2); font-weight: 600; }
+  .ficha dd:last-child { margin-bottom: 0; }
 
-  /* ---------- grade ---------- */
-  .grade { display: grid; gap: 20px; align-items: start; }
-  @media (min-width: 960px) { .grade { grid-template-columns: minmax(0, 1fr) 460px; gap: 28px; } }
-
-  /* formulário */
-  .form { display: grid; gap: 14px; }
-  .grupo { min-width: 0; background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 20px; }
-  .grupo h2 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-  .grupo h2 .n { color: var(--orange); font-variant-numeric: tabular-nums; }
-  .campos { display: grid; gap: 14px; }
-  @media (min-width: 560px) { .campos { grid-template-columns: 1fr 1fr; } .campo.largo { grid-column: 1 / -1; } }
-  .campos.tres { }
-  @media (min-width: 720px) { .campos.tres { grid-template-columns: repeat(3, 1fr); } }
-  .campo label { display: block; margin-bottom: 7px; font-size: 14px; font-weight: 700; color: var(--black); }
-  .caixa {
-    position: relative; display: flex; align-items: center;
-    background: var(--off-white); border: 1.5px solid transparent; border-radius: 12px;
-    transition: border-color .2s, background .2s, box-shadow .2s;
+  /* ---------- cadastro (antes da calculadora) ---------- */
+  .cadastro { display: grid; gap: 22px; align-items: start; }
+  @media (min-width: 980px) { .cadastro { grid-template-columns: minmax(0, 1fr) 470px; gap: 40px; } }
+  .previa {
+    position: relative; overflow: hidden; border-radius: 24px; border: 1px solid var(--line);
+    background: linear-gradient(160deg, var(--surface-2), var(--surface) 55%); padding: 26px 24px 24px; min-height: 340px;
   }
-  .caixa:focus-within { background: var(--white); border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
-  .caixa.erro { border-color: var(--bad); background: var(--bad-tint); }
-  .caixa .pre, .caixa .suf { font-size: 15px; font-weight: 700; color: var(--gray); padding: 0 0 0 14px; white-space: nowrap; }
-  .caixa .suf { padding: 0 14px 0 0; }
-  .caixa input {
-    width: 100%; min-width: 0; border: 0; background: none; outline: none;
-    padding: 13px 14px 13px 8px; font-size: 17px; font-weight: 700; color: var(--black); font-variant-numeric: tabular-nums;
+  .previa::before { content: ""; position: absolute; right: -140px; top: -160px; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, var(--orange-glow), transparent 66%); }
+  .previa-borrada { position: relative; filter: blur(7px); opacity: .75; user-select: none; pointer-events: none; }
+  .previa-borrada .pv-pill { display: inline-block; padding: 8px 14px; border-radius: 999px; background: var(--green-dim); color: var(--green); font-weight: 800; font-size: 13px; letter-spacing: .1em; }
+  .previa-borrada .pv-num { margin: 18px 0 0; font-size: 84px; font-weight: 800; letter-spacing: -0.06em; color: var(--green); line-height: 1; }
+  .previa-borrada .pv-barra { height: 14px; border-radius: 999px; margin-top: 22px; background: linear-gradient(90deg, var(--red-dim) 0 46%, var(--green-dim) 46% 100%); }
+  .previa-borrada .pv-linhas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 22px; }
+  .previa-borrada .pv-linhas span { height: 58px; border-radius: 12px; background: rgba(255,255,255,.06); }
+  .cadeado {
+    position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; padding: 24px;
+    background: radial-gradient(closest-side, rgba(11,11,10,.55), transparent);
   }
-  .caixa input:first-child { padding-left: 14px; }
-  .caixa input::placeholder { color: #B3AEA5; font-weight: 600; }
-  .dica { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--gray); }
-  .dica.erro { color: var(--bad); font-weight: 700; }
-  .acoes-form { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 2px 4px; }
-  .acoes-form p { margin: 0; font-size: 13px; color: var(--gray); }
-  .link-btn { border: 0; background: none; padding: 6px 0; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--black); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--orange); }
+  .cadeado .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--ink); color: var(--bg); box-shadow: 0 18px 40px -12px rgba(0,0,0,.8); }
+  .cadeado b { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
+  .cadeado span { max-width: 300px; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+  .passos { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .passos li { display: grid; grid-template-columns: 44px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .passos .n { font-family: var(--mono); font-size: 12px; color: var(--orange); padding-top: 3px; }
+  .passos b { display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; }
+  .passos span { display: block; margin-top: 2px; font-size: 13.5px; color: var(--muted); }
 
-  /* ---------- painel do resultado ---------- */
+  .cad-card { position: relative; border-radius: 24px; padding: 1px; background: linear-gradient(160deg, rgba(255,90,31,.55), var(--line) 38%, var(--line)); box-shadow: 0 40px 80px -40px rgba(0,0,0,.9); }
+  .cad-in { border-radius: 23px; background: var(--surface); padding: 26px 22px 22px; }
+  .cad-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .cad-topo h2 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.035em; }
+  .cad-topo span { padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,90,31,.5); color: var(--orange-2); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .cad-sub { margin: 6px 0 20px; font-size: 14px; color: var(--muted); }
+  .fc { margin-bottom: 14px; }
+  .fc label.rot { display: block; margin-bottom: 7px; font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .fc input[type=text], .fc input[type=email], .fc input[type=tel], .fc select {
+    width: 100%; padding: 13px 14px; border: 1px solid var(--line-2); border-radius: 12px; background-color: var(--well);
+    font-size: 16px; font-weight: 600; color: var(--ink); outline: none; appearance: none; -webkit-appearance: none;
+    transition: border-color .2s, box-shadow .2s, background-color .2s;
+  }
+  .fc select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238D8880' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; }
+  .fc select option { background: var(--surface); color: var(--ink); }
+  .fc input::placeholder { color: var(--faint); }
+  .fc input:focus, .fc select:focus { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(255,90,31,.14); background-color: #121110; }
+  .fc.erro input, .fc.erro select { border-color: var(--red); background-color: rgba(255,122,77,.07); }
+  .fc .msg { margin: 6px 0 0; font-size: 12.5px; font-weight: 700; color: var(--red); }
+  .fc .msg:empty { display: none; }
+  .aceite { display: flex; gap: 9px; align-items: flex-start; margin-top: 9px; font-size: 12.5px; line-height: 1.45; color: var(--muted); cursor: pointer; }
+  .aceite input { margin: 2px 0 0; accent-color: var(--orange); flex: none; }
+  .btn-cad {
+    position: relative; overflow: hidden; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px;
+    padding: 17px 22px; border: 0; border-radius: 14px; background: var(--orange); color: #fff; cursor: pointer;
+    font-size: 16px; font-weight: 800; letter-spacing: -0.01em; box-shadow: 0 18px 36px -16px rgba(255,90,31,.9), inset 0 1px 0 rgba(255,255,255,.25);
+    transition: transform .2s var(--ease), background .2s;
+  }
+  .btn-cad::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); transform: translateX(-120%); transition: transform .8s var(--ease); }
+  .btn-cad:hover { transform: translateY(-1px); background: #FF6A33; }
+  .btn-cad:hover::after { transform: translateX(120%); }
+  .btn-cad:disabled { opacity: .7; cursor: wait; transform: none; }
+  .btn-cad svg { width: 16px; height: 16px; }
+  .btn-cad:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .erro-envio { margin: 10px 0 0; font-size: 13.5px; font-weight: 700; color: var(--red); }
+  .priv { margin: 12px 0 0; font-size: 12px; text-align: center; color: var(--muted); }
+  .priv a { color: var(--ink); font-weight: 700; }
+
+  /* ---------- calculadora ---------- */
+  #calc { scroll-margin-top: 76px; }
+  .liberada { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; padding: 12px 16px; border-radius: 14px; background: var(--green-dim); border: 1px solid rgba(107,212,154,.25); color: var(--green); font-size: 14px; font-weight: 700; }
+  .painel { display: grid; gap: 16px; align-items: start; }
+  @media (min-width: 1040px) { .painel { grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; } }
+  @media (max-width: 1039px) { .resultado { order: -1; } }
+
+  /* resultado (protagonista) */
   .resultado {
-    position: relative; overflow: hidden;
-    background: var(--black); color: var(--white);
-    border-radius: 22px; padding: 24px 22px 22px; scroll-margin-top: 80px;
+    position: relative; overflow: hidden; isolation: isolate; border-radius: 28px; padding: clamp(22px, 3.4vw, 36px);
+    background: linear-gradient(165deg, #1B1A18 0%, #121211 60%); border: 1px solid var(--line-2);
+    box-shadow: 0 50px 100px -50px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.05);
+    scroll-margin-top: 80px;
   }
-  @media (min-width: 960px) { .resultado { position: sticky; top: 84px; } }
-  .resultado::before {
-    content: ""; position: absolute; right: -120px; top: -140px; width: 320px; height: 320px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,90,31,.38), rgba(255,90,31,0) 68%); pointer-events: none;
-  }
-  .r-rotulo { position: relative; margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.58); }
-  .veredito {
-    position: relative; display: inline-flex; align-items: center; gap: 8px; margin: 14px 0 0;
-    padding: 9px 14px; border-radius: 999px; font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  }
-  .veredito svg { width: 16px; height: 16px; flex: none; }
-  .veredito.vale { background: rgba(47,143,91,.24); color: #8FE0B2; }
-  .veredito.nao_vale { background: rgba(255,122,77,.2); color: #FFB08F; }
-  .veredito.empate { background: rgba(255,255,255,.12); color: var(--white); }
-  .r-heroi { position: relative; margin: 14px 0 0; font-weight: 800; letter-spacing: -0.05em; line-height: 1; font-size: clamp(44px, 6vw, 58px); font-variant-numeric: tabular-nums; }
-  .r-heroi.vale { color: #8FE0B2; }
-  .r-heroi.nao_vale { color: var(--bad-dark); }
-  .r-heroi-sub { position: relative; margin: 8px 0 0; font-size: 14px; font-weight: 700; color: rgba(255,255,255,.7); }
+  .resultado::before { content: ""; position: absolute; z-index: -1; right: -180px; top: -220px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, var(--glow, var(--orange-glow)), transparent 64%); transition: background .6s; }
+  .resultado[data-v="vale"] { --glow: rgba(107,212,154,.16); }
+  .resultado[data-v="nao_vale"] { --glow: rgba(255,122,77,.2); }
+  .r-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .r-rotulo { margin: 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .veredito { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 8px 14px 8px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; transition: background .3s, color .3s; }
+  .veredito svg { width: 15px; height: 15px; flex: none; }
+  .veredito.vale { background: var(--green-dim); color: var(--green); box-shadow: inset 0 0 0 1px rgba(107,212,154,.3); }
+  .veredito.nao_vale { background: var(--red-dim); color: var(--red); box-shadow: inset 0 0 0 1px rgba(255,122,77,.3); }
+  .veredito.empate { background: rgba(255,255,255,.08); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
+  .r-heroi { margin: clamp(18px, 3vw, 28px) 0 0; font-weight: 800; letter-spacing: -0.065em; line-height: .9; font-size: clamp(54px, 9.5vw, 128px); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .r-heroi .moeda { font-size: .42em; letter-spacing: -0.03em; margin-right: .08em; vertical-align: .62em; color: inherit; opacity: .8; }
+  .r-heroi .cent { font-size: .45em; letter-spacing: -0.03em; opacity: .7; }
+  .r-heroi.vale { color: var(--green); }
+  .r-heroi.nao_vale { color: var(--red); }
+  .r-heroi-sub { margin: 12px 0 0; font-size: 15px; font-weight: 600; color: var(--ink-2); }
 
-  /* gráfico de barras: os dois cenários */
-  .grafico { position: relative; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px dashed rgba(255,255,255,.22); }
-  .grafico-tit { margin: 0 0 12px; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.58); }
-  .barra-linha { display: grid; gap: 6px; margin-bottom: 14px; }
-  .barra-linha:last-child { margin-bottom: 0; }
+  /* régua: taxa de devolução da loja × ponto de equilíbrio */
+  .regua { margin: clamp(24px, 3.4vw, 34px) 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); }
+  .regua-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .regua-cab p { margin: 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .regua-cab span { font-size: 13px; color: var(--muted); }
+  .regua-cab span b { color: var(--ink); }
+  .trilho-r { position: relative; height: 12px; border-radius: 999px; background: linear-gradient(90deg, rgba(255,122,77,.24), rgba(255,122,77,.08)); margin: 38px 0 46px; }
+  .trilho-r .zona-ok { position: absolute; top: 0; bottom: 0; right: 0; border-radius: 0 999px 999px 0; background: linear-gradient(90deg, rgba(107,212,154,.1), rgba(107,212,154,.3)); transition: left .6s var(--ease); }
+  .marca { position: absolute; top: 50%; transform: translate(-50%, -50%); transition: left .6s var(--ease); }
+  .marca-eq { width: 2px; height: 30px; background: var(--ink); border-radius: 2px; }
+  .marca-eq .et { position: absolute; top: 36px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
+  .marca-voce { width: 22px; height: 22px; border-radius: 50%; background: var(--orange); border: 4px solid #141413; box-shadow: 0 0 0 1px var(--orange), 0 0 22px rgba(255,90,31,.7); }
+  .marca-voce .et { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); white-space: nowrap; padding: 4px 8px; border-radius: 7px; background: var(--orange); color: #fff; font-family: var(--mono); font-size: 11px; font-weight: 600; }
+  .marca-voce .et::after { content: ""; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; background: var(--orange); transform: translateX(-50%) rotate(45deg); }
+  .regua-leg { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; font-weight: 700; }
+  .regua-leg span:first-child { color: var(--red); }
+  .regua-leg span:last-child { color: var(--green); }
+  .regua-vazia { margin: 0; font-size: 13.5px; color: var(--muted); }
+
+  /* barras: os dois cenários */
+  .cenarios { margin: 26px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); display: grid; gap: 16px; }
+  .cenarios > p { margin: 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .barra-linha { display: grid; gap: 8px; }
   .barra-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14px; }
-  .barra-cab span { color: rgba(255,255,255,.78); font-weight: 600; }
+  .barra-cab span { color: var(--ink-2); font-weight: 600; }
   .barra-cab b { font-weight: 800; font-variant-numeric: tabular-nums; }
-  .trilho { height: 16px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
-  .trilho i { display: block; height: 100%; border-radius: 999px; min-width: 4px; transition: width .5s var(--ease); }
-  .trilho i.sem { background: #C9C4BB; }
-  .trilho i.com { background: var(--orange); }
+  .trilho { height: 10px; border-radius: 999px; background: rgba(255,255,255,.05); overflow: hidden; }
+  .trilho i { display: block; height: 100%; border-radius: 999px; min-width: 4px; transition: width .6s var(--ease); }
+  .trilho i.sem { background: repeating-linear-gradient(135deg, #8D8880 0 6px, #6E6A63 6px 12px); }
+  .trilho i.com { background: linear-gradient(90deg, #E8490F, var(--orange-2)); box-shadow: 0 0 18px rgba(255,90,31,.45); }
   .trilho i.zero { min-width: 0; }
+  .r-aviso { margin: 18px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--red-dim); border: 1px solid rgba(255,122,77,.25); color: #FFC2AA; font-size: 13.5px; line-height: 1.45; }
 
-  .r-aviso { position: relative; margin: 16px 0 0; padding: 12px 14px; border-radius: 12px; background: rgba(255,90,31,.14); color: #FFC7B0; font-size: 13.5px; line-height: 1.45; }
+  /* parâmetros: linhas de livro-caixa */
+  .params { position: relative; border-radius: 24px; border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  @media (min-width: 1040px) { .params { position: sticky; top: 84px; } }
+  .params-cab { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
+  .params-cab h2 { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+  .params-cab .link-btn { font-size: 12.5px; }
+  .grupo-t { margin: 0; padding: 14px 20px 6px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+  .linha-c { padding: 10px 20px 14px; border-bottom: 1px solid var(--line); transition: background .2s; }
+  .linha-c:focus-within { background: rgba(255,90,31,.04); }
+  .linha-c:last-of-type { border-bottom: 0; }
+  .linha-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .linha-c label { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .linha-c label .n { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--orange); margin-right: 8px; }
+  .caixa { display: flex; align-items: center; flex: none; width: 150px; border-radius: 11px; background: var(--well); border: 1px solid var(--line-2); transition: border-color .2s, box-shadow .2s; }
+  .caixa:focus-within { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(255,90,31,.14); }
+  .caixa.erro { border-color: var(--red); background: rgba(255,122,77,.07); }
+  .caixa .pre { padding-left: 12px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+  .caixa input { width: 100%; min-width: 0; border: 0; background: none; outline: none; padding: 11px 12px 11px 8px; text-align: right; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .caixa input:first-child { padding-left: 12px; }
+  .dica { margin: 6px 0 0; font-size: 12px; line-height: 1.4; color: var(--muted); }
+  .dica.erro { color: var(--red); font-weight: 700; }
+  .params-pe { padding: 14px 20px 18px; border-top: 1px solid var(--line); background: var(--bg-2); font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+  .link-btn { border: 0; background: none; padding: 4px 0; cursor: pointer; font-size: 13.5px; font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 3px; }
 
-  /* ---------- cards ---------- */
-  .cards { display: grid; gap: 12px; margin-top: 20px; }
-  @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1040px) { .cards { grid-template-columns: repeat(4, 1fr); } }
-  .card { min-width: 0; background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 16px; }
-  .card h3 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
-  .card .v { margin: 10px 0 0; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-  .card .v.pos { color: var(--good); }
-  .card .v.neg { color: var(--bad); }
-  .card p.d { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--gray); }
-  .card.destaque { border-color: var(--border-strong); }
-  .card.destaque.pos { background: var(--good-tint); border-color: rgba(47,143,91,.35); }
-  .card.destaque.neg { background: var(--bad-tint); border-color: rgba(200,50,47,.3); }
+  /* números do mês: faixa única com 4 células */
+  .metricas { display: grid; margin-top: 16px; border-radius: 22px; border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  @media (min-width: 640px) { .metricas { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .metricas { grid-template-columns: repeat(4, 1fr); } }
+  .met { min-width: 0; padding: 20px 20px 18px; border-bottom: 1px solid var(--line); position: relative; }
+  @media (min-width: 640px) { .met:nth-child(odd) { border-right: 1px solid var(--line); } .met:nth-last-child(-n+2) { border-bottom: 0; } }
+  @media (min-width: 1040px) { .met { border-bottom: 0; border-right: 1px solid var(--line); } .met:last-child { border-right: 0; } }
+  .met h3 { margin: 0; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .met .v { margin: 10px 0 0; font-size: clamp(24px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.045em; line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .met .v.pos { color: var(--green); }
+  .met .v.neg { color: var(--red); }
+  .met p.d { margin: 8px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+  .met.pos::before, .met.neg::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; }
+  .met.pos::before { background: var(--green); }
+  .met.neg::before { background: var(--red); }
 
-  /* explicação e observação */
-  .explica { margin-top: 20px; padding: 20px 22px; background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--orange); border-radius: 18px; }
-  .explica p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--body); }
+  /* leitura do cenário */
+  .explica { position: relative; margin-top: 16px; padding: 22px 24px 22px 26px; border-radius: 22px; border: 1px solid var(--line); background: var(--surface); }
+  .explica::before { content: ""; position: absolute; left: 0; top: 22px; bottom: 22px; width: 3px; border-radius: 0 3px 3px 0; background: var(--orange); }
+  .explica p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink-2); }
   .explica p + p { margin-top: 10px; }
-  .explica b { color: var(--black); }
-  .obs { margin: 14px 4px 0; font-size: 13px; line-height: 1.5; color: var(--gray); }
-  .obs b { color: var(--body); }
+  .explica b { color: var(--ink); }
+  .obs { margin: 14px 6px 0; font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+  .obs b { color: var(--ink-2); }
 
-  /* ---------- como a conta é feita ---------- */
-  details.regras { margin-top: 28px; background: var(--white); border: 1px solid var(--border); border-radius: 18px; }
+  details.regras { margin-top: 24px; border-radius: 20px; border: 1px solid var(--line); background: var(--surface); }
   details.regras summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 20px; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
   details.regras summary::-webkit-details-marker { display: none; }
-  details.regras summary .mais { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--off-white); transition: transform .3s var(--ease); flex: none; }
+  details.regras summary .mais { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); border: 1px solid var(--line-2); transition: transform .3s var(--ease); flex: none; }
   details.regras[open] summary .mais { transform: rotate(45deg); }
-  details.regras summary:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; border-radius: 18px; }
-  .regras-corpo { padding: 0 20px 20px; font-size: 14.5px; line-height: 1.55; color: var(--body); }
-  .regras-corpo ul { margin: 0; padding-left: 18px; }
-  .regras-corpo li { margin: 6px 0; }
-  .regras-corpo code { font-family: inherit; font-weight: 800; color: var(--black); }
+  details.regras summary:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; border-radius: 20px; }
+  .regras-corpo { padding: 0 20px 20px; font-size: 14.5px; line-height: 1.6; color: var(--ink-2); }
+  .regras-corpo ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .regras-corpo li { padding: 10px 12px; border-radius: 12px; background: var(--bg-2); border: 1px solid var(--line); }
+  .regras-corpo code { font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--orange-2); }
+  .regras-corpo p { margin: 14px 0 0; }
 
   /* ---------- CTA gutto ---------- */
   .cta {
-    position: relative; overflow: hidden; isolation: isolate; margin-top: 56px;
+    position: relative; overflow: hidden; isolation: isolate; margin-top: 64px;
     display: grid; gap: 32px; align-items: center;
-    padding: clamp(28px, 5vw, 56px); border-radius: 28px; background: var(--black); color: var(--white);
+    padding: clamp(28px, 5vw, 56px); border-radius: 30px; border: 1px solid var(--line); background: linear-gradient(160deg, #191817, #0F0F0E 70%);
   }
-  .cta::before { content: ""; position: absolute; z-index: -1; width: 620px; height: 620px; right: -160px; top: -200px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.42), transparent 66%); }
-  .cta::after { content: ""; position: absolute; z-index: -1; width: 460px; height: 460px; right: -80px; bottom: -280px; border-radius: 50%; border: 1.5px dashed rgba(255,255,255,.12); }
+  .cta::before { content: ""; position: absolute; z-index: -1; width: 640px; height: 640px; right: -180px; top: -240px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.34), transparent 66%); }
   @media (min-width: 900px) { .cta { grid-template-columns: minmax(0, 1fr) 380px; gap: 56px; } }
-  .cta .kicker { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 18px; padding: 7px 12px; border-radius: 999px; background: rgba(255,90,31,.16); color: #FF8A5C; font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-  .cta .kicker::before { display: none; }
-  .cta .kicker span { color: var(--orange); }
-  .cta h2 { margin: 0; font-size: clamp(32px, 4.8vw, 56px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.02; max-width: 640px; color: var(--white); }
+  .cta .kicker { margin-bottom: 18px; }
+  .cta h2 { margin: 0; font-size: clamp(34px, 4.8vw, 58px); font-weight: 800; letter-spacing: -0.055em; line-height: 1; max-width: 640px; }
   .cta h2 em { font-style: normal; color: var(--orange); }
-  .cta p.cta-sub { margin: 16px 0 0; max-width: 540px; font-size: clamp(15px, 1.6vw, 17.5px); line-height: 1.6; color: #B9B4AB; }
+  .cta p.cta-sub { margin: 16px 0 0; max-width: 540px; font-size: clamp(15px, 1.6vw, 17.5px); line-height: 1.6; color: var(--ink-2); }
   .cta-areas { margin: 24px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-  .cta-areas li { padding: 8px 13px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.14); font-size: 13.5px; font-weight: 700; color: var(--white); }
-  .cta-card { position: relative; padding: 26px 24px 22px; border-radius: 22px; background: var(--white); color: var(--black); box-shadow: 0 30px 60px -24px rgba(0,0,0,.6); }
+  .cta-areas li { padding: 8px 13px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .cta-card { position: relative; padding: 26px 24px 22px; border-radius: 22px; background: var(--ink); color: #121212; box-shadow: 0 30px 60px -24px rgba(0,0,0,.8); }
   .cta-card::before { content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 4px; border-radius: 0 0 6px 6px; background: var(--orange); }
   .cta-card .cc-topo { margin: 0; }
   .cta-card .cc-topo b { font-size: 19px; font-weight: 800; letter-spacing: -0.03em; }
   .cta-card ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
   .cta-card li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: 14.5px; line-height: 1.4; color: #3A3833; }
   .cta-card li::before { content: ""; width: 22px; height: 22px; border-radius: 7px; background: var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 10.5l3 3 7-7.5'/%3E%3C/svg%3E") center / 13px no-repeat; }
-  .cta-acao { margin-top: 20px; display: grid; gap: 10px; justify-items: stretch; text-align: center; }
+  .cta-acao { margin-top: 20px; display: grid; gap: 10px; text-align: center; }
   .btn-cta {
     display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-    padding: 18px 24px; border-radius: 999px; background: var(--orange); color: var(--white);
-    font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
-    box-shadow: 0 14px 28px -12px rgba(255,90,31,.9);
-    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+    padding: 18px 24px; border-radius: 999px; background: var(--orange); color: #fff;
+    font-size: 16px; font-weight: 800; text-decoration: none; white-space: nowrap;
+    box-shadow: 0 14px 28px -12px rgba(255,90,31,.9); transition: transform .25s var(--ease), background .25s;
   }
   .btn-cta svg { transition: transform .25s var(--ease); }
-  .btn-cta:hover { transform: translateY(-2px); background: var(--orange-strong); }
+  .btn-cta:hover { transform: translateY(-2px); background: #E8490F; }
   .btn-cta:hover svg { transform: translateX(4px); }
-  .btn-cta:focus-visible { outline: 3px solid var(--black); outline-offset: 3px; }
-  .cta-acao small { font-size: 12.5px; font-weight: 700; color: var(--gray); }
+  .btn-cta:focus-visible { outline: 3px solid #121212; outline-offset: 3px; }
+  .cta-acao small { font-size: 12.5px; font-weight: 700; color: #6B6862; }
 
-  footer { max-width: 1180px; margin: 0 auto; padding: 28px var(--gutter) 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--gray); }
-  footer a { color: var(--black); font-weight: 700; text-decoration: none; }
+  footer { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 28px var(--gutter) 40px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--ink); font-weight: 700; text-decoration: none; }
 
   /* ---------- barra fixa no celular ---------- */
   .dock {
-    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 30;
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 50;
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 12px 14px 12px 18px; border-radius: 18px; background: var(--black); color: var(--white);
-    box-shadow: 0 12px 32px rgba(18,18,18,.28);
-    border: 0; width: auto; text-align: left; cursor: pointer;
+    padding: 12px 12px 12px 18px; border-radius: 18px; border: 1px solid var(--line-2);
+    background: rgba(29,28,26,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--ink);
+    box-shadow: 0 20px 40px rgba(0,0,0,.6); width: auto; text-align: left; cursor: pointer;
     transition: transform .35s var(--ease), opacity .35s;
   }
   .dock.fora { transform: translateY(140%); opacity: 0; pointer-events: none; }
-  .dock small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .dock small { display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
   .dock strong { display: block; margin-top: 2px; font-size: 21px; font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
-  .dock strong.vale { color: #8FE0B2; }
-  .dock strong.nao_vale { color: var(--bad-dark); }
-  .dock .ver { flex: none; padding: 10px 14px; border-radius: 999px; background: var(--orange); font-size: 13px; font-weight: 800; }
-  @media (min-width: 960px) { .dock { display: none; } }
+  .dock strong.vale { color: var(--green); }
+  .dock strong.nao_vale { color: var(--red); }
+  .dock .ver { flex: none; padding: 10px 14px; border-radius: 12px; background: var(--orange); color: #fff; font-size: 13px; font-weight: 800; }
+  @media (min-width: 1040px) { .dock { display: none; } }
 
-  .sobe { animation: sobe .7s var(--ease) both; }
-  @keyframes sobe { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  .d1 { animation-delay: .05s; } .d2 { animation-delay: .12s; } .d3 { animation-delay: .2s; }
-  .pisca { animation: pisca .45s var(--ease); }
-  @keyframes pisca { 0% { opacity: .35; transform: translateY(3px); } 100% { opacity: 1; transform: none; } }
-  /* ---------- cadastro antes da calculadora ---------- */
-  .cadastro { display: grid; gap: 24px; align-items: start; }
-  @media (min-width: 960px) { .cadastro { grid-template-columns: minmax(0, 1fr) 460px; gap: 40px; } }
-  .cad-passos { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; counter-reset: p; }
-  .cad-passos li { counter-increment: p; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; }
-  .cad-passos li::before { content: counter(p); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--black); color: var(--white); font-weight: 800; font-size: 14px; }
-  .cad-passos b { display: block; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; }
-  .cad-passos span { display: block; margin-top: 2px; font-size: 14px; color: var(--gray); line-height: 1.45; }
-  .cad-o-que { margin: 22px 0 0; padding: 18px; background: var(--white); border: 1px solid var(--border); border-radius: 18px; }
-  .cad-o-que p { margin: 0 0 10px; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
-  .cad-o-que ul { margin: 0; padding-left: 18px; font-size: 14.5px; line-height: 1.6; color: var(--body); }
-  .cad-card { position: relative; background: var(--white); border: 1px solid var(--border); border-radius: 22px; padding: 24px 20px 20px; box-shadow: 0 24px 50px -30px rgba(18,18,18,.35); }
-  .cad-card::before { content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 4px; border-radius: 0 0 6px 6px; background: var(--orange); }
-  .cad-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-  .cad-topo h2 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; }
-  .cad-topo span { padding: 5px 10px; border-radius: 999px; background: var(--orange); color: var(--white); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-  .cad-sub { margin: 6px 0 18px; font-size: 14px; color: var(--gray); }
-  .fc { margin-bottom: 14px; }
-  .fc label.rot { display: block; margin-bottom: 7px; font-size: 14px; font-weight: 700; }
-  .fc input[type=text], .fc input[type=email], .fc input[type=tel], .fc select {
-    width: 100%; padding: 13px 14px; border: 1.5px solid transparent; border-radius: 12px; background: var(--off-white);
-    font-family: inherit; font-size: 16px; font-weight: 600; color: var(--black); outline: none; appearance: none; -webkit-appearance: none;
-    transition: border-color .2s, background .2s, box-shadow .2s;
-  }
-  .fc select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%236B6862' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; }
-  .fc input:focus, .fc select:focus { background-color: var(--white); border-color: var(--orange); box-shadow: 0 0 0 4px var(--orange-tint); }
-  .fc.erro input, .fc.erro select { border-color: var(--bad); background-color: var(--bad-tint); }
-  .fc .msg { margin: 6px 0 0; font-size: 12.5px; font-weight: 700; color: var(--bad); }
-  .fc .msg:empty { display: none; }
-  .aceite { display: flex; gap: 8px; align-items: flex-start; margin-top: 8px; font-size: 12.5px; line-height: 1.4; color: var(--gray); cursor: pointer; }
-  .aceite input { margin: 2px 0 0; accent-color: var(--orange); flex: none; }
-  .btn-cad {
-    width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 6px;
-    padding: 17px 22px; border: 0; border-radius: 999px; background: var(--orange); color: var(--white); cursor: pointer;
-    font-family: inherit; font-size: 16px; font-weight: 800; box-shadow: 0 14px 28px -12px rgba(255,90,31,.9);
-    transition: background .2s, transform .2s;
-  }
-  .btn-cad:hover { background: var(--orange-strong); transform: translateY(-1px); }
-  .btn-cad:disabled { opacity: .7; cursor: wait; transform: none; }
-  .btn-cad svg { width: 16px; height: 16px; }
-  .erro-envio { margin: 10px 0 0; font-size: 13.5px; font-weight: 700; color: var(--bad); }
-  .priv { margin: 12px 0 0; font-size: 12px; text-align: center; color: var(--gray); }
-  .priv a { color: var(--black); font-weight: 700; }
-  #calc { scroll-margin-top: 76px; }
-  .liberada { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; padding: 12px 16px; border-radius: 14px; background: var(--good-tint); color: var(--good); font-size: 14.5px; font-weight: 700; }
-  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-  @media (max-width: 420px) { .logo { font-size: 22px; } .top-link { font-size: 13px; } }
+  /* ---------- movimento ---------- */
+  .sobe { animation: sobe .8s var(--ease) both; }
+  @keyframes sobe { from { opacity: 0; transform: translateY(16px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+  .d1 { animation-delay: .06s; } .d2 { animation-delay: .14s; } .d3 { animation-delay: .24s; } .d4 { animation-delay: .34s; }
+  .troca { animation: troca .45s var(--ease); }
+  @keyframes troca { from { opacity: .3; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 420px) { .logo { font-size: 22px; } .caixa { width: 128px; } .r-heroi { font-size: 50px; } }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   }
-
-  /* ---------- versão preta (pedido do Bruno em 09/11) ---------- */
-  body { color: #F4F2EE; background-color: #0F0F0F;
-    background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); }
-  .top { background: rgba(15,15,15,.86); }
-  .top.rolou { border-bottom-color: #2A2927; }
-  .logo, .top-link, .link-btn, footer a, .priv a, .cad-topo h2, .cad-passos b { color: #F4F2EE; }
-  .kicker, .dica, .acoes-form p, .card h3, .cad-sub, .cad-passos span, .cad-o-que p, .aceite, .priv, .obs, footer { color: #A39F98; }
-  .intro p.sub, .explica p, .regras-corpo, .cad-o-que ul, .obs b { color: #C9C5BE; }
-  .grupo, .card, .explica, details.regras, .cad-card, .cad-o-que { background: #1A1A19; border-color: #2E2D2B; }
-  .cad-card { box-shadow: 0 24px 50px -30px rgba(0,0,0,.8); }
-  .explica { border-left-color: var(--orange); }
-  .explica b, .regras-corpo code, .campo label, .fc label.rot, .grupo h2, .card .v { color: #F4F2EE; }
-  .caixa, .fc input[type=text], .fc input[type=email], .fc input[type=tel], .fc select { background-color: #262523; }
-  .caixa:focus-within, .fc input:focus, .fc select:focus { background-color: #2E2C2A; }
-  .caixa input, .fc input, .fc select { color: #F4F2EE; }
-  .fc select option { background: #1A1A19; color: #F4F2EE; }
-  .caixa input::placeholder, .fc input::placeholder { color: #6E6A63; }
-  .caixa .pre, .caixa .suf { color: #A39F98; }
-  .caixa.erro, .fc.erro input, .fc.erro select { border-color: #FF7A4D; background-color: rgba(255,122,77,.1); }
-  .dica.erro, .fc .msg, .erro-envio { color: #FF8F68; }
-  .resultado { background: #1A1A19; border: 1px solid #2E2D2B; }
-  .card .v.pos { color: #5BC88A; }
-  .card .v.neg { color: #FF7A4D; }
-  .card.destaque { border-color: #3A3936; }
-  .card.destaque.pos { background: rgba(47,143,91,.14); border-color: rgba(91,200,138,.35); }
-  .card.destaque.neg { background: rgba(255,122,77,.1); border-color: rgba(255,122,77,.35); }
-  details.regras summary .mais { background: #262523; }
-  .cad-passos li::before { background: var(--orange); color: #FFFFFF; }
-  .liberada { background: rgba(91,200,138,.12); color: #8FE0B2; }
-  .cta { background: #1A1A19; border: 1px solid #2E2D2B; }
-  footer { border-top-color: #2A2927; }
-  .dock { background: #262523; border: 1px solid #3A3936; }
 </style>
 </head>
 <body>
+<div class="grao" aria-hidden="true"></div>
 
 <header class="top" id="topo">
   <a class="logo" href="/?utm_source=calculadora&amp;utm_medium=site&amp;utm_campaign=calculadora&amp;utm_content=logo_devolucao_facil" aria-label="gutto. — página inicial">gutto<span class="dot">.</span></a>
-  <a class="top-link" href="/calculadora">Outras calculadoras</a>
+  <div class="top-dir">
+    <span class="top-tag"><i></i>Grátis · sem instalar nada</span>
+    <a class="top-link" href="/calculadora">Outras calculadoras</a>
+  </div>
 </header>
 
 <main>
   <section class="intro">
-    <p class="kicker sobe">Shopee · Devolução Fácil</p>
-    <h1 class="sobe d1">Calculadora Devolução Fácil <em>Shopee</em><span class="dot">.</span></h1>
-    <p class="sub sobe d2">Descubra em segundos se aderir ao Devolução Fácil realmente compensa para sua operação.</p>
+    <div>
+      <p class="kicker sobe"><b>Shopee</b> Devolução Fácil</p>
+      <h1 class="sobe d1">Calculadora <span class="fino">Devolução Fácil</span> <em>Shopee</em><span class="dot">.</span></h1>
+      <p class="sub sobe d2">Descubra em segundos se aderir ao Devolução Fácil realmente compensa para sua operação.</p>
+    </div>
+    <dl class="ficha sobe d3">
+      <dt>O que compara</dt><dd>Taxa por pedido × taxa e frete de cada devolução</dd>
+      <dt>Você recebe</dt><dd>Veredito, economia ou prejuízo e o ponto de equilíbrio</dd>
+    </dl>
   </section>
 
   <section class="cadastro" id="cadastro" aria-labelledby="cad-tit">
     <div class="sobe d3">
-      <ol class="cad-passos">
-        <li><div><b>Preencha seus dados</b><span>Leva menos de 1 minuto.</span></div></li>
-        <li><div><b>A calculadora abre na hora</b><span>Aqui mesmo, nesta página.</span></div></li>
-        <li><div><b>Coloque os números da sua loja</b><span>Pedidos, devoluções e taxas do mês.</span></div></li>
-      </ol>
-      <div class="cad-o-que">
-        <p>O que você vai ver</p>
-        <ul>
-          <li>Se vale a pena aderir ao Devolução Fácil</li>
-          <li>Quanto você economiza ou perde por mês</li>
-          <li>A partir de quantas devoluções o programa compensa</li>
-        </ul>
+      <div class="previa" aria-hidden="true">
+        <div class="previa-borrada">
+          <span class="pv-pill">VALE A PENA ADERIR</span>
+          <p class="pv-num">+R$ 350</p>
+          <div class="pv-barra"></div>
+          <div class="pv-linhas"><span></span><span></span><span></span></div>
+        </div>
+        <div class="cadeado">
+          <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></span>
+          <b>Seu resultado aparece aqui</b>
+          <span>Preencha o cadastro ao lado e a calculadora abre na hora, nesta mesma página.</span>
+        </div>
       </div>
+      <ol class="passos">
+        <li><span class="n">01</span><div><b>Preencha seus dados</b><span>Leva menos de 1 minuto.</span></div></li>
+        <li><span class="n">02</span><div><b>A calculadora abre na hora</b><span>Aqui mesmo, nesta página.</span></div></li>
+        <li><span class="n">03</span><div><b>Coloque os números da sua loja</b><span>Pedidos, devoluções e taxas do mês.</span></div></li>
+      </ol>
     </div>
-    <div class="cad-card sobe d3">
-      <form id="form-cad" novalidate>
-        <div class="cad-topo"><h2 id="cad-tit">Acessar a calculadora</h2><span>Grátis</span></div>
-        <p class="cad-sub">Preencha e a calculadora abre na hora.</p>
+    <div class="cad-card sobe d4">
+      <div class="cad-in">
+        <form id="form-cad" novalidate>
+          <div class="cad-topo"><h2 id="cad-tit">Acessar a calculadora</h2><span>Grátis</span></div>
+          <p class="cad-sub">Preencha e a calculadora abre na hora.</p>
 
-        <div class="fc" data-campo="nome">
-          <label class="rot" for="f-nome">Seu nome</label>
-          <input id="f-nome" type="text" autocomplete="name" autocapitalize="words" maxlength="120" placeholder="Nome e sobrenome" required>
-          <p class="msg" role="alert"></p>
-        </div>
-        <div class="fc" data-campo="email">
-          <label class="rot" for="f-email">Seu melhor e-mail</label>
-          <input id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="voce@email.com" required>
-          <p class="msg" role="alert"></p>
-          <label class="aceite"><input type="checkbox" id="f-aceita"> <span>Aceito receber e-mails da gutto com conteúdo e ofertas. Dá para sair a qualquer momento.</span></label>
-        </div>
-        <div class="fc" data-campo="whatsapp">
-          <label class="rot" for="f-whatsapp">WhatsApp com DDD</label>
-          <input id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999" required>
-          <p class="msg" role="alert"></p>
-          <label class="aceite"><input type="checkbox" id="f-aceita-wa"> <span>Aceito receber mensagens da gutto no WhatsApp. Para sair, é só responder SAIR.</span></label>
-        </div>
-        <div class="fc" data-campo="faturamento">
-          <label class="rot" for="f-faturamento">Quanto você fatura por mês no marketplace?</label>
-          <select id="f-faturamento" required>
-            <option value="" disabled selected>Selecione uma opção</option>
-            <option value="nao_vende">Ainda não vendo em marketplace</option>
-            <option value="ate_5k">Até R$ 5 mil</option>
-            <option value="5k_20k">De R$ 5 mil a R$ 20 mil</option>
-            <option value="20k_50k">De R$ 20 mil a R$ 50 mil</option>
-            <option value="50k_100k">De R$ 50 mil a R$ 100 mil</option>
-            <option value="100k_250k">De R$ 100 mil a R$ 250 mil</option>
-            <option value="250k_500k">De R$ 250 mil a R$ 500 mil</option>
-            <option value="acima_500k">Acima de R$ 500 mil</option>
-          </select>
-          <p class="msg" role="alert"></p>
-        </div>
-        <div class="fc" data-campo="perfil">
-          <label class="rot" for="f-perfil">Você fabrica ou revende?</label>
-          <select id="f-perfil" required>
-            <option value="" disabled selected>Selecione uma opção</option>
-            <option value="fabrica">Fabrico (produção própria ou terceirizada)</option>
-            <option value="revende">Revendo produtos de outras marcas</option>
-            <option value="nao_comecou">Ainda não comecei</option>
-          </select>
-          <p class="msg" role="alert"></p>
-        </div>
+          <div class="fc" data-campo="nome">
+            <label class="rot" for="f-nome">Seu nome</label>
+            <input id="f-nome" type="text" autocomplete="name" autocapitalize="words" maxlength="120" placeholder="Nome e sobrenome" required>
+            <p class="msg" role="alert"></p>
+          </div>
+          <div class="fc" data-campo="email">
+            <label class="rot" for="f-email">Seu melhor e-mail</label>
+            <input id="f-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="voce@email.com" required>
+            <p class="msg" role="alert"></p>
+            <label class="aceite"><input type="checkbox" id="f-aceita"> <span>Aceito receber e-mails da gutto com conteúdo e ofertas. Dá para sair a qualquer momento.</span></label>
+          </div>
+          <div class="fc" data-campo="whatsapp">
+            <label class="rot" for="f-whatsapp">WhatsApp com DDD</label>
+            <input id="f-whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999" required>
+            <p class="msg" role="alert"></p>
+            <label class="aceite"><input type="checkbox" id="f-aceita-wa"> <span>Aceito receber mensagens da gutto no WhatsApp. Para sair, é só responder SAIR.</span></label>
+          </div>
+          <div class="fc" data-campo="faturamento">
+            <label class="rot" for="f-faturamento">Quanto você fatura por mês no marketplace?</label>
+            <select id="f-faturamento" required>
+              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="nao_vende">Ainda não vendo em marketplace</option>
+              <option value="ate_5k">Até R$ 5 mil</option>
+              <option value="5k_20k">De R$ 5 mil a R$ 20 mil</option>
+              <option value="20k_50k">De R$ 20 mil a R$ 50 mil</option>
+              <option value="50k_100k">De R$ 50 mil a R$ 100 mil</option>
+              <option value="100k_250k">De R$ 100 mil a R$ 250 mil</option>
+              <option value="250k_500k">De R$ 250 mil a R$ 500 mil</option>
+              <option value="acima_500k">Acima de R$ 500 mil</option>
+            </select>
+            <p class="msg" role="alert"></p>
+          </div>
+          <div class="fc" data-campo="perfil">
+            <label class="rot" for="f-perfil">Você fabrica ou revende?</label>
+            <select id="f-perfil" required>
+              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="fabrica">Fabrico (produção própria ou terceirizada)</option>
+              <option value="revende">Revendo produtos de outras marcas</option>
+              <option value="nao_comecou">Ainda não comecei</option>
+            </select>
+            <p class="msg" role="alert"></p>
+          </div>
 
-        <button class="btn-cad" type="submit" id="enviar"><span>Acessar calculadora</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
-        <p class="erro-envio" id="erro-envio" role="alert" hidden>Não deu para liberar agora, deve ter sido a conexão. Tenta de novo?</p>
-        <p class="priv">Ao continuar, você concorda com a nossa <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
-      </form>
+          <button class="btn-cad" type="submit" id="enviar"><span>Acessar calculadora</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+          <p class="erro-envio" id="erro-envio" role="alert" hidden>Não deu para liberar agora, deve ter sido a conexão. Tenta de novo?</p>
+          <p class="priv">Ao continuar, você concorda com a nossa <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
+        </form>
+      </div>
     </div>
   </section>
 
   <div id="calc" hidden>
-  <p class="liberada" id="liberada" hidden><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg> Calculadora liberada. Os números de exemplo já estão preenchidos: troque pelos da sua loja.</p>
-  <div class="grade">
-    <form class="form sobe d3" id="form" novalidate onsubmit="return false">
-      <section class="grupo" aria-labelledby="g1">
-        <h2 id="g1"><span class="n">01</span> Sua operação no mês</h2>
-        <div class="campos">
-          <div class="campo">
-            <label for="pedidos">Pedidos confirmados por mês</label>
-            <div class="caixa"><input id="pedidos" inputmode="numeric" autocomplete="off" data-tipo="inteiro" value="10.000" aria-describedby="d-pedidos"><span class="suf">pedidos</span></div>
-            <p class="dica" id="d-pedidos">Todos os pedidos confirmados do mês. A taxa do programa vale para cada um.</p>
+    <p class="liberada" id="liberada" hidden><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg> Calculadora liberada. Os números de exemplo já estão preenchidos: troque pelos da sua loja.</p>
+
+    <div class="painel">
+      <section class="resultado" id="resultado" aria-labelledby="r-rot" aria-live="polite" data-v="vale">
+        <div class="r-cab">
+          <p class="r-rotulo" id="r-rot">Resultado do mês</p>
+          <p class="veredito" id="veredito"></p>
+        </div>
+        <p class="r-heroi" id="heroi"></p>
+        <p class="r-heroi-sub" id="heroi-sub"></p>
+
+        <div class="regua" id="regua">
+          <div class="regua-cab">
+            <p>Sua taxa de devolução</p>
+            <span id="regua-txt"></span>
           </div>
-          <div class="campo">
-            <label for="devolucoes">Devoluções com custo para você</label>
-            <div class="caixa"><input id="devolucoes" inputmode="numeric" autocomplete="off" data-tipo="inteiro" value="150" aria-describedby="d-devolucoes"><span class="suf">por mês</span></div>
-            <p class="dica" id="d-devolucoes">Só as que gerariam cobrança para você e que o programa cobriria.</p>
+          <div id="regua-corpo">
+            <div class="trilho-r" role="img" id="regua-img" aria-label="">
+              <span class="zona-ok" id="r-zona"></span>
+              <span class="marca marca-eq" id="r-eq"><span class="et" id="r-eq-rot"></span></span>
+              <span class="marca marca-voce" id="r-voce"><span class="et" id="r-voce-rot"></span></span>
+            </div>
+            <div class="regua-leg"><span>Não compensa</span><span>Compensa</span></div>
+          </div>
+          <p class="regua-vazia" id="regua-vazia" hidden></p>
+        </div>
+
+        <div class="cenarios" role="img" id="grafico" aria-label="">
+          <p>Custo mensal nos dois cenários</p>
+          <div class="barra-linha">
+            <div class="barra-cab"><span>Sem Devolução Fácil</span><b id="g-sem"></b></div>
+            <div class="trilho"><i class="sem" id="b-sem"></i></div>
+          </div>
+          <div class="barra-linha">
+            <div class="barra-cab"><span>Com Devolução Fácil</span><b id="g-com"></b></div>
+            <div class="trilho"><i class="com" id="b-com"></i></div>
           </div>
         </div>
+        <p class="r-aviso" id="r-aviso" hidden></p>
       </section>
 
-      <section class="grupo" aria-labelledby="g2">
-        <h2 id="g2"><span class="n">02</span> Taxas da simulação</h2>
-        <div class="campos tres">
-          <div class="campo">
-            <label for="taxaPrograma">Taxa do programa</label>
+      <form class="params" id="form" novalidate onsubmit="return false" aria-labelledby="p-tit">
+        <div class="params-cab">
+          <h2 id="p-tit">Números da sua loja</h2>
+          <button type="button" class="link-btn" id="limpar">Restaurar exemplo</button>
+        </div>
+        <p class="grupo-t">Operação no mês</p>
+        <div class="linha-c">
+          <div class="linha-topo">
+            <label for="pedidos"><span class="n">01</span>Pedidos confirmados</label>
+            <div class="caixa"><input id="pedidos" inputmode="numeric" autocomplete="off" data-tipo="inteiro" value="10.000" aria-describedby="d-pedidos"></div>
+          </div>
+          <p class="dica" id="d-pedidos">Todos do mês. A taxa do programa vale para cada um.</p>
+        </div>
+        <div class="linha-c">
+          <div class="linha-topo">
+            <label for="devolucoes"><span class="n">02</span>Devoluções com custo</label>
+            <div class="caixa"><input id="devolucoes" inputmode="numeric" autocomplete="off" data-tipo="inteiro" value="150" aria-describedby="d-devolucoes"></div>
+          </div>
+          <p class="dica" id="d-devolucoes">Só as que gerariam cobrança e que o programa cobriria.</p>
+        </div>
+        <p class="grupo-t">Taxas da simulação</p>
+        <div class="linha-c">
+          <div class="linha-topo">
+            <label for="taxaPrograma"><span class="n">03</span>Taxa do programa</label>
             <div class="caixa"><span class="pre">R$</span><input id="taxaPrograma" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="0,49" aria-describedby="d-taxaPrograma"></div>
-            <p class="dica" id="d-taxaPrograma">Por pedido confirmado.</p>
           </div>
-          <div class="campo">
-            <label for="taxaDevolucao">Taxa por devolução</label>
+          <p class="dica" id="d-taxaPrograma">Por pedido confirmado.</p>
+        </div>
+        <div class="linha-c">
+          <div class="linha-topo">
+            <label for="taxaDevolucao"><span class="n">04</span>Taxa por devolução</label>
             <div class="caixa"><span class="pre">R$</span><input id="taxaDevolucao" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="15,00" aria-describedby="d-taxaDevolucao"></div>
-            <p class="dica" id="d-taxaDevolucao">Cobrada sem o programa.</p>
           </div>
-          <div class="campo">
-            <label for="frete">Frete por devolução</label>
+          <p class="dica" id="d-taxaDevolucao">Cobrada sem o programa.</p>
+        </div>
+        <div class="linha-c">
+          <div class="linha-topo">
+            <label for="frete"><span class="n">05</span>Frete por devolução</label>
             <div class="caixa"><span class="pre">R$</span><input id="frete" inputmode="decimal" autocomplete="off" data-tipo="dinheiro" value="20,00" aria-describedby="d-frete"></div>
-            <p class="dica" id="d-frete">Frete médio da volta.</p>
           </div>
+          <p class="dica" id="d-frete">Frete médio da volta.</p>
         </div>
-      </section>
-
-      <div class="acoes-form">
-        <p>Os valores de taxa são um ponto de partida. Troque pelos da sua loja.</p>
-        <button type="button" class="link-btn" id="limpar">Voltar aos valores iniciais</button>
-      </div>
-    </form>
-
-    <section class="resultado" id="resultado" aria-labelledby="r-rot" aria-live="polite">
-      <p class="r-rotulo" id="r-rot">Resultado do mês</p>
-      <p class="veredito" id="veredito"></p>
-      <p class="r-heroi" id="heroi"></p>
-      <p class="r-heroi-sub" id="heroi-sub"></p>
-
-      <div class="grafico" role="img" id="grafico" aria-label="">
-        <p class="grafico-tit">Custo mensal nos dois cenários</p>
-        <div class="barra-linha">
-          <div class="barra-cab"><span>Sem Devolução Fácil</span><b id="g-sem"></b></div>
-          <div class="trilho"><i class="sem" id="b-sem"></i></div>
-        </div>
-        <div class="barra-linha">
-          <div class="barra-cab"><span>Com Devolução Fácil</span><b id="g-com"></b></div>
-          <div class="trilho"><i class="com" id="b-com"></i></div>
-        </div>
-      </div>
-      <p class="r-aviso" id="r-aviso" hidden></p>
-    </section>
-  </div>
-
-  <div class="cards" id="cards">
-    <article class="card">
-      <h3>Custo com Devolução Fácil</h3>
-      <p class="v" id="c-com"></p>
-      <p class="d" id="c-com-d"></p>
-    </article>
-    <article class="card">
-      <h3>Custo sem Devolução Fácil</h3>
-      <p class="v" id="c-sem"></p>
-      <p class="d" id="c-sem-d"></p>
-    </article>
-    <article class="card destaque" id="c-saldo-card">
-      <h3 id="c-saldo-tit">Economia mensal</h3>
-      <p class="v" id="c-saldo"></p>
-      <p class="d" id="c-saldo-d"></p>
-    </article>
-    <article class="card">
-      <h3>Ponto de equilíbrio</h3>
-      <p class="v" id="c-eq"></p>
-      <p class="d" id="c-eq-d"></p>
-    </article>
-  </div>
-
-  <div class="explica" id="explica"></div>
-  <p class="obs"><b>Importante:</b> R$ 0,49, R$ 15,00 e R$ 20,00 são valores iniciais de simulação, não tarifas garantidas. As taxas, as condições de cobertura e as regras do Devolução Fácil são da Shopee e podem mudar; confira sempre na Central do Vendedor. O resultado é uma estimativa, não uma garantia de economia. A conta não inclui produto perdido nem outras despesas da devolução.</p>
-
-  <details class="regras">
-    <summary>Como a conta é feita <span class="mais" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary>
-    <div class="regras-corpo">
-      <ul>
-        <li><code>Custo com o programa</code> = pedidos confirmados × taxa do programa.</li>
-        <li><code>Custo sem o programa</code> = devoluções com custo × (taxa por devolução + frete).</li>
-        <li><code>Economia ou prejuízo</code> = custo sem o programa − custo com o programa.</li>
-        <li><code>Taxa de devolução</code> = devoluções com custo ÷ pedidos confirmados.</li>
-        <li><code>Ponto de equilíbrio</code> = taxa do programa ÷ (taxa por devolução + frete). É a taxa de devolução em que os dois cenários custam o mesmo.</li>
-        <li><code>Devoluções mínimas</code> = o menor número de devoluções por mês em que o custo evitado passa o custo do programa.</li>
-      </ul>
-      <p>Só entram as devoluções que gerariam cobrança para você e que o programa cobriria. Devolução sem custo para o vendedor não muda a conta.</p>
+        <p class="params-pe">Os valores de taxa são um ponto de partida. Troque pelos da sua loja: o resultado muda na hora.</p>
+      </form>
     </div>
-  </details>
+
+    <div class="metricas" id="cards">
+      <article class="met">
+        <h3>Custo com o programa</h3>
+        <p class="v" id="c-com"></p>
+        <p class="d" id="c-com-d"></p>
+      </article>
+      <article class="met">
+        <h3>Custo sem o programa</h3>
+        <p class="v" id="c-sem"></p>
+        <p class="d" id="c-sem-d"></p>
+      </article>
+      <article class="met" id="c-saldo-card">
+        <h3 id="c-saldo-tit">Economia mensal</h3>
+        <p class="v" id="c-saldo"></p>
+        <p class="d" id="c-saldo-d"></p>
+      </article>
+      <article class="met">
+        <h3>Ponto de equilíbrio</h3>
+        <p class="v" id="c-eq"></p>
+        <p class="d" id="c-eq-d"></p>
+      </article>
+    </div>
+
+    <div class="explica" id="explica"></div>
+    <p class="obs"><b>Importante:</b> R$ 0,49, R$ 15,00 e R$ 20,00 são valores iniciais de simulação, não tarifas garantidas. As taxas, as condições de cobertura e as regras do Devolução Fácil são da Shopee e podem mudar; confira sempre na Central do Vendedor. O resultado é uma estimativa, não uma garantia de economia. A conta não inclui produto perdido nem outras despesas da devolução.</p>
+
+    <details class="regras">
+      <summary>Como a conta é feita <span class="mais" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary>
+      <div class="regras-corpo">
+        <ul>
+          <li><code>Custo com o programa</code> = pedidos confirmados × taxa do programa.</li>
+          <li><code>Custo sem o programa</code> = devoluções com custo × (taxa por devolução + frete).</li>
+          <li><code>Economia ou prejuízo</code> = custo sem o programa − custo com o programa.</li>
+          <li><code>Taxa de devolução</code> = devoluções com custo ÷ pedidos confirmados.</li>
+          <li><code>Ponto de equilíbrio</code> = taxa do programa ÷ (taxa por devolução + frete). É a taxa de devolução em que os dois cenários custam o mesmo.</li>
+          <li><code>Devoluções mínimas</code> = o menor número de devoluções por mês em que o custo evitado passa o custo do programa.</li>
+        </ul>
+        <p>Só entram as devoluções que gerariam cobrança para você e que o programa cobriria. Devolução sem custo para o vendedor não muda a conta.</p>
+      </div>
+    </details>
   </div>
 
   <section class="cta" aria-labelledby="cta-tit">
     <div>
-      <p class="kicker">gutto<span>.</span> assessoria de marketplace</p>
+      <p class="kicker"><b>gutto.</b> assessoria de marketplace</p>
       <h2 id="cta-tit">Devolução comendo a sua <em>margem?</em></h2>
       <p class="cta-sub">A gente cuida da sua operação nos marketplaces: preço, anúncios, devoluções e margem por venda. Conheça como funciona a nossa gestão.</p>
       <ul class="cta-areas" aria-label="O que a gutto cuida"><li>Preço certo por anúncio</li><li>Anúncios que vendem</li><li>Margem por venda</li></ul>
@@ -592,7 +664,7 @@
 
 <button type="button" class="dock fora" id="dock" hidden aria-label="Ver o resultado completo">
   <span><small id="dock-rot">Resultado</small><strong id="dock-val">R$ 0,00</strong></span>
-  <span class="ver">Ver conta</span>
+  <span class="ver">Ver resultado</span>
 </button>
 
 <script src="/kit/config.js"></script>
@@ -715,6 +787,7 @@
   var INICIAIS = { pedidos: '10.000', devolucoes: '150', taxaPrograma: '0,49', taxaDevolucao: '15,00', frete: '20,00' };
   var DICAS = {};
   CAMPOS.forEach(function (c) { DICAS[c] = $('d-' + c).textContent; });
+  var calmo = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var ICONES = {
     vale: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8"/></svg>',
@@ -723,7 +796,6 @@
   };
   var VEREDITO = { vale: 'Vale a pena aderir', nao_vale: 'Não vale a pena aderir', empate: 'Ponto de equilíbrio' };
 
-  /* lê e valida um campo: vazio = 0; inválido marca o campo e usa 0 */
   function ler(c) {
     var el = $(c), caixa = el.parentNode, dica = $('d-' + c);
     var t = el.value.trim();
@@ -735,52 +807,93 @@
     dica.classList.toggle('erro', ruim);
     return ruim ? 0 : v;
   }
-
   function formatar(c) {
     var el = $(c), v = D.lerNumero(el.value);
     if (Number.isNaN(v) || el.value.trim() === '') return;
     if (el.dataset.tipo === 'inteiro') { if (v % 1 === 0) el.value = inteiro.format(v); }
     else el.value = dinheiro.format(v);
   }
-
   function pedidosTxt(n) { return inteiro.format(n) + (n === 1 ? ' pedido' : ' pedidos'); }
   function devTxt(n) { return inteiro.format(n) + (n === 1 ? ' devolução' : ' devoluções'); }
+
+  /* número grande: "R$" e centavos menores; conta até o valor novo */
+  var heroiAtual = 0, animId = 0;
+  function pintarHeroi(valor, sinal) {
+    var partes = dinheiro.format(Math.abs(valor)).split(',');
+    $('heroi').innerHTML = (sinal || '') + '<span class="moeda">R$</span>' + partes[0] + '<span class="cent">,' + partes[1] + '</span>';
+  }
+  function animarHeroi(alvo, sinal) {
+    cancelAnimationFrame(animId);
+    var de = heroiAtual, t0 = performance.now(), dur = calmo ? 0 : 520;
+    (function passo(t) {
+      var k = dur ? Math.min(1, (t - t0) / dur) : 1;
+      var e = 1 - Math.pow(1 - k, 3);
+      pintarHeroi(de + (alvo - de) * e, sinal);
+      if (k < 1) animId = requestAnimationFrame(passo); else heroiAtual = alvo;
+    })(t0);
+  }
 
   function calcular() {
     var e = {};
     CAMPOS.forEach(function (c) { e[c] = ler(c); });
     var r = D.devolucaoFacil(e);
     var abs = Math.abs(r.saldo);
+    var res = $('resultado');
+    if (res.dataset.v !== r.veredito) {
+      var v = $('veredito');
+      v.classList.remove('troca'); void v.offsetWidth; v.classList.add('troca');
+    }
+    res.dataset.v = r.veredito;
 
-    // veredito e valor principal
-    var v = $('veredito');
-    v.className = 'veredito ' + r.veredito;
-    v.innerHTML = ICONES[r.veredito] + VEREDITO[r.veredito];
+    var v2 = $('veredito');
+    v2.className = 'veredito troca ' + r.veredito;
+    v2.innerHTML = ICONES[r.veredito] + VEREDITO[r.veredito];
     var h = $('heroi');
     h.className = 'r-heroi ' + r.veredito;
-    h.textContent = r.veredito === 'empate' ? R(0) : (r.saldo > 0 ? '+' : '−') + R(abs);
+    animarHeroi(abs, r.veredito === 'vale' ? '+' : r.veredito === 'nao_vale' ? '−' : '');
+    h.setAttribute('aria-label', (r.veredito === 'nao_vale' ? 'menos ' : '') + R(abs));
     $('heroi-sub').textContent = r.veredito === 'vale' ? 'de economia estimada por mês' : r.veredito === 'nao_vale' ? 'de prejuízo estimado por mês' : 'os dois cenários custam o mesmo';
 
-    // gráfico
-    var max = Math.max(r.custoSem, r.custoCom);
+    // régua
+    var temRegua = r.equilibrio !== null && r.taxaDevolucao !== null;
+    $('regua-corpo').hidden = !temRegua;
+    $('regua-vazia').hidden = temRegua;
+    if (temRegua) {
+      var max = Math.max(r.equilibrio * 2, r.taxaDevolucao * 1.25, 0.0001);
+      var px = function (f) { return Math.max(0, Math.min(100, (f / max) * 100)); };
+      var eqPos = px(r.equilibrio), vcPos = px(r.taxaDevolucao);
+      $('r-zona').style.left = eqPos + '%';
+      $('r-eq').style.left = eqPos + '%';
+      $('r-voce').style.left = Math.max(3, Math.min(97, vcPos)) + '%';
+      $('r-eq-rot').textContent = 'equilíbrio ' + pct(r.equilibrio);
+      $('r-voce-rot').textContent = 'você ' + pct(r.taxaDevolucao);
+      $('regua-txt').innerHTML = 'compensa acima de <b>' + pct(r.equilibrio) + '</b>';
+      $('regua-img').setAttribute('aria-label', 'Sua taxa de devolução: ' + pct(r.taxaDevolucao) + '. Ponto de equilíbrio: ' + pct(r.equilibrio) + '.');
+    } else {
+      $('regua-txt').textContent = '';
+      $('regua-vazia').textContent = r.pedidos === 0 ? 'Informe os pedidos do mês para ver a sua taxa de devolução.' : 'Sem custo por devolução, não há ponto de equilíbrio.';
+    }
+
+    // barras
+    var maxB = Math.max(r.custoSem, r.custoCom);
     $('g-sem').textContent = R(r.custoSem);
     $('g-com').textContent = R(r.custoCom);
     [['b-sem', r.custoSem], ['b-com', r.custoCom]].forEach(function (b) {
       var el = $(b[0]);
-      el.style.width = (max > 0 ? (b[1] / max) * 100 : 0) + '%';
+      el.style.width = (maxB > 0 ? (b[1] / maxB) * 100 : 0) + '%';
       el.classList.toggle('zero', b[1] === 0);
     });
     $('grafico').setAttribute('aria-label', 'Custo mensal sem Devolução Fácil: ' + R(r.custoSem) + '. Com Devolução Fácil: ' + R(r.custoCom) + '.');
 
-    // cards
+    // métricas
     $('c-com').textContent = R(r.custoCom);
     $('c-com-d').textContent = pedidosTxt(r.pedidos) + ' × ' + R(e.taxaPrograma || 0);
     $('c-sem').textContent = R(r.custoSem);
     $('c-sem-d').textContent = devTxt(r.devolucoes) + ' × ' + R(r.custoPorDevolucao) + ' (taxa + frete)';
-    var card = $('c-saldo-card');
-    card.className = 'card destaque ' + (r.saldo > 0 ? 'pos' : r.saldo < 0 ? 'neg' : '');
+    var tom = r.saldo > 0 ? 'pos' : r.saldo < 0 ? 'neg' : '';
+    $('c-saldo-card').className = 'met ' + tom;
     $('c-saldo-tit').textContent = r.saldo < 0 ? 'Prejuízo mensal' : 'Economia mensal';
-    $('c-saldo').className = 'v ' + (r.saldo > 0 ? 'pos' : r.saldo < 0 ? 'neg' : '');
+    $('c-saldo').className = 'v ' + tom;
     $('c-saldo').textContent = (r.saldo < 0 ? '−' : '') + R(abs);
     $('c-saldo-d').textContent = r.saldo > 0 ? 'O programa sai mais barato que pagar as devoluções.' : r.saldo < 0 ? 'O programa custa mais do que as devoluções custariam.' : 'Mesmo custo nos dois cenários.';
     $('c-eq').textContent = r.equilibrio === null ? '—' : pct(r.equilibrio);
@@ -799,13 +912,11 @@
           : r.saldo < 0 ? 'Nesse cenário, aderir custaria <b>' + R(abs) + '</b> a mais por mês do que pagar as devoluções.'
           : 'Nesse cenário, os dois caminhos custam o mesmo.');
     }
-    var p2 = '';
-    if (r.minimoDevolucoes !== null && r.equilibrio !== null) {
-      p2 = 'O programa passa a compensar a partir de <b>' + devTxt(r.minimoDevolucoes) + '</b> com custo por mês, ou seja, uma taxa de devolução acima de <b>' + pct(r.equilibrio) + '</b>.';
-    }
+    var p2 = (r.minimoDevolucoes !== null && r.equilibrio !== null)
+      ? 'O programa passa a compensar a partir de <b>' + devTxt(r.minimoDevolucoes) + '</b> com custo por mês, ou seja, uma taxa de devolução acima de <b>' + pct(r.equilibrio) + '</b>.' : '';
     $('explica').innerHTML = '<p>' + p1 + '</p>' + (p2 ? '<p>' + p2 + '</p>' : '');
 
-    // avisos de entrada
+    // avisos
     var avisos = [];
     if (r.avisos.indexOf('devolucoes_acima_dos_pedidos') >= 0) avisos.push('Há mais devoluções do que pedidos. Confira os números.');
     if (r.avisos.indexOf('devolucao_sem_custo') >= 0) avisos.push('Com taxa e frete de devolução zerados, o programa nunca compensa.');
@@ -819,8 +930,6 @@
     var dv = $('dock-val');
     dv.className = r.veredito;
     dv.textContent = r.veredito === 'empate' ? R(0) : (r.saldo > 0 ? '+' : '−') + R(abs) + '/mês';
-
-    h.classList.remove('pisca'); void h.offsetWidth; h.classList.add('pisca');
   }
 
   CAMPOS.forEach(function (c) {
@@ -832,7 +941,6 @@
     calcular();
   });
 
-  // barra fixa no celular: aparece quando o painel do resultado sai da tela
   var dock = $('dock'), painel = $('resultado');
   dock.addEventListener('click', function () { painel.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
   if ('IntersectionObserver' in window) {
